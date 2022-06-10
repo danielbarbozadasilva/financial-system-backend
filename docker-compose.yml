@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  mysqlsrv:
+    container_name: "mysql"
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: "dani90el"
+      MYSQL_DATABASE: "projeto"
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./data:/data/db
+    networks:
+      - mysql-compose-network
+
+  adminer:
+    image: adminer
+    ports:
+      - 8080:8080
+    networks:
+      - mysql-compose-network
+
+networks: 
+  mysql-compose-network:
+    driver: bridge
