@@ -8,6 +8,27 @@ const toUserDTO = (model) => {
   }
 }
 
+const toUserRegister = (userDB, addressDB) => {
+  return {
+    id: userDB.cod_user,
+    name: userDB.name,
+    email: userDB.email,
+    cpf: userDB.cpf,
+    gender: userDB.gender,
+    birth_date: userDB.birth_date,
+    password: userDB.password,
+    phone: userDB.phone,
+    kind: userDB.kind,
+    status: userDB.status,
+    address: addressDB.address,
+    uf: addressDB.uf,
+    city: addressDB.city,
+    zip_code: addressDB.zip_code,
+    complement: addressDB.complement
+  }
+}
+
 module.exports = {
-  toUserDTO
+  toUserDTO,
+  toUserRegister
 }
