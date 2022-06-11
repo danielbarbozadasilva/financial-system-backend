@@ -103,9 +103,60 @@ const verifyCpfExists = async (cpf) => {
   return resulCpf ? true : false
 }
 
+const registerService = async (body) => {
+  const resultEmail = await verifyEmailExists(body.email)
+  if (resultEmail) {
+    return {
+      success: false,
+      message: 'Já existe um usuário com o mesmo e-mail',
+      details: ['Este e-mail já está em uso']
+    }
+  }
+
+  const resultCpf = await verifyCpfExists(body.cpf)
+  if (resultCpf) {
+    return {
+      success: false,
+      message: 'Já existe um usuário com o mesmo cpf',
+      details: ['Este cpf já está em uso']
+    }
+  }
+
+  const addressDB = await address.create({
+    address: body.address,
+    uf: body.uf,
+    city: body.city,
+    zip_code: body.zip_code,
+    complement: body.complement
+  })
+
+  const userDB = await user.create({
+    name: body.name,
+    email: body.email,
+    cpf: body.cpf,
+    gender: body.gender,
+    birth_date: body.birth_date,
+    password: cryptography.UtilCreateHash(body.password),
+    status: body.status,
+    phone: body.phone,
+    kind: 'client',
+    address_id: addressDB.cod_address
+  })
+
+  if (body.auth) {
+    var data = await createCredentialService(body.email)
+  }
+
+  return {
+    success: true,
+    message: 'Cadastro realizado com sucesso!',
+    data: data || userMapper.toUserRegister(userDB, addressDB)
+  }
+}
 
 module.exports = {
   authService,
+  registerService,
   verifyEmailExists,
   verifyFunctionalityProfileService
 }
