@@ -1,0 +1,19 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Api de gestão financeira",
+    "description": "Management API in NodeJs using Express, Design Pattern (MVC)",
+    "contact": { "email": "daniel80barboza@gmail.com" },
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3011/v1",
+      "description": "Api de test"
+    }
+  ],
+  "paths": {},
+  "components": {
+    "schemas": {}
+  }
+}
