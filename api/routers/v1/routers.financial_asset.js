@@ -1,5 +1,8 @@
 const joi = require('joi')
 const financialController = require('../../controllers/controllers.financial_asset')
+const middlewareValidateDTO = require('../../utils/middlewares/middlewares.validate_dto')
+const authorizationMiddleware = require('../../utils/middlewares/middlewares.authorization')
+const middlewareFileUploadMiddleware = require('../../utils/middlewares/middlewares.file_upload')
 
 module.exports = (router) => {
   router
@@ -38,7 +41,7 @@ module.exports = (router) => {
       ),
       financialController.createFinancialAssetsController
     )
-    router
+  router
     .route('/financial/:financialid')
     .put(
       authorizationMiddleware('UPDATE_FINANCIAL'),
@@ -79,5 +82,16 @@ module.exports = (router) => {
         }
       ),
       financialController.updateFinancialAssetsController
+    )
+    .delete(
+      authorizationMiddleware('DELETE_FINANCIAL'),
+      middlewareValidateDTO('params', {
+        financialid: joi.number().integer().required().messages({
+          'any.required': '"financial id" is a required field',
+          'string.empty': '"financial id" can not be empty',
+          'string.regex': '"financial id" out of the expected format'
+        })
+      }),
+      financialController.deleteFinancialAssetsController
     )
 }
