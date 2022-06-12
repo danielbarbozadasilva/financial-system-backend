@@ -44,7 +44,6 @@ const createFinancialAssetsService = async (body) => {
   }
 }
 
-
 const updateFinancialAssetsService = async (body, id) => {
   const financialDB = await financial_asset_catalog.findOne({
     where: { cod_fin_asset: id }
@@ -86,8 +85,28 @@ const updateFinancialAssetsService = async (body, id) => {
   }
 }
 
+const deleteFinancialAssetsService = async (id) => {
+  const financialDB = await financial_asset_catalog.destroy({
+    where: {
+      id: id
+    }
+  })
+
+  if (!financialDB) {
+    return {
+      success: false,
+      details: ['Erro ao excluir o ativo']
+    }
+  }
+  return {
+    success: true,
+    message: 'Excluido com sucesso!'
+  }
+}
+
 module.exports = {
   listFinancialAssetsService,
   createFinancialAssetsService,
-  updateFinancialAssetsService
+  updateFinancialAssetsService,
+  deleteFinancialAssetsService
 }
