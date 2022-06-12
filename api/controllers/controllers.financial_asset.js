@@ -21,7 +21,22 @@ const createFinancialAssetsController = async (req, res) => {
   return res.status(code).send({ message, data })
 }
 
+const updateFinancialAssetsController = async (req, res) => {
+  const { body } = req
+  const { financialid } = req.params
+  const resultService = await financialService.updateFinancialAssetsService(
+    body, financialid
+  )
+  const code = resultService.success ? 200 : 400
+  const message = resultService.success
+    ? { message: resultService.message }
+    : { details: resultService.details }
+  const data = resultService.data ? resultService.data : ''
+  return res.status(code).send({ message, data })
+}
+
 module.exports = {
   listAllFinancialAssetsController,
-  createFinancialAssetsController
+  createFinancialAssetsController,
+  updateFinancialAssetsController
 }

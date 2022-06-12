@@ -44,7 +44,50 @@ const createFinancialAssetsService = async (body) => {
   }
 }
 
+
+const updateFinancialAssetsService = async (body, id) => {
+  const financialDB = await financial_asset_catalog.findOne({
+    where: { cod_fin_asset: id }
+  })
+
+  if (!financialDB) {
+    throw new ErrorBusinessRule('Não existe um ativo com esse Id')
+  }
+
+  financialDB.name = body.name
+  financialDB.description = body.description
+  financialDB.bvmf = body.bvmf
+  financialDB.current_price = body.current_price
+  financialDB.cpf = body.cpf
+  financialDB.quantity = body.quantity
+
+  if (typeof body.image === 'object') {
+    financialDB.image = {
+      origin: body.image.origin,
+      name: body.image.newName,
+      type: body.image.type
+    }
+
+    fileUtils.UtilRemove('financial', financialDB.image.name)
+    fileUtils.UtilMove(body.image.old_path, body.image.new_path)
+  }
+  const resultDB = await financialDB.save()
+
+  if (!resultDB) {
+    return {
+      success: false,
+      details: ['Erro ao atualizar o ativo']
+    }
+  }
+  return {
+    success: true,
+    message: 'Ativo atualizado com sucesso!',
+    data: financialAssetMapper.toDTO(resultDB)
+  }
+}
+
 module.exports = {
   listFinancialAssetsService,
-  createFinancialAssetsService
+  createFinancialAssetsService,
+  updateFinancialAssetsService
 }
