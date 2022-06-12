@@ -12,8 +12,407 @@
       "description": "Api de test"
     }
   ],
-  "paths": {},
+  "paths": {
+    "/auth": {
+      "post": {
+        "summary": "Logar usuário",
+        "description": "Essa rota é responsável por autenticar o usuário",
+        "tags": ["Autenticar"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Auth"
+              },
+              "examples": {
+                "auth": {
+                  "value": {
+                    "email": "daniel@gmail.com",
+                    "password": "daniel"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Invalid username or password"
+          },
+          "200": {
+            "description": "Successfully authenticated user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "items": {
+                    "$ref": "#/components/schemas/Auth"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/register": {
+      "post": {
+        "summary": "Cadastrar usuário",
+        "description": "Essa rota será responsável por realizar o cadastro do usuário",
+        "tags": ["Registrar"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Register"
+              },
+              "examples": {
+                "register": {
+                  "value": {
+                    "name": "Daniel",
+                    "email": "daniel@gmail.com",
+                    "cpf": "123.123.123.90",
+                    "gender": "M",
+                    "birth_date": "1990/09/08",
+                    "password": "daniel",
+                    "phone": "(21)2321-2345",
+                    "status": true,
+                    "kind": "client",
+                    "address": "Rua abc, 123",
+                    "uf": "RJ",
+                    "city": "Rio de janeiro",
+                    "zip_code": "23454-234",
+                    "complement": "casa"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": [
+              "Este e-mail já está em uso",
+              "Este cpf já está em uso"
+            ]
+          },
+          "200": {
+            "description": "user registered successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "items": {
+                    "$ref": "#/components/schemas/Register"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/financial": {
+      "get": {
+        "summary": "Listar os ativos",
+        "description": "Essa rota lista todos os ativos",
+        "tags": ["Ativos"],
+        "responses": {
+          "200": {
+            "description": "Ativos listados com sucesso!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/List_Assets"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "type": "string",
+            "description": "token",
+            "required": true
+          }
+        ],
+        "summary": "Cadastrar ativo",
+        "description": "Essa rota cadastra o ativo",
+        "tags": ["Ativos"],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "$ref": "#/components/schemas/Register_Assets"
+              }
+            }
+          }
+        },
+        "responses": {
+          "401": {
+            "description": "Unauthorized User!"
+          },
+          "400": {
+            "description": "Erro ao cadastrar o ativo"
+          },
+          "200": {
+            "description": "Ativo cadastrado com sucesso!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "items": {
+                    "$ref": "#/components/schemas/Register_Assets"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/financial/{id}": {
+      "put": {
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "type": "string",
+            "description": "token",
+            "required": true
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "type": "string",
+            "description": "Id do Ativo",
+            "required": true
+          }
+        ],
+        "summary": "Atualizar Ativo",
+        "description": "Essa rota atualiza um ativo",
+        "tags": ["Ativos"],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Register_Assets"
+              }
+            }
+          }
+        },
+        "responses": {
+          "401": {
+            "description": "Unauthorized User!"
+          },
+          "400": {
+            "description": "Não existe um ativo com esse Id"
+          },
+          "200": {
+            "description": "Ativo atualizado com sucesso!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Register_Assets"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "type": "string",
+            "description": "token",
+            "required": true
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "type": "string",
+            "description": "Id do Ativo",
+            "required": true
+          }
+        ],
+        "summary": "Excluir ativo",
+        "description": "Essa rota apaga um ativo",
+        "tags": ["Ativos"],
+        "responses": {
+          "401": {
+            "description": "Unauthorized User!"
+          },
+          "400": {
+            "description": "Não existe um ativo com esse Id"
+          },
+          "200": {
+            "description": "Ativo atualizado com sucesso!"
+          }
+        }
+      }
+    }
+  },
   "components": {
-    "schemas": {}
+    "schemas": {
+      "Auth": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "required": true
+          },
+          "password": {
+            "type": "string",
+            "required": true
+          }
+        }
+      },
+      "Register": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "required": true
+          },
+          "email": {
+            "type": "string",
+            "required": true
+          },
+          "cpf": {
+            "type": "string",
+            "required": true
+          },
+          "gender": {
+            "type": "string",
+            "required": true
+          },
+          "birth_date": {
+            "type": "string",
+            "required": true
+          },
+          "password": {
+            "type": "string",
+            "required": true
+          },
+          "phone": {
+            "type": "string",
+            "required": true
+          },
+          "kind": {
+            "type": "string",
+            "required": true
+          },
+          "status": {
+            "type": "boolean",
+            "required": true
+          },
+          "address": {
+            "type": "string",
+            "required": true
+          },
+          "uf": {
+            "type": "string",
+            "required": true
+          },
+          "city": {
+            "type": "string",
+            "required": true
+          },
+          "zip_code": {
+            "type": "string",
+            "required": true
+          },
+          "complement": {
+            "type": "string",
+            "required": true
+          }
+        }
+      },
+
+      "List_Assets": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "required": true
+          },
+          "description": {
+            "type": "string",
+            "required": true
+          },
+          "bvmf": {
+            "type": "string",
+            "required": true
+          },
+          "current_price": {
+            "type": "string",
+            "required": true
+          },
+          "quantity": {
+            "type": "integer",
+            "required": true
+          },
+          "image": {
+            "type": "string",
+            "required": true
+          }
+        }
+      },
+
+      "Register_Assets": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "required": true,
+            "example": "Empresa01"
+          },
+          "description": {
+            "type": "string",
+            "required": true,
+            "example": "Empresa01 é uma empresa Estado-unidense fabricante de circuitos integrados, especialmente processadores e placas de vídeo."
+          },
+          "bvmf": {
+            "type": "string",
+            "required": true,
+            "example": "WMD34"
+          },
+          "current_price": {
+            "type": "string",
+            "required": true,
+            "example": 51.04
+          },
+          "quantity": {
+            "type": "integer",
+            "required": true,
+            "example": 50
+          },
+          "image": {
+            "type": "string",
+            "required": true,
+            "format": "binary"
+          }
+        }
+      }
+    },
+
+    "securityDefinitions": {
+      "JWT": {
+        "description": "JWT token",
+        "type": "apiKey",
+        "in": "header",
+        "name": "Authorization"
+      }
+    }
   }
 }
