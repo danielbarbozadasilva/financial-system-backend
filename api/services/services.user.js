@@ -108,7 +108,7 @@ const registerService = async (body) => {
   if (resultEmail) {
     return {
       success: false,
-      message: 'Já existe um usuário com o mesmo e-mail',
+      message: 'Já existe este e-mail em nossa base de dados',
       details: ['Este e-mail já está em uso']
     }
   }
@@ -117,7 +117,7 @@ const registerService = async (body) => {
   if (resultCpf) {
     return {
       success: false,
-      message: 'Já existe um usuário com o mesmo cpf',
+      message: 'Já existe este cpf em nossa base de dados',
       details: ['Este cpf já está em uso']
     }
   }
