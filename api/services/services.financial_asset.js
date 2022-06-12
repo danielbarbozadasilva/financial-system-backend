@@ -87,9 +87,7 @@ const updateFinancialAssetsService = async (body, id) => {
 
 const deleteFinancialAssetsService = async (id) => {
   const financialDB = await financial_asset_catalog.destroy({
-    where: {
-      id: id
-    }
+    where: { cod_fin_asset: id }
   })
 
   if (!financialDB) {
