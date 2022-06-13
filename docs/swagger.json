@@ -117,7 +117,7 @@
       "get": {
         "summary": "Listar os ativos",
         "description": "Essa rota lista todos os ativos",
-        "tags": ["Ativos"],
+        "tags": ["Ativos Financeiros"],
         "responses": {
           "200": {
             "description": "Ativos listados com sucesso!",
@@ -144,7 +144,7 @@
         ],
         "summary": "Cadastrar ativo",
         "description": "Essa rota cadastra o ativo",
-        "tags": ["Ativos"],
+        "tags": ["Ativos Financeiros"],
         "requestBody": {
           "content": {
             "multipart/form-data": {
@@ -198,7 +198,7 @@
         ],
         "summary": "Atualizar Ativo",
         "description": "Essa rota atualiza um ativo",
-        "tags": ["Ativos"],
+        "tags": ["Ativos Financeiros"],
         "requestBody": {
           "content": {
             "multipart/form-data": {
@@ -247,7 +247,7 @@
         ],
         "summary": "Excluir ativo",
         "description": "Essa rota apaga um ativo",
-        "tags": ["Ativos"],
+        "tags": ["Ativos Financeiros"],
         "responses": {
           "401": {
             "description": "Unauthorized User!"
@@ -257,6 +257,26 @@
           },
           "200": {
             "description": "Ativo atualizado com sucesso!"
+          }
+        }
+      }
+    },
+    "/client": {
+      "get": {
+        "summary": "Listar os Clientes",
+        "description": "Essa rota lista todos os clientes",
+        "tags": ["Clientes"],
+        "responses": {
+          "200": {
+            "description": "Clientes listados com sucesso!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/List_Client"
+                }
+              }
+            }
           }
         }
       }
@@ -339,36 +359,6 @@
         }
       },
 
-      "List_Assets": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string",
-            "required": true
-          },
-          "description": {
-            "type": "string",
-            "required": true
-          },
-          "bvmf": {
-            "type": "string",
-            "required": true
-          },
-          "current_price": {
-            "type": "string",
-            "required": true
-          },
-          "quantity": {
-            "type": "integer",
-            "required": true
-          },
-          "image": {
-            "type": "string",
-            "required": true
-          }
-        }
-      },
-
       "Register_Assets": {
         "type": "object",
         "properties": {
@@ -403,9 +393,85 @@
             "format": "binary"
           }
         }
+      },
+      "List_Client": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "required": true
+          },
+          "name": {
+            "type": "string",
+            "required": true
+          },
+          "email": {
+            "type": "string",
+            "required": true
+          },
+          "cpf": {
+            "type": "string",
+            "required": true
+          },
+          "gender": {
+            "type": "string",
+            "required": true
+          },
+          "birth_date": {
+            "type": "string",
+            "required": true
+          },
+          "password": {
+            "type": "string",
+            "required": true
+          },
+          "phone": {
+            "type": "string",
+            "required": true
+          },
+          "status": {
+            "type": "boolean",
+            "required": true
+          },
+          "kind": {
+            "type": "string",
+            "required": true
+          },
+          "address": {
+            "type": "string",
+            "required": true
+          },
+          "uf": {
+            "type": "string",
+            "required": true
+          },
+          "city": {
+            "type": "string",
+            "required": true
+          },
+          "zip_code": {
+            "type": "string",
+            "required": true
+          },
+          "complement": {
+            "type": "string",
+            "required": true
+          },
+          "cod_transaction": {
+            "type": "integer",
+            "required": false
+          },
+          "total_quantity": {
+            "type": "integer",
+            "required": false
+          },
+          "total_price": {
+            "type": "float",
+            "required": false
+          }
+        }
       }
     },
-
     "securityDefinitions": {
       "JWT": {
         "description": "JWT token",

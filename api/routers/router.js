@@ -3,6 +3,7 @@ const { name, version } = require('../../package.json')
 
 const routersV1User = require('./v1/routers.user')
 const routersV1Financial = require('./v1/routers.financial_asset')
+const routersV1Client = require('./v1/routers.client')
 
 module.exports = (app) => {
   app.get('/', (req, res, next) => {
@@ -12,6 +13,7 @@ module.exports = (app) => {
   const routesV1 = Router()
   routersV1User(routesV1)
   routersV1Financial(routesV1)
+  routersV1Client(routesV1)
 
   app.use('/v1', routesV1)
 }
