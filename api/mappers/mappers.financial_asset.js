@@ -2,6 +2,7 @@ const fileUtils = require('../utils/utils.file')
 
 const toDTO = (model) => {
   return {
+    id: model.cod_fin_asset,
     name: model.name,
     description: model.description,
     bvmf: model.bvmf,
