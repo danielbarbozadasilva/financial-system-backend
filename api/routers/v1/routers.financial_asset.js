@@ -3,14 +3,19 @@ const financialController = require('../../controllers/controllers.financial_ass
 const middlewareValidateDTO = require('../../utils/middlewares/middlewares.validate_dto')
 const authorizationMiddleware = require('../../utils/middlewares/middlewares.authorization')
 const middlewareFileUploadMiddleware = require('../../utils/middlewares/middlewares.file_upload')
+const asyncMiddleware = require('../../utils/middlewares/middlewares.async')
 
 module.exports = (router) => {
   router
     .route('/financial')
-    .get(financialController.listAllFinancialAssetsController)
+    .get(
+      authorizationMiddleware('*'),
+      financialController.listAllFinancialAssetsController
+    )
+    
     .post(
       authorizationMiddleware('CREATE_FINANCIAL'),
-      middlewareFileUploadMiddleware('financial', true),
+      asyncMiddleware(middlewareFileUploadMiddleware('financial')),
       middlewareValidateDTO(
         'body',
         {
@@ -41,11 +46,24 @@ module.exports = (router) => {
       ),
       financialController.createFinancialAssetsController
     )
+
   router
     .route('/financial/:financialid')
+    .get(
+      authorizationMiddleware('SEARCH_FINANCIAL'),
+      middlewareValidateDTO('params', {
+        financialid: joi.number().integer().required().messages({
+          'any.required': '"financial id" is a required field',
+          'string.empty': '"financial id" can not be empty',
+          'string.regex': '"financial id" out of the expected format'
+        })
+      }),
+      asyncMiddleware(financialController.listByIdFinancialAssetsController)
+    )
+
     .put(
       authorizationMiddleware('UPDATE_FINANCIAL'),
-      middlewareFileUploadMiddleware('financial'),
+      asyncMiddleware(middlewareFileUploadMiddleware('financial')),
       middlewareValidateDTO('params', {
         financialid: joi.number().integer().required().messages({
           'any.required': '"financial id" is a required field',
@@ -81,8 +99,9 @@ module.exports = (router) => {
           allowUnknown: true
         }
       ),
-      financialController.updateFinancialAssetsController
+      asyncMiddleware(financialController.updateFinancialAssetsController)
     )
+
     .delete(
       authorizationMiddleware('DELETE_FINANCIAL'),
       middlewareValidateDTO('params', {

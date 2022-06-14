@@ -179,6 +179,40 @@
       }
     },
     "/financial/{id}": {
+      "get": {
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "type": "string",
+            "description": "token",
+            "required": true
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "type": "string",
+            "description": "Id do Ativo",
+            "required": true
+          }
+        ],
+        "summary": "Listar o ativo pelo Id",
+        "description": "Essa rota lista o ativo pelo Id",
+        "tags": ["Ativos Financeiros"],
+        "responses": {
+          "200": {
+            "description": "Ativo listado com sucesso!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/List_Assets"
+                }
+              }
+            }
+          }
+        }
+      },
       "put": {
         "parameters": [
           {

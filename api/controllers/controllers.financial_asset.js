@@ -10,6 +10,17 @@ const listAllFinancialAssetsController = async (req, res) => {
   return res.status(code).send({ message, data })
 }
 
+const listByIdFinancialAssetsController = async (req, res) => {
+  const { financialid } = req.params
+  const resultService = await financialService.listByIdFinancialAssetsService(financialid)
+  const code = resultService.success ? 200 : 400
+  const message = resultService.success
+    ? { message: resultService.message }
+    : { details: resultService.details }
+  const data = resultService.data ? resultService.data : ''
+  return res.status(code).send({ message, data })
+}
+
 const createFinancialAssetsController = async (req, res) => {
   const { body } = req
   const resultService = await financialService.createFinancialAssetsService(body)
@@ -48,6 +59,7 @@ const deleteFinancialAssetsController = async (req, res) => {
 
 module.exports = {
   listAllFinancialAssetsController,
+  listByIdFinancialAssetsController,
   createFinancialAssetsController,
   updateFinancialAssetsController,
   deleteFinancialAssetsController
