@@ -1,4 +1,4 @@
-const { user } = require('../models/models.index')
+const { user, address } = require('../models/models.index')
 const cryptography = require('../utils/utils.cryptography')
 const userMapper = require('../mappers/mappers.user')
 
@@ -9,7 +9,11 @@ const profile = [
       'SEARCH_FINANCIAL',
       'CREATE_FINANCIAL',
       'DELETE_FINANCIAL',
-      'UPDATE_FINANCIAL'
+      'UPDATE_FINANCIAL',
+      'LIST_CLIENT',
+      'LIST_CLIENT_ID',
+      'UPDATE_STATUS_CLIENT',
+      'UPDATE_CLIENT'
     ]
   },
   {
@@ -158,5 +162,6 @@ module.exports = {
   authService,
   registerService,
   verifyEmailExists,
+  verifyCpfExists,
   verifyFunctionalityProfileService
 }

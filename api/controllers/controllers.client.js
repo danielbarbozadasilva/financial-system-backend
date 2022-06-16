@@ -10,6 +10,46 @@ const listAllClientsController = async (req, res) => {
   return res.status(code).send({ message, data })
 }
 
+const listByIdClientController = async (req, res) => {
+  const { clientid } = req.params
+  const resultService = await clientService.listByIdClientService(clientid)
+  const code = resultService.success ? 200 : 400
+  const message = resultService.success
+    ? { message: resultService.message }
+    : { details: resultService.details }
+  const data = resultService.data ? resultService.data : ''
+  return res.status(code).send({ message, data })
+}
+
+const updateClientController = async (req, res) => {
+  const { body } = req
+  const { clientid } = req.params
+  const resultService = await clientService.updateClientService(clientid, body)
+  const code = resultService.success ? 200 : 400
+  const message = resultService.success
+    ? { message: resultService.message }
+    : { details: resultService.details }
+  const data = resultService.data ? resultService.data : ''
+  return res.status(code).send({ message, data })
+}
+
+const changeStatusClientController = async (req, res) => {
+  const { clientid, status } = req.params
+  const resultService = await clientService.changeStatusService(
+    clientid,
+    status
+  )
+  const code = resultService.success ? 200 : 400
+  const message = resultService.success
+    ? { message: resultService.message }
+    : { details: resultService.details }
+  const data = resultService.data ? resultService.data : ''
+  return res.status(code).send({ message, data })
+}
+
 module.exports = {
-  listAllClientsController
+  listAllClientsController,
+  listByIdClientController,
+  updateClientController,
+  changeStatusClientController
 }
