@@ -194,7 +194,7 @@
 							"formdata": []
 						},
 						"url": {
-							"raw": "http://localhost:3011/v1/financial/1",
+							"raw": "http://localhost:3011/v1/financial/2",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -203,7 +203,7 @@
 							"path": [
 								"v1",
 								"financial",
-								"1"
+								"2"
 							],
 							"query": [
 								{
@@ -298,7 +298,7 @@
 								{
 									"key": "image",
 									"type": "file",
-									"src": "/C:/Users/pc01/Pictures/Yoda.png"
+									"src": "/C:/Users/pc01/Pictures/Yoda2.jpg"
 								}
 							]
 						},
@@ -379,12 +379,12 @@
 								{
 									"key": "image",
 									"type": "file",
-									"src": "/C:/Users/pc01/Pictures/Yoda2.jpg"
+									"src": "/C:/Users/pc01/Pictures/Yoda.png"
 								}
 							]
 						},
 						"url": {
-							"raw": "http://localhost:3011/v1/financial/1",
+							"raw": "http://localhost:3011/v1/financial/2",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -393,7 +393,7 @@
 							"path": [
 								"v1",
 								"financial",
-								"1"
+								"2"
 							]
 						}
 					},
@@ -476,6 +476,142 @@
 							"path": [
 								"v1",
 								"client"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "client.listById",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3011/v1/client/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3011",
+							"path": [
+								"v1",
+								"client",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "client.update",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Gabriel\",\r\n    \"email\": \"gabriel3@gmail.com\",\r\n    \"cpf\": \"211.234.234-90\",\r\n    \"gender\": \"M\",\r\n    \"birth_date\": \"1999/09/02\",\r\n    \"password\": \"gabriel\",\r\n    \"phone\": \"(21) 2345-0987\",\r\n    \"status\": \"1\",\r\n    \"cod_address\": \"2\",\r\n    \"address\": \"Rua gabriel\",\r\n    \"uf\": \"SP\",\r\n    \"city\": \"São Paulo\",\r\n    \"zip_code\": \"235558-200\",\r\n    \"complement\": \"casa\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3011/v1/client/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3011",
+							"path": [
+								"v1",
+								"client",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "client.updateStatus",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:3011/v1/client/2/status/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3011",
+							"path": [
+								"v1",
+								"client",
+								"2",
+								"status",
+								"1"
 							]
 						}
 					},
