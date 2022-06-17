@@ -110,7 +110,7 @@ const updateClientService = async (clientId, body) => {
     }
   }
 
-  const resultEmail = await serviceUser.verifyEmailExists(body.email)
+  const resultEmail = await serviceUser.verifyEmailBodyExistService(clientId, body.email)
   if (resultEmail) {
     return {
       success: false,
@@ -119,7 +119,7 @@ const updateClientService = async (clientId, body) => {
     }
   }
 
-  const resultCpf = await serviceUser.verifyCpfExists(body.cpf)
+  const resultCpf = await serviceUser.verifyCpfBodyExistService(clientId, body.cpf)
   if (resultCpf) {
     return {
       success: false,
@@ -147,7 +147,6 @@ const updateClientService = async (clientId, body) => {
       gender: body.gender,
       birth_date: body.birth_date,
       password: cryptography.UtilCreateHash(body.password),
-      status: body.status,
       phone: body.phone,
       address_id: body.cod_address
     },
