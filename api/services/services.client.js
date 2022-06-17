@@ -43,7 +43,7 @@ const listAllClientsService = async () => {
   }
 }
 
-const listByIdClientService = async () => {
+const listByIdClientService = async (id) => {
   const userDB = await user.findAll({
     include: [
       {
@@ -52,7 +52,7 @@ const listByIdClientService = async () => {
         required: true
       }
     ],
-    where: { kind: 'client' },
+    where: { kind: 'client', cod_user: id },
     order: [['cod_user', 'ASC']]
   })
 
