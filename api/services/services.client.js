@@ -110,7 +110,10 @@ const updateClientService = async (clientId, body) => {
     }
   }
 
-  const resultEmail = await serviceUser.verifyEmailBodyExistService(clientId, body.email)
+  const resultEmail = await serviceUser.verifyEmailBodyExistService(
+    clientId,
+    body.email
+  )
   if (resultEmail) {
     return {
       success: false,
@@ -119,7 +122,10 @@ const updateClientService = async (clientId, body) => {
     }
   }
 
-  const resultCpf = await serviceUser.verifyCpfBodyExistService(clientId, body.cpf)
+  const resultCpf = await serviceUser.verifyCpfBodyExistService(
+    clientId,
+    body.cpf
+  )
   if (resultCpf) {
     return {
       success: false,
@@ -163,7 +169,8 @@ const updateClientService = async (clientId, body) => {
 
   return {
     success: true,
-    message: 'Data updated successfully'
+    message: 'Data updated successfully',
+    data: { name: resultFind.name }
   }
 }
 
