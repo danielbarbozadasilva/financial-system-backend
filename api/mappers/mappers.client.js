@@ -37,11 +37,11 @@ const toDTO = (model) => {
         name: item.financial_asset_catalog?.name,
         description: item.financial_asset_catalog?.description,
         bvmf: item.financial_asset_catalog?.bvmf,
-        current_price: parseFloat(item.current_price).toLocaleString('pt-br', {
+        current_price: parseFloat(item.financial_asset_catalog.current_price).toLocaleString('pt-br', {
           style: 'currency',
-          currency: 'BRL',
-          quantity: item.financial_asset_catalog?.quantity
-        })
+          currency: 'BRL'
+        }),
+        quantity: item.financial_asset_catalog?.quantity
       }
     })
   }
