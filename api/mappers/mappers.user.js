@@ -8,18 +8,18 @@ const toUserDTO = (model) => {
   }
 }
 
-const toUserRegister = (userDB, addressDB) => {
+const toUserRegister = (clientDB, addressDB) => {
   return {
-    id: userDB.cod_user,
-    name: userDB.name,
-    email: userDB.email,
-    cpf: userDB.cpf,
-    gender: userDB.gender,
-    birth_date: userDB.birth_date,
-    password: userDB.password,
-    phone: userDB.phone,
-    kind: userDB.kind,
-    status: userDB.status,
+    id: clientDB.cod_user,
+    name: clientDB.name,
+    email: clientDB.email,
+    cpf: clientDB.cpf,
+    gender: clientDB.gender,
+    birth_date: clientDB.birth_date,
+    password: clientDB.password,
+    phone: clientDB.phone,
+    kind: clientDB.kind,
+    status: clientDB.status,
     address: addressDB.address,
     uf: addressDB.uf,
     city: addressDB.city,

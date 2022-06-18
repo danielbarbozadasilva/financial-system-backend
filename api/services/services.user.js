@@ -1,6 +1,7 @@
-const { user } = require('../models/models.index')
+const { user, address } = require('../models/models.index')
 const cryptography = require('../utils/utils.cryptography')
 const userMapper = require('../mappers/mappers.user')
+const { Op } = require('sequelize')
 
 const profile = [
   {
@@ -9,7 +10,11 @@ const profile = [
       'SEARCH_FINANCIAL',
       'CREATE_FINANCIAL',
       'DELETE_FINANCIAL',
-      'UPDATE_FINANCIAL'
+      'UPDATE_FINANCIAL',
+      'LIST_CLIENT',
+      'LIST_CLIENT_ID',
+      'UPDATE_STATUS_CLIENT',
+      'UPDATE_CLIENT'
     ]
   },
   {
@@ -103,6 +108,26 @@ const verifyCpfExists = async (cpf) => {
   return resulCpf ? true : false
 }
 
+const verifyEmailBodyExistService = async (id, email) => {
+  const users = await user.findOne({
+    where: {
+      email: email,
+      cod_user: { [Op.notIn]: [id] }
+    }
+  })
+  return users === null ? false : true
+}
+
+const verifyCpfBodyExistService = async (id, cpf) => {
+  const users = await user.findOne({
+    where: {
+      cpf: cpf,
+      cod_user: { [Op.notIn]: [id] }
+    }
+  })
+  return users === null ? false : true
+}
+
 const registerService = async (body) => {
   const resultEmail = await verifyEmailExists(body.email)
   if (resultEmail) {
@@ -158,5 +183,8 @@ module.exports = {
   authService,
   registerService,
   verifyEmailExists,
+  verifyCpfExists,
+  verifyEmailBodyExistService,
+  verifyCpfBodyExistService,
   verifyFunctionalityProfileService
 }

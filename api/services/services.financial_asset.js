@@ -15,22 +15,42 @@ const listFinancialAssetsService = async () => {
   }
 }
 
-const createFinancialAssetsService = async (body) => {
-  fileUtils.UtilMove(body.image.old_path, body.image.new_path)
-  const financialDB = await financial_asset_catalog.create({
-    name: body.name,
-    description: body.description,
-    bvmf: body.bvmf,
-    current_price: body.current_price,
-    cpf: body.cpf,
-    quantity: body.quantity,
-    image: {
-      origin: body.image.origin,
-      name: body.image.newName,
-      type: body.image.type
+const listByIdFinancialAssetsService = async (id) => {
+  const financialDB = await financial_asset_catalog.findByPk(id)
+  if (!financialDB) {
+    throw new ErrorBusinessRule('Não existe um ativo com esse Id')
+  } else {
+    return {
+      success: true,
+      message: 'Ativo listado com sucesso!',
+      data: financialAssetMapper.toDTO(financialDB)
     }
-  })
+  }
+}
 
+const createFinancialAssetsService = async (body) => {
+  const [moveFile, financialDB] = await Promise.all([
+    fileUtils.UtilMove(body.image.old_path, body.image.new_path),
+    financial_asset_catalog.create({
+      name: body.name,
+      description: body.description,
+      bvmf: body.bvmf,
+      current_price: body.current_price,
+      quantity: body.quantity,
+      image: {
+        origin: body.image.origin,
+        name: body.image.newName,
+        type: body.image.type
+      }
+    })
+  ])
+  if (moveFile !== undefined) {
+    return {
+      success: false,
+      message: 'Operation cannot be performed',
+      details: ['It is not possible to move the product']
+    }
+  }
   if (!financialDB) {
     return {
       success: false,
@@ -41,6 +61,7 @@ const createFinancialAssetsService = async (body) => {
     success: true,
     message: 'Ativo cadastrado com sucesso!',
     data: financialAssetMapper.toDTO(financialDB)
+
   }
 }
 
@@ -81,7 +102,8 @@ const updateFinancialAssetsService = async (body, id) => {
   return {
     success: true,
     message: 'Ativo atualizado com sucesso!',
-    data: financialAssetMapper.toDTO(resultDB)
+    data: financialAssetMapper.toDTO(financialDB)
+
   }
 }
 
@@ -104,6 +126,7 @@ const deleteFinancialAssetsService = async (id) => {
 
 module.exports = {
   listFinancialAssetsService,
+  listByIdFinancialAssetsService,
   createFinancialAssetsService,
   updateFinancialAssetsService,
   deleteFinancialAssetsService
