@@ -19,7 +19,7 @@ const profile = [
   },
   {
     id: 2,
-    functionality: ['SEARCH_FINANCIAL']
+    functionality: ['SEARCH_FINANCIAL', 'CREATE_TRANSACTION']
   }
 ]
 
