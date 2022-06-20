@@ -12,6 +12,10 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         type: DataTypes.INTEGER
       },
+      sub_total: {
+        allowNull: false,
+        type: DataTypes.DECIMAL(15, 2)
+      },
       total_price: {
         allowNull: false,
         type: DataTypes.DECIMAL(15, 2)
