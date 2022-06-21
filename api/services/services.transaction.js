@@ -1,4 +1,8 @@
-const { transaction, transaction_details } = require('../models/models.index')
+const {
+  transaction,
+  transaction_details,
+  account
+} = require('../models/models.index')
 const transactionMapper = require('../mappers/mappers.transaction')
 
 const createTransactionService = async (params, body) => {
@@ -12,7 +16,7 @@ const createTransactionService = async (params, body) => {
   if (!transactionDB) {
     return {
       success: false,
-      details: ['Erro ao cadastrar o ativo']
+      details: ['Erro ao cadastrar a transação']
     }
   }
 
@@ -29,6 +33,22 @@ const createTransactionService = async (params, body) => {
       details: ['Erro ao cadastrar a transação']
     }
   }
+
+  const accountDB = await account.findOne({
+    where: { user_id: params.userid }
+  })
+
+  accountDB.balance = accountDB.balance - body.total_price
+
+  const resultDB = await accountDB.save()
+
+  if (!resultDB) {
+    return {
+      success: false,
+      details: ['Erro ao atualizar o valor em conta']
+    }
+  }
+
   return {
     success: true,
     message: 'Ativo cadastrado com sucesso!',
