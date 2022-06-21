@@ -8,7 +8,7 @@ module.exports = (router) => {
   router
     .route('/client')
     .get(
-      authorizationMiddleware('LIST_CLIENT'),
+      authorizationMiddleware('SEARCH_FINANCIAL'),
       clientController.listAllClientsController
     )
   router
