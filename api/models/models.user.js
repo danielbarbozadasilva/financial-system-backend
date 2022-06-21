@@ -65,11 +65,6 @@ module.exports = (sequelize, DataTypes) => {
   )
 
   user.associate = function (models) {
-    user.hasMany(models.account, {
-      foreignKey: 'account_id',
-      as: 'account'
-    })
-
     user.belongsTo(models.address, {
       foreignKey: 'address_id',
       as: 'address'
