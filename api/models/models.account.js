@@ -17,8 +17,9 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.FLOAT
       },
       open_date: {
-        allowNull: false,
-        type: DataTypes.DATE
+        allowNull: true,
+        type: DataTypes.DATE,
+        defaultValue: sequelize.literal('CURRENT_TIMESTAMP')
       }
     },
     {

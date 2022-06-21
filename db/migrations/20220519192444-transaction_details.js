@@ -12,7 +12,7 @@ module.exports = {
       current_date: {
         allowNull: true,
         type: Sequelize.DATE,
-        defaultValue: Sequelize.NOW
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       },
       quantity: {
         allowNull: false,

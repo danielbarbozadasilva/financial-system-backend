@@ -15,12 +15,13 @@ module.exports = {
       },
       balance: {
         allowNull: false,
-        type: Sequelize.FLOAT,
+        type: Sequelize.DECIMAL(15, 2),
         defaultValue: 0
       },
       open_date: {
-        allowNull: false,
-        type: Sequelize.DATE
+        allowNull: true,
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       },
       user_id: {
         type: Sequelize.INTEGER,

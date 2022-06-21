@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
       current_date: {
         allowNull: true,
         type: DataTypes.DATE,
-        defaultValue: DataTypes.NOW
+        defaultValue: sequelize.literal('CURRENT_TIMESTAMP')
       },
       quantity: {
         allowNull: false,
