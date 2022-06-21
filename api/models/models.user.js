@@ -43,6 +43,16 @@ module.exports = (sequelize, DataTypes) => {
       kind: {
         allowNull: false,
         type: DataTypes.TEXT
+      },
+      created_at: {
+        allowNull: true,
+        type: DataTypes.DATE,
+        defaultValue: sequelize.literal('CURRENT_TIMESTAMP')
+      },
+      updated_at: {
+        allowNull: true,
+        type: DataTypes.DATE,
+        defaultValue: sequelize.literal('CURRENT_TIMESTAMP')
       }
     },
     {
