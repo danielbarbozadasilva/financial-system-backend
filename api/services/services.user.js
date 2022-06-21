@@ -19,7 +19,12 @@ const profile = [
   },
   {
     id: 2,
-    functionality: ['SEARCH_FINANCIAL', 'CREATE_TRANSACTION']
+    functionality: [
+      'SEARCH_FINANCIAL',
+      'CREATE_TRANSACTION',
+      'LIST_CLIENT_BALANCE',
+      'LIST_CLIENT_ASSETS'
+    ]
   }
 ]
 
