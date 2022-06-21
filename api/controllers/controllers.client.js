@@ -10,6 +10,17 @@ const listAllClientsController = async (req, res) => {
   return res.status(code).send({ message, data })
 }
 
+const listUserAssetController = async (req, res) => {
+  const { clientid } = req.params
+  const resultService = await clientService.listUserAssetService(clientid)
+  const code = resultService.success ? 200 : 400
+  const message = resultService.success
+    ? { message: resultService.message }
+    : { details: resultService.details }
+  const data = resultService.data ? resultService.data : ''
+  return res.status(code).send({ message, data })
+}
+
 const listByIdClientController = async (req, res) => {
   const { clientid } = req.params
   const resultService = await clientService.listByIdClientService(clientid)
@@ -49,6 +60,7 @@ const changeStatusClientController = async (req, res) => {
 
 module.exports = {
   listAllClientsController,
+  listUserAssetController,
   listByIdClientController,
   updateClientController,
   changeStatusClientController
