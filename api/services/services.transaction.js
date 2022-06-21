@@ -1,9 +1,65 @@
 const {
   transaction,
   transaction_details,
-  account
+  financial_asset_catalog,
+  account,
+  user,
+  bank
 } = require('../models/models.index')
 const transactionMapper = require('../mappers/mappers.transaction')
+
+const checkBalanceService = async (id) => {
+  const userDB = await account.findByPk(id, {
+    include: [
+      {
+        model: user,
+        as: 'user',
+        required: true
+      },
+      {
+        model: bank,
+        as: 'bank'
+      }
+    ]
+  })
+
+  return {
+    success: true,
+    message: 'Saldo listado com sucesso!',
+    data: userDB
+  }
+}
+
+const listUserAssetService = async (id) => {
+  const userDB = await transaction.findAll({
+    include: [
+      {
+        model: user,
+        as: 'user',
+        right: true,
+        where: { cod_user: id }
+      },
+      {
+        model: transaction_details,
+        as: 'transaction_details',
+        include: {
+          model: financial_asset_catalog,
+          as: 'financial_asset_catalog'
+        }
+      }
+    ],
+    order: [['user_id', 'ASC']],
+    raw: true,
+    nest: true
+  })
+
+  return {
+    success: true,
+    message: 'Saldo listado com sucesso!',
+    data: transactionMapper.toDTOUserAssets(userDB)
+
+  }
+}
 
 const createTransactionService = async (params, body) => {
   const transactionDB = await transaction.create({
@@ -57,5 +113,7 @@ const createTransactionService = async (params, body) => {
 }
 
 module.exports = {
+  checkBalanceService,
+  listUserAssetService,
   createTransactionService
 }
