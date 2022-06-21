@@ -9,8 +9,9 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER
       },
       current_date: {
-        allowNull: false,
-        type: DataTypes.DATE
+        allowNull: true,
+        type: DataTypes.DATE,
+        defaultValue: DataTypes.NOW
       },
       quantity: {
         allowNull: false,
