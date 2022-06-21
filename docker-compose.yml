@@ -7,6 +7,8 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: "dani90el"
       MYSQL_DATABASE: "projeto"
+      TZ: "America/Sao_Paulo"
+
     ports:
       - "3306:3306"
     volumes:
