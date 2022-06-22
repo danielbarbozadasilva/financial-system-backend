@@ -17,7 +17,7 @@ const createTransactionService = async (params, body) => {
   if (!checkBalance) {
     return {
       success: false,
-      details: ['Saldo insuficiente para realizar a transação!']
+      details: 'Saldo insuficiente para realizar a transação!'
     }
   }
 
@@ -67,7 +67,39 @@ const createTransactionService = async (params, body) => {
   }
 }
 
-const listUserAssetService = async (id) => {
+const listAllUserTransactionService = async () => {
+  const userDB = await transaction.findAll({
+    include: [
+      {
+        model: user,
+        as: 'user',
+        right: true,
+        where: { kind: 'client' }
+      },
+      {
+        model: transaction_details,
+        as: 'transaction_details',
+        include: {
+          model: financial_asset_catalog,
+          as: 'financial_asset_catalog'
+        }
+      }
+    ],
+    order: [['user_id', 'ASC']],
+    raw: true,
+    nest: true
+  })
+
+  return {
+    success: true,
+    message: 'Ativo(s) listado(s) com sucesso!',
+    data: userDB.map((item) => {
+      return transactionMapper.toDTOAllUserAssets(item)
+    })
+  }
+}
+
+const listByIdUserTransactionService = async (id) => {
   const userDB = await transaction.findAll({
     include: [
       {
@@ -92,14 +124,15 @@ const listUserAssetService = async (id) => {
 
   return {
     success: true,
-    message: 'Saldo listado com sucesso!',
+    message: 'Ativo(s) listado(s) com sucesso!',
     data: userDB.map((item) => {
-      return transactionMapper.toDTOUserAssets(item)
+      return transactionMapper.toDTOUserIdAssets(item)
     })
   }
 }
 
 module.exports = {
   createTransactionService,
-  listUserAssetService
+  listAllUserTransactionService,
+  listByIdUserTransactionService
 }

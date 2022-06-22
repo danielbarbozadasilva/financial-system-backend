@@ -37,14 +37,21 @@ module.exports = (router) => {
     transactionController.createTransactionController
   )
 
-  router.route('/transaction/client/:clientid/assets').get(
-    authorizationMiddleware('LIST_CLIENT_ASSETS'),
+  router
+    .route('/transaction/client')
+    .get(
+      authorizationMiddleware('LIST_CLIENT_TRANSACTION'),
+      transactionController.listAllUserTransactionController
+    )
+
+  router.route('/transaction/client/:clientid').get(
+    authorizationMiddleware('LIST_CLIENT_ID_TRANSACTION'),
     middlewareValidateDTO('params', {
       clientid: joi.number().integer().required().messages({
         'any.required': '"client id" is a required field',
         'string.empty': '"client id" can not be empty'
       })
     }),
-    transactionController.listUserAssetController
+    transactionController.listByIdUserTransactionController
   )
 }
