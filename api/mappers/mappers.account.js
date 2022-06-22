@@ -4,11 +4,15 @@ const toDTOUserAssets = (model) => {
   return {
     id: model.cod_account,
     type: model.type,
-    balance: model.balance,
+    balance: parseFloat(model.balance).toLocaleString('pt-br', {
+      style: 'currency',
+      currency: 'BRL'
+    }),
     open_date:
       date.toLocaleDateString(model.user.birth_date) +
       ' ' +
-      date.toLocaleTimeString('pt-BR'),
+      model?.user.birth_date?.toLocaleTimeString('pt-BR'),
+
     user_id: model.user_id,
     bank_id: model.bank_id,
     user: {
@@ -25,11 +29,11 @@ const toDTOUserAssets = (model) => {
       created_at:
         date.toLocaleDateString(model.user.created_at) +
         ' ' +
-        date.toLocaleTimeString('pt-BR'),
+        model?.user?.created_at?.toLocaleTimeString('pt-BR'),
       updated_at:
         date.toLocaleDateString(model.user.updated_at) +
         ' ' +
-        date.toLocaleTimeString('pt-BR'),
+        model?.user?.updated_at?.toLocaleTimeString('pt-BR'),
       address_id: model.user.address_id
     },
     bank: {
