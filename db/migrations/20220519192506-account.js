@@ -9,6 +9,10 @@ module.exports = {
         allowNull: false,
         type: Sequelize.INTEGER
       },
+      number: {
+        allowNull: false,
+        type: Sequelize.TEXT
+      },
       type: {
         allowNull: false,
         type: Sequelize.TEXT
