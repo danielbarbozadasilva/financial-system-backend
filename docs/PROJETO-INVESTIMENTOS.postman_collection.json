@@ -46,7 +46,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"email\": \"daniel@gmail.com\",\n    \"password\": \"daniel\"\n}",
+							"raw": "{\n    \"email\": \"tatiana@gmail.com\",\n    \"password\": \"tatiana\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -493,7 +493,7 @@
 							}
 						],
 						"url": {
-							"raw": "http://localhost:3011/v1/client/2",
+							"raw": "http://localhost:3011/v1/client/3",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -502,7 +502,7 @@
 							"path": [
 								"v1",
 								"client",
-								"2"
+								"3"
 							]
 						}
 					},
@@ -541,7 +541,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Gabriel\",\r\n    \"email\": \"gabriel3@gmail.com\",\r\n    \"cpf\": \"211.234.234-90\",\r\n    \"gender\": \"M\",\r\n    \"birth_date\": \"1999/09/02\",\r\n    \"password\": \"gabriel\",\r\n    \"phone\": \"(21) 2345-0987\",\r\n    \"status\": \"1\",\r\n    \"cod_address\": \"2\",\r\n    \"address\": \"Rua gabriel\",\r\n    \"uf\": \"SP\",\r\n    \"city\": \"São Paulo\",\r\n    \"zip_code\": \"235558-200\",\r\n    \"complement\": \"casa\"\r\n}",
+							"raw": "{\r\n    \"name\": \"Gabriel\",\r\n    \"email\": \"fatima@gmail.com\",\r\n    \"cpf\": \"231.113.223-35\",\r\n    \"gender\": \"M\",\r\n    \"birth_date\": \"1999/09/02\",\r\n    \"password\": \"gabriel\",\r\n    \"phone\": \"(21) 2345-0987\",\r\n    \"cod_address\": \"2\",\r\n    \"address\": \"Rua gabriel\",\r\n    \"uf\": \"SP\",\r\n    \"city\": \"São Paulo\",\r\n    \"zip_code\": \"235558-200\",\r\n    \"complement\": \"casa\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -612,6 +612,138 @@
 								"2",
 								"status",
 								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "client.listClientAssets",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3011/v1/client/3/assets",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3011",
+							"path": [
+								"v1",
+								"client",
+								"3",
+								"assets"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "transaction",
+			"item": [
+				{
+					"name": "transaction.createTransactionAsset",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"current_price\": \"68.90\",\r\n    \"subtotal_price\": \"68.90\",\r\n    \"total_price\": \"70.90\",\r\n    \"quantity\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3011/v1/transaction/user/1/asset/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3011",
+							"path": [
+								"v1",
+								"transaction",
+								"user",
+								"1",
+								"asset",
+								"1"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "account",
+			"item": [
+				{
+					"name": "account.checkBalance",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3011/v1/client/3/account",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3011",
+							"path": [
+								"v1",
+								"client",
+								"3",
+								"account"
 							]
 						}
 					},
