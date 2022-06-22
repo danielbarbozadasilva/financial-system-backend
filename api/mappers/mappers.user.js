@@ -1,9 +1,10 @@
 const toUserDTO = (model) => {
-  const { cod_user, email, name, kind } = model
+  const { cod_user, email, name, kind, cpf } = model
   return {
     id: cod_user,
     email,
     name: name,
+    cpf: cpf,
     type: kind === 'administrator' ? 1 : 2
   }
 }
