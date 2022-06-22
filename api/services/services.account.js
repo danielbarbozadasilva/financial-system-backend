@@ -2,12 +2,13 @@ const { account, user, bank } = require('../models/models.index')
 const accountMapper = require('../mappers/mappers.account')
 
 const checkBalanceService = async (id) => {
-  const userDB = await account.findByPk(id, {
+  const userDB = await account.findOne({
     include: [
       {
         model: user,
         as: 'user',
-        required: true
+        required: true,
+        where: { cod_user: id }
       },
       {
         model: bank,
