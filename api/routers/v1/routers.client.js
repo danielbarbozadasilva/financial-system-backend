@@ -12,17 +12,6 @@ module.exports = (router) => {
       clientController.listAllClientsController
     )
 
-  router.route('/client/:clientid/assets').get(
-    authorizationMiddleware('LIST_CLIENT_ASSETS'),
-    middlewareValidateDTO('params', {
-      clientid: joi.number().integer().required().messages({
-        'any.required': '"client id" is a required field',
-        'string.empty': '"client id" can not be empty'
-      })
-    }),
-    clientController.listUserAssetController
-  )
-
   router
     .route('/client/:clientid')
     .get(

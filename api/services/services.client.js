@@ -43,37 +43,6 @@ const listAllClientsService = async () => {
   }
 }
 
-const listUserAssetService = async (id) => {
-  const userDB = await transaction.findAll({
-    include: [
-      {
-        model: user,
-        as: 'user',
-        right: true,
-        where: { cod_user: id }
-      },
-      {
-        model: transaction_details,
-        as: 'transaction_details',
-        include: {
-          model: financial_asset_catalog,
-          as: 'financial_asset_catalog'
-        }
-      }
-    ],
-    order: [['user_id', 'ASC']],
-    raw: true,
-    nest: true
-  })
-
-  return {
-    success: true,
-    message: 'Saldo listado com sucesso!',
-    data: clientMapper.toDTOUserAssets(userDB)
-
-  }
-}
-
 const listByIdClientService = async (id) => {
   const userDB = await user.findAll({
     include: [
@@ -207,7 +176,6 @@ const updateClientService = async (clientId, body) => {
 
 module.exports = {
   listAllClientsService,
-  listUserAssetService,
   listByIdClientService,
   updateClientService,
   changeStatusService

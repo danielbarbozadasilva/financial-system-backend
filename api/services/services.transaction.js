@@ -1,11 +1,26 @@
 const {
   transaction,
   transaction_details,
-  account
+  account,
+  user,
+  financial_asset_catalog
 } = require('../models/models.index')
 const transactionMapper = require('../mappers/mappers.transaction')
 
 const createTransactionService = async (params, body) => {
+  const accountDB = await account.findOne({
+    where: { user_id: params.userid }
+  })
+
+  var checkBalance = Number(accountDB.balance) > Number(body.total_price)
+
+  if (!checkBalance) {
+    return {
+      success: false,
+      details: ['Saldo insuficiente para realizar a transação!']
+    }
+  }
+
   const transactionDB = await transaction.create({
     total_quantity: body.quantity,
     sub_total: body.subtotal_price,
@@ -34,10 +49,6 @@ const createTransactionService = async (params, body) => {
     }
   }
 
-  const accountDB = await account.findOne({
-    where: { user_id: params.userid }
-  })
-
   accountDB.balance = accountDB.balance - body.total_price
 
   const resultDB = await accountDB.save()
@@ -56,6 +67,39 @@ const createTransactionService = async (params, body) => {
   }
 }
 
+const listUserAssetService = async (id) => {
+  const userDB = await transaction.findAll({
+    include: [
+      {
+        model: user,
+        as: 'user',
+        right: true,
+        where: { cod_user: id }
+      },
+      {
+        model: transaction_details,
+        as: 'transaction_details',
+        include: {
+          model: financial_asset_catalog,
+          as: 'financial_asset_catalog'
+        }
+      }
+    ],
+    order: [['user_id', 'ASC']],
+    raw: true,
+    nest: true
+  })
+
+  return {
+    success: true,
+    message: 'Saldo listado com sucesso!',
+    data: userDB.map((item) => {
+      return transactionMapper.toDTOUserAssets(item)
+    })
+  }
+}
+
 module.exports = {
-  createTransactionService
+  createTransactionService,
+  listUserAssetService
 }
