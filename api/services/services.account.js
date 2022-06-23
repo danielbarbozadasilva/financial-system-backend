@@ -1,8 +1,8 @@
-const { account, user, bank } = require('../models/models.index')
+const { account, user, bank, transaction } = require('../models/models.index')
 const accountMapper = require('../mappers/mappers.account')
 
 const checkBalanceService = async (id) => {
-  const userDB = await account.findOne({
+  const accountDB = await account.findOne({
     include: [
       {
         model: user,
@@ -17,10 +17,20 @@ const checkBalanceService = async (id) => {
     ]
   })
 
+  const transactionDB = await transaction.findAll({
+    include: [
+      {
+        model: user,
+        as: 'user',
+      }
+    ],
+    where: { user_id: id }
+  })
+
   return {
     success: true,
     message: 'Saldo listado com sucesso!',
-    data: accountMapper.toDTOUserAssets(userDB)
+    data: accountMapper.toDTOUserAssets(accountDB, transactionDB)
   }
 }
 

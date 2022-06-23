@@ -1,45 +1,64 @@
-const toDTOUserAssets = (model) => {
+const toDTOUserAssets = (accountDB, transactionDB) => {
+  var arm = 0
+  var element = 0
+
   const date = new Date()
 
+  var total_assets = transactionDB.map((item) => {
+    arm += Number(item.total_price)
+    return arm
+  })
+
+  for (let i = 0; i < total_assets.length; i++) {
+    element += total_assets[i]
+  }
+
   return {
-    id: model.cod_account,
-    type: model.type,
-    balance: parseFloat(model.balance).toLocaleString('pt-br', {
+    id: accountDB.cod_account,
+    type: accountDB.type,
+    balance: parseFloat(accountDB.balance).toLocaleString('pt-br', {
       style: 'currency',
       currency: 'BRL'
     }),
     open_date:
-      date.toLocaleDateString(model.user.birth_date) +
+      date.toLocaleDateString(accountDB.user.birth_date) +
       ' ' +
-      model?.user.birth_date?.toLocaleTimeString('pt-BR'),
-
-    user_id: model.user_id,
-    bank_id: model.bank_id,
+      accountDB?.user.birth_date?.toLocaleTimeString('pt-BR'),
+    total_assets: parseFloat(element).toLocaleString('pt-br', {
+      style: 'currency',
+      currency: 'BRL'
+    }),
+    consolidated: (Number(accountDB.balance) + element).toLocaleString('pt-br', {
+      style: 'currency',
+      currency: 'BRL'
+    }),
+    user_id: accountDB.user_id,
+    bank_id: accountDB.bank_id,
     user: {
-      id: model.user.cod_user,
-      name: model.user.name,
-      email: model.user.email,
-      cpf: model.user.cpf,
-      gender: model.user.gender,
-      birth_date: model.user.birth_date,
-      password: model.user.password,
-      phone: model.user.phone,
-      status: model.user.status,
-      kind: model.user.kind,
+      id: accountDB.user.cod_user,
+      name: accountDB.user.name,
+      email: accountDB.user.email,
+      cpf: accountDB.user.cpf,
+      gender: accountDB.user.gender,
+      birth_date: accountDB.user.birth_date,
+      password: accountDB.user.password,
+      phone: accountDB.user.phone,
+      status: accountDB.user.status,
+      kind: accountDB.user.kind,
       created_at:
-        date.toLocaleDateString(model.user.created_at) +
+        date.toLocaleDateString(accountDB.user.created_at) +
         ' ' +
-        model?.user?.created_at?.toLocaleTimeString('pt-BR'),
+        accountDB?.user?.created_at?.toLocaleTimeString('pt-BR'),
       updated_at:
-        date.toLocaleDateString(model.user.updated_at) +
+        date.toLocaleDateString(accountDB.user.updated_at) +
         ' ' +
-        model?.user?.updated_at?.toLocaleTimeString('pt-BR'),
-      address_id: model.user.address_id
+        accountDB?.user?.updated_at?.toLocaleTimeString('pt-BR'),
+      address_id: accountDB.user.address_id
     },
     bank: {
-      id: model.bank.cod_bank,
-      name: model.bank.name,
-      branch: model.bank.branch
+      id: accountDB.bank.cod_bank,
+      name: accountDB.bank.name,
+      branch: accountDB.bank.branch
     }
   }
 }
