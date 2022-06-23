@@ -19,7 +19,7 @@ module.exports = (router) => {
       middlewareValidateDTO('params', {
         clientid: joi.number().integer().required().messages({
           'any.required': '"client id" is a required field',
-          'string.empty': '"client id" can not be empty'
+          'number.empty': '"client id" can not be empty'
         })
       }),
       clientController.listByIdClientController
@@ -29,7 +29,7 @@ module.exports = (router) => {
       middlewareValidateDTO('params', {
         clientid: joi.number().integer().required().messages({
           'any.required': '"client id" is a required field',
-          'string.empty': '"client id" can not be empty'
+          'number.empty': '"client id" can not be empty'
         })
       }),
       middlewareValidateDTO('body', {
@@ -63,7 +63,7 @@ module.exports = (router) => {
         }),
         cod_address: joi.number().integer().required().messages({
           'any.required': `"cod_address" is a required field`,
-          'string.empty': `"cod_address" can not be empty`
+          'number.empty': `"cod_address" can not be empty`
         }),
         address: joi.string().required().messages({
           'any.required': `"address" is a required field`,
@@ -94,8 +94,7 @@ module.exports = (router) => {
     middlewareValidateDTO('params', {
       clientid: joi.number().integer().required().messages({
         'any.required': '"client id" is a required field',
-        'string.empty': '"client id" can not be empty',
-        'string.regex': '"client id" out of the expected format'
+        'number.empty': '"client id" can not be empty'
       }),
       status: joi.string().required().messages({
         'any.required': '"status" is a required field',

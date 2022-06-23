@@ -9,7 +9,7 @@ module.exports = (router) => {
     middlewareValidateDTO('params', {
       clientid: joi.number().integer().required().messages({
         'any.required': '"client id" is a required field',
-        'string.empty': '"client id" can not be empty'
+        'number.empty': '"client id" can not be empty'
       })
     }),
     accountController.checkBalanceController

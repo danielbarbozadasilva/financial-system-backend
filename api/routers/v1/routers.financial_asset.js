@@ -12,7 +12,7 @@ module.exports = (router) => {
       authorizationMiddleware('*'),
       financialController.listAllFinancialAssetsController
     )
-    
+
     .post(
       authorizationMiddleware('CREATE_FINANCIAL'),
       asyncMiddleware(middlewareFileUploadMiddleware('financial')),
@@ -33,7 +33,7 @@ module.exports = (router) => {
           }),
           current_price: joi.number().required().messages({
             'any.required': `"current_price" is a required field`,
-            'string.empty': `"current_price" can not be empty`
+            'number.empty': `"current_price" can not be empty`
           }),
           quantity: joi.string().required().messages({
             'any.required': `"quantity" is a required field`,
@@ -54,8 +54,7 @@ module.exports = (router) => {
       middlewareValidateDTO('params', {
         financialid: joi.number().integer().required().messages({
           'any.required': '"financial id" is a required field',
-          'string.empty': '"financial id" can not be empty',
-          'string.regex': '"financial id" out of the expected format'
+          'number.empty': '"financial id" can not be empty'
         })
       }),
       asyncMiddleware(financialController.listByIdFinancialAssetsController)
@@ -67,8 +66,7 @@ module.exports = (router) => {
       middlewareValidateDTO('params', {
         financialid: joi.number().integer().required().messages({
           'any.required': '"financial id" is a required field',
-          'string.empty': '"financial id" can not be empty',
-          'string.regex': '"financial id" out of the expected format'
+          'number.empty': '"financial id" can not be empty'
         })
       }),
       middlewareValidateDTO(
@@ -88,7 +86,7 @@ module.exports = (router) => {
           }),
           current_price: joi.number().required().messages({
             'any.required': `"current_price" is a required field`,
-            'string.empty': `"current_price" can not be empty`
+            'number.empty': `"current_price" can not be empty`
           }),
           quantity: joi.string().required().messages({
             'any.required': `"quantity" is a required field`,
@@ -107,8 +105,7 @@ module.exports = (router) => {
       middlewareValidateDTO('params', {
         financialid: joi.number().integer().required().messages({
           'any.required': '"financial id" is a required field',
-          'string.empty': '"financial id" can not be empty',
-          'string.regex': '"financial id" out of the expected format'
+          'number.empty': '"financial id" can not be empty'
         })
       }),
       financialController.deleteFinancialAssetsController
