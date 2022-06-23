@@ -33,7 +33,7 @@ const toDTOUserAssets = (accountDB, transactionDB) => {
       currency: 'BRL'
     }),
     user_id: accountDB.user_id,
-    bank_id: accountDB.bank_id,
+    branch_id: accountDB.branch_id,
     user: {
       id: accountDB.user.cod_user,
       name: accountDB.user.name,
@@ -55,10 +55,10 @@ const toDTOUserAssets = (accountDB, transactionDB) => {
         accountDB?.user?.updated_at?.toLocaleTimeString('pt-BR'),
       address_id: accountDB.user.address_id
     },
-    bank: {
-      id: accountDB.bank.cod_bank,
-      name: accountDB.bank.name,
-      branch: accountDB.bank.branch
+    branch: {
+      id: accountDB.branch.cod_branch,
+      name: accountDB.branch.name,
+      bank: accountDB.branch.bank
     }
   }
 }

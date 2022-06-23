@@ -2,8 +2,8 @@
 
 module.exports = {
   async up(queryInterface, Sequelize) {
-    return queryInterface.createTable('bank', {
-      cod_bank: {
+    return queryInterface.createTable('branch', {
+      cod_branch: {
         primaryKey: true,
         autoIncrement: true,
         allowNull: false,
@@ -13,14 +13,15 @@ module.exports = {
         allowNull: false,
         type: Sequelize.TEXT
       },
-      branch: {
-        allowNull: false,
-        type: Sequelize.TEXT
+      bank: {
+        allowNull: true,
+        type: Sequelize.INTEGER,
+        defaultValue: 233
       }
     })
   },
 
   async down(queryInterface, Sequelize) {
-    return queryInterface.dropTable('bank')
+    return queryInterface.dropTable('branch')
   }
 }

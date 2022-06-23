@@ -10,25 +10,25 @@ module.exports = {
           type: 'C/C',
           balance: 3100.00,
           user_id: 2,
-          bank_id: 2
+          branch_id: 2
         },
         {
           number: '48129171-3',
           type: 'C/C',
           balance: 1100.00,
           user_id: 3,
-          bank_id: 3
+          branch_id: 3
         },
         {
           number: '42315371-5',
           type: 'C/C',
           balance: 11400.00,
           user_id: 4,
-          bank_id: 4
+          branch_id: 4
         }
       ],
       {
-        updateOnDuplicate: ['type', 'balance', 'user_id', 'bank_id'],
+        updateOnDuplicate: ['type', 'balance', 'user_id', 'branch_id'],
         ignoreDuplicates: true
       }
     )

@@ -41,9 +41,9 @@ module.exports = (sequelize, DataTypes) => {
       as: 'user'
     })
 
-    account.belongsTo(models.bank, {
-      foreignKey: 'bank_id',
-      as: 'bank'
+    account.belongsTo(models.branch, {
+      foreignKey: 'branch_id',
+      as: 'branch'
     })
   }
   return account

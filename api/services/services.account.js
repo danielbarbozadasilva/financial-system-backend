@@ -1,4 +1,4 @@
-const { account, user, bank, transaction } = require('../models/models.index')
+const { account, user, branch, transaction } = require('../models/models.index')
 const accountMapper = require('../mappers/mappers.account')
 
 const checkBalanceService = async (id) => {
@@ -11,8 +11,8 @@ const checkBalanceService = async (id) => {
         where: { cod_user: id }
       },
       {
-        model: bank,
-        as: 'bank'
+        model: branch,
+        as: 'branch'
       }
     ]
   })

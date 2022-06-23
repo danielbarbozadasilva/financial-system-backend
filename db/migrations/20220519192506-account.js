@@ -32,9 +32,9 @@ module.exports = {
         references: { model: 'user', key: 'cod_user' },
         onDelete: 'CASCADE'
       },
-      bank_id: {
+      branch_id: {
         type: Sequelize.INTEGER,
-        references: { model: 'bank', key: 'cod_bank' },
+        references: { model: 'branch', key: 'cod_branch' },
         onDelete: 'CASCADE'
       }
     })
