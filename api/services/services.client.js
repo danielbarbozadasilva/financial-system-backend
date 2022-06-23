@@ -16,11 +16,9 @@ const listAllClientsService = async () => {
         model: user,
         as: 'user',
         right: true,
-        where: { kind: 'client' },
         include: {
           model: address,
-          as: 'address',
-          required: true
+          as: 'address'
         }
       },
       {
@@ -31,8 +29,7 @@ const listAllClientsService = async () => {
           as: 'financial_asset_catalog'
         }
       }
-    ],
-    order: [['user_id', 'ASC']]
+    ]
   })
   return {
     success: true,

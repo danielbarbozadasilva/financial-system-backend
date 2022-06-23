@@ -15,7 +15,8 @@ const profile = [
       'LIST_CLIENT_ID',
       'UPDATE_STATUS_CLIENT',
       'UPDATE_CLIENT',
-      'LIST_CLIENT_TRANSACTION'
+      'LIST_CLIENT_TRANSACTION',
+      'LIST_CLIENT_ID_TRANSACTION'
     ]
   },
   {
