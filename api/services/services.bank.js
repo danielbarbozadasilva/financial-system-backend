@@ -1,0 +1,17 @@
+const { bank } = require('../models/models.index')
+const bankMapper = require('../mappers/mappers.bank')
+
+const listAllBanksService = async () => {
+  const bankDB = await bank.findAll({})
+
+  return {
+    success: true,
+    message: 'Clientes listados com sucesso!',
+     data: bankDB.map((item) => {
+       return bankMapper.toDTO(item)
+    })
+  }
+}
+module.exports = {
+  listAllBanksService
+}
