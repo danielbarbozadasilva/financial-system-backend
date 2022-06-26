@@ -11,11 +11,6 @@ module.exports = (sequelize, DataTypes) => {
       name: {
         allowNull: false,
         type: DataTypes.TEXT
-      },
-      bank: {
-        allowNull: true,
-        type: DataTypes.INTEGER,
-        defaultValue: 233
       }
     },
     {
