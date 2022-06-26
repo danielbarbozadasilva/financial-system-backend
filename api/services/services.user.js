@@ -16,7 +16,12 @@ const profile = [
       'UPDATE_STATUS_CLIENT',
       'UPDATE_CLIENT',
       'LIST_CLIENT_TRANSACTION',
-      'LIST_CLIENT_ID_TRANSACTION'
+      'LIST_CLIENT_ID_TRANSACTION',
+      'CREATE_DEPOSIT',
+      'LIST_BANKS',
+      'LIST_CLIENT_BALANCE',
+      'LIST_ACCOUNT',
+      'LIST_ID_ACCOUNT'
     ]
   },
   {
@@ -25,7 +30,8 @@ const profile = [
       'SEARCH_FINANCIAL',
       'CREATE_TRANSACTION',
       'LIST_CLIENT_BALANCE',
-      'LIST_CLIENT_ID_TRANSACTION'
+      'LIST_CLIENT_ID_TRANSACTION',
+      'LIST_BANKS'
     ]
   }
 ]
