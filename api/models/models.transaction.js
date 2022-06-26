@@ -9,8 +9,13 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER
       },
       total_quantity: {
+        allowNull: true,
+        type: DataTypes.INTEGER,
+        defaultValue: 1
+      },
+      type: {
         allowNull: false,
-        type: DataTypes.INTEGER
+        type: DataTypes.TEXT
       },
       sub_total: {
         allowNull: false,

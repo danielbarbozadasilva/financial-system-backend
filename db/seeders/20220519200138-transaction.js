@@ -7,24 +7,28 @@ module.exports = {
       [
         {
           total_quantity: 1,
+          type: 'ASSET',
           sub_total: 61.2,
           total_price: 53.95,
           user_id: 2
         },
         {
           total_quantity: 1,
+          type: 'ASSET',
           sub_total: 62.0,
           total_price: 64.19,
           user_id: 3
         },
         {
           total_quantity: 1,
+          type: 'ASSET',
           sub_total: 30.2,
           total_price: 31.99,
           user_id: 3
         },
         {
           total_quantity: 1,
+          type: 'ASSET',
           sub_total: 30.17,
           total_price: 32.12,
           user_id: 4
@@ -33,6 +37,7 @@ module.exports = {
       {
         updateOnDuplicate: [
           'total_quantity',
+          'type',
           'sub_total',
           'total_price',
           'user_id'
