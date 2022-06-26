@@ -46,7 +46,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"email\": \"tatiana@gmail.com\",\n    \"password\": \"tatiana\"\n}",
+							"raw": "{\n    \"email\": \"daniel@gmail.com\",\n    \"password\": \"daniel\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -616,34 +616,6 @@
 						}
 					},
 					"response": []
-				},
-				{
-					"name": "client.listClientAssets",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "token",
-								"value": "{{token}}",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "http://localhost:3011/v1/client/3/assets",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "3011",
-							"path": [
-								"v1",
-								"client",
-								"3",
-								"assets"
-							]
-						}
-					},
-					"response": []
 				}
 			]
 		},
@@ -691,7 +663,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3011/v1/transaction/user/1/asset/1",
+							"raw": "http://localhost:3011/v1/transaction/user/3/asset/1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -701,7 +673,7 @@
 								"v1",
 								"transaction",
 								"user",
-								"1",
+								"3",
 								"asset",
 								"1"
 							],
@@ -711,6 +683,126 @@
 									"value": "",
 									"disabled": true
 								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "transaction.createTransactionDeposit",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"branch\": \"0897\",\r\n    \"origin_cpf\": \"139.345.567-90\",\r\n    \"value\": 200.90,\r\n    \"bankid\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3011/v1/transaction/deposit/user/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3011",
+							"path": [
+								"v1",
+								"transaction",
+								"deposit",
+								"user",
+								"3"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "transaction.transactionDetails",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3011/v1/transaction/client",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3011",
+							"path": [
+								"v1",
+								"transaction",
+								"client"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "transaction.transactionUserId",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3011/v1/transaction/client/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3011",
+							"path": [
+								"v1",
+								"transaction",
+								"client",
+								"3"
 							]
 						}
 					},
@@ -733,7 +825,7 @@
 							}
 						],
 						"url": {
-							"raw": "http://localhost:3011/v1/client/3/account",
+							"raw": "http://localhost:3011/v1/account/client/3",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -741,9 +833,93 @@
 							"port": "3011",
 							"path": [
 								"v1",
+								"account",
 								"client",
-								"3",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "account.listAll",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3011/v1/account",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3011",
+							"path": [
+								"v1",
 								"account"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "account.listById",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3011/v1/account/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3011",
+							"path": [
+								"v1",
+								"account",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "bank",
+			"item": [
+				{
+					"name": "bank.listAll",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3011/v1/bank",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3011",
+							"path": [
+								"v1",
+								"bank"
 							]
 						}
 					},
