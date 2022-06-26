@@ -6,6 +6,7 @@ const routersV1Financial = require('./v1/routers.financial_asset')
 const routersV1Client = require('./v1/routers.client')
 const routersV1Transaction = require('./v1/routers.transaction')
 const routersV1Account = require('./v1/routers.account')
+const routersV1Bank = require('./v1/routers.bank')
 
 module.exports = (app) => {
   app.get('/', (req, res, next) => {
@@ -18,6 +19,7 @@ module.exports = (app) => {
   routersV1Client(routesV1)
   routersV1Transaction(routesV1)
   routersV1Account(routesV1)
-
+  routersV1Bank(routesV1)
+  
   app.use('/v1', routesV1)
 }
