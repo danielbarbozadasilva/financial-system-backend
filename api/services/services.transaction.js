@@ -3,7 +3,8 @@ const {
   transaction_details,
   account,
   user,
-  financial_asset_catalog
+  financial_asset_catalog,
+  transfer
 } = require('../models/models.index')
 const transactionMapper = require('../mappers/mappers.transaction')
 
@@ -22,6 +23,7 @@ const createTransactionService = async (params, body) => {
   }
 
   const transactionDB = await transaction.create({
+    type: 'ASSET',
     total_quantity: body.quantity,
     sub_total: body.subtotal_price,
     total_price: body.total_price,
@@ -67,6 +69,56 @@ const createTransactionService = async (params, body) => {
   }
 }
 
+const createDepositService = async (userid, body) => {
+  const accountDB = await account.findOne({
+    where: { user_id: userid }
+  })
+
+  accountDB.balance = Number(accountDB.balance) + Number(body.value)
+
+  const transferDB = await transfer.create({
+    origin_cpf: body.origin_cpf,
+    deposit_value: body.value,
+    bank_id: body.bank_id
+  })
+
+  if (!transferDB) {
+    return {
+      success: false,
+      details: ['Erro ao realizar o depósito!']
+    }
+  }
+
+  const transactionDB = await transaction.create({
+    type: 'DEPOSIT',
+    sub_total: body.value,
+    total_price: body.value,
+    user_id: userid
+  })
+
+  if (!transactionDB) {
+    return {
+      success: false,
+      details: ['Erro ao cadastrar a transação!']
+    }
+  }
+
+  const resultDB = await accountDB.save()
+
+  if (!resultDB) {
+    return {
+      success: false,
+      details: ['Erro ao registrar o valor!']
+    }
+  }
+
+  return {
+    success: true,
+    message: 'Transação cadastrada com sucesso!',
+    data: transferDB
+  }
+}
+
 const listAllUserTransactionService = async () => {
   const userDB = await transaction.findAll({
     include: [
@@ -85,6 +137,7 @@ const listAllUserTransactionService = async () => {
         }
       }
     ],
+    where: { type: 'ASSET' },
     order: [['user_id', 'ASC']],
     raw: true,
     nest: true
@@ -115,8 +168,9 @@ const listByIdUserTransactionService = async (id) => {
           model: financial_asset_catalog,
           as: 'financial_asset_catalog'
         }
-      }
+      },
     ],
+    where: { type: 'ASSET' },
     order: [['user_id', 'ASC']],
     raw: true,
     nest: true
@@ -133,6 +187,7 @@ const listByIdUserTransactionService = async (id) => {
 
 module.exports = {
   createTransactionService,
+  createDepositService,
   listAllUserTransactionService,
   listByIdUserTransactionService
 }
