@@ -1,17 +1,51 @@
+const toDTO = (accountDB) => {
+  const date = new Date()
+
+  return {
+    id: accountDB.cod_account,
+    number: accountDB.number,
+    type: accountDB.type,
+    balance: parseFloat(accountDB.balance).toLocaleString('pt-br', {
+      style: 'currency',
+      currency: 'BRL'
+    }),
+    open_date:
+      date.toLocaleDateString(accountDB.open_date) +
+      ' ' +
+      accountDB?.open_date?.toLocaleTimeString('pt-BR'),
+    id_user: accountDB.user.cod_user,
+    name: accountDB.user.name,
+    email: accountDB.user.email,
+    cpf: accountDB.user.cpf,
+    gender: accountDB.user.gender,
+    birth_date:
+      date.toLocaleDateString(accountDB?.user?.birth_date) +
+      ' ' +
+      accountDB?.user?.birth_date?.toLocaleTimeString('pt-BR'),
+    password: accountDB.user.password,
+    phone: accountDB.user.phone,
+    status: accountDB.user.status,
+    kind: accountDB.user.kind,
+    created_at:
+      date.toLocaleDateString(accountDB.user.created_at) +
+      ' ' +
+      accountDB?.user?.created_at?.toLocaleTimeString('pt-BR'),
+    updated_at:
+      date.toLocaleDateString(accountDB.user.updated_at) +
+      ' ' +
+      accountDB?.user?.updated_at?.toLocaleTimeString('pt-BR'),
+    name_branch: accountDB.branch.name
+  }
+}
+
 const toDTOUserAssets = (accountDB, transactionDB) => {
-  var arm = 0
   var element = 0
 
   const date = new Date()
 
-  var total_assets = transactionDB.map((item) => {
-    arm += Number(item.total_price)
-    return arm
+  transactionDB.map((item) => {
+    element += Number(item.total_price)
   })
-
-  for (let i = 0; i < total_assets.length; i++) {
-    element += total_assets[i]
-  }
 
   return {
     id: accountDB.cod_account,
@@ -21,17 +55,20 @@ const toDTOUserAssets = (accountDB, transactionDB) => {
       currency: 'BRL'
     }),
     open_date:
-      date.toLocaleDateString(accountDB.user.birth_date) +
+      date.toLocaleDateString(accountDB.open_date) +
       ' ' +
-      accountDB?.user.birth_date?.toLocaleTimeString('pt-BR'),
+      accountDB?.open_date?.toLocaleTimeString('pt-BR'),
     total_assets: parseFloat(element).toLocaleString('pt-br', {
       style: 'currency',
       currency: 'BRL'
     }),
-    consolidated: (Number(accountDB.balance) + element).toLocaleString('pt-br', {
-      style: 'currency',
-      currency: 'BRL'
-    }),
+    consolidated: (Number(accountDB.balance) + element).toLocaleString(
+      'pt-br',
+      {
+        style: 'currency',
+        currency: 'BRL'
+      }
+    ),
     user_id: accountDB.user_id,
     branch_id: accountDB.branch_id,
     user: {
@@ -40,7 +77,10 @@ const toDTOUserAssets = (accountDB, transactionDB) => {
       email: accountDB.user.email,
       cpf: accountDB.user.cpf,
       gender: accountDB.user.gender,
-      birth_date: accountDB.user.birth_date,
+      birth_date:
+        date.toLocaleDateString(accountDB?.user?.birth_date) +
+        ' ' +
+        accountDB?.user?.birth_date?.toLocaleTimeString('pt-BR'),
       password: accountDB.user.password,
       phone: accountDB.user.phone,
       status: accountDB.user.status,
@@ -57,12 +97,12 @@ const toDTOUserAssets = (accountDB, transactionDB) => {
     },
     branch: {
       id: accountDB.branch.cod_branch,
-      name: accountDB.branch.name,
-      bank: accountDB.branch.bank
+      name: accountDB.branch.name
     }
   }
 }
 
 module.exports = {
+  toDTO,
   toDTOUserAssets
 }

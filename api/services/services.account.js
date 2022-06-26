@@ -1,6 +1,51 @@
 const { account, user, branch, transaction } = require('../models/models.index')
 const accountMapper = require('../mappers/mappers.account')
 
+const listAllAccountService = async () => {
+  const accountDB = await account.findAll({
+    include: [
+      {
+        model: user,
+        as: 'user',
+        required: true
+      },
+      {
+        model: branch,
+        as: 'branch'
+      }
+    ]
+  })
+  return {
+    success: true,
+    message: 'Informações bancárias listadas com sucesso!',
+    data: accountDB.map((item) => {
+      return accountMapper.toDTO(item)
+    })
+  }
+}
+
+const listByIdAccountService = async (accountid) => {
+  const accountDB = await account.findOne({
+    include: [
+      {
+        model: user,
+        as: 'user',
+        required: true,
+      },
+      {
+        model: branch,
+        as: 'branch'
+      }
+    ],
+    where: { cod_account: accountid }
+  })
+  return {
+    success: true,
+    message: 'Informações bancárias listadas com sucesso!',
+    data: accountMapper.toDTO(accountDB)
+  }
+}
+
 const checkBalanceService = async (id) => {
   const accountDB = await account.findOne({
     include: [
@@ -21,10 +66,10 @@ const checkBalanceService = async (id) => {
     include: [
       {
         model: user,
-        as: 'user',
+        as: 'user'
       }
     ],
-    where: { user_id: id }
+    where: { user_id: id, type: 'ASSET' }
   })
 
   return {
@@ -35,5 +80,7 @@ const checkBalanceService = async (id) => {
 }
 
 module.exports = {
+  listAllAccountService,
+  listByIdAccountService,
   checkBalanceService
 }
