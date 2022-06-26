@@ -6,7 +6,7 @@ const listAllBanksService = async () => {
 
   return {
     success: true,
-    message: 'Clientes listados com sucesso!',
+    message: 'Bancos listados com sucesso!',
      data: bankDB.map((item) => {
        return bankMapper.toDTO(item)
     })
