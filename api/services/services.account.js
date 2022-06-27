@@ -30,7 +30,7 @@ const listByIdAccountService = async (accountid) => {
       {
         model: user,
         as: 'user',
-        required: true,
+        required: true
       },
       {
         model: branch,
@@ -69,7 +69,7 @@ const checkBalanceService = async (id) => {
         as: 'user'
       }
     ],
-    where: { user_id: id, type: 'ASSET' }
+    where: { user_id: id }
   })
 
   return {
