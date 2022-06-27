@@ -21,7 +21,8 @@ const profile = [
       'LIST_BANKS',
       'LIST_CLIENT_BALANCE',
       'LIST_ACCOUNT',
-      'LIST_ID_ACCOUNT'
+      'LIST_ID_ACCOUNT',
+      'LIST_CLIENT_ID_DEPOSIT'
     ]
   },
   {
