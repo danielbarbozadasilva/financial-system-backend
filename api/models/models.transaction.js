@@ -13,10 +13,6 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         defaultValue: 1
       },
-      type: {
-        allowNull: false,
-        type: DataTypes.TEXT
-      },
       sub_total: {
         allowNull: false,
         type: DataTypes.DECIMAL(15, 2)

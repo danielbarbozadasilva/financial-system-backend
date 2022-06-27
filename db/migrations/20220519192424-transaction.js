@@ -14,10 +14,6 @@ module.exports = {
         type: Sequelize.INTEGER,
         defaultValue: 1
       },
-      type: {
-        allowNull: false,
-        type: Sequelize.TEXT
-      },
       sub_total: {
         allowNull: false,
         type: Sequelize.DECIMAL(15, 2)
