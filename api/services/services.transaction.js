@@ -66,7 +66,7 @@ const createTransactionService = async (params, body) => {
 
   return {
     success: true,
-    message: 'Ativo cadastrado com sucesso!',
+    message: 'Transação cadastrada com sucesso!',
     data: transactionMapper.toDTO(transactionDB, transactionDetailsDB)
   }
 }
@@ -146,7 +146,7 @@ const listAllUserTransactionService = async () => {
 
   return {
     success: true,
-    message: 'Ativo(s) listado(s) com sucesso!',
+    message: 'Transações listadas com sucesso!',
     data: userDB.map((item) => {
       return transactionMapper.toDTOUserIdAssets(item)
     })
@@ -179,7 +179,7 @@ const listByIdUserTransactionService = async (id) => {
 
   return {
     success: true,
-    message: 'Ativo(s) listado(s) com sucesso!',
+    message: 'Transações listadas com sucesso!',
     data: userDB.map((item) => {
       return transactionMapper.toDTOUserIdAssets(item)
     })
@@ -205,7 +205,7 @@ const listByIdUserDepositService = async (id) => {
 
   return {
     success: true,
-    message: 'Ativo(s) listado(s) com sucesso!',
+    message: 'Depósito(s) listado(s) com sucesso!',
     data: userDB.map((item) => {
       return transactionMapper.toDTOListDeposit(item)
     })
