@@ -16,6 +16,7 @@ const listAllClientsService = async () => {
         model: user,
         as: 'user',
         right: true,
+        where: { kind: 'client' },
         include: {
           model: address,
           as: 'address'
