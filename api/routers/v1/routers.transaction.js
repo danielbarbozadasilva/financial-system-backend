@@ -87,4 +87,15 @@ module.exports = (router) => {
     }),
     transactionController.listByIdUserTransactionController
   )
+
+  router.route('/transaction/deposit/client/:clientid').get(
+    authorizationMiddleware('LIST_CLIENT_ID_DEPOSIT'),
+    middlewareValidateDTO('params', {
+      clientid: joi.number().integer().required().messages({
+        'any.required': '"client id" is a required field',
+        'number.empty': '"client id" can not be empty'
+      })
+    }),
+    transactionController.listByIdUserDepositController
+  )
 }

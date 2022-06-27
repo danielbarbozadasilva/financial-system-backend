@@ -4,9 +4,11 @@ const {
   account,
   user,
   financial_asset_catalog,
-  transfer
+  transfer,
+  bank
 } = require('../models/models.index')
 const transactionMapper = require('../mappers/mappers.transaction')
+const { Op } = require('sequelize')
 
 const createTransactionService = async (params, body) => {
   const accountDB = await account.findOne({
@@ -76,21 +78,7 @@ const createDepositService = async (userid, body) => {
 
   accountDB.balance = Number(accountDB.balance) + Number(body.value)
 
-  const transferDB = await transfer.create({
-    origin_cpf: body.origin_cpf,
-    deposit_value: body.value,
-    bank_id: body.bank_id
-  })
-
-  if (!transferDB) {
-    return {
-      success: false,
-      details: ['Erro ao realizar o depósito!']
-    }
-  }
-
   const transactionDB = await transaction.create({
-    type: 'DEPOSIT',
     sub_total: body.value,
     total_price: body.value,
     user_id: userid
@@ -100,6 +88,20 @@ const createDepositService = async (userid, body) => {
     return {
       success: false,
       details: ['Erro ao cadastrar a transação!']
+    }
+  }
+
+  const transferDB = await transfer.create({
+    origin_cpf: body.origin_cpf,
+    deposit_value: body.value,
+    transaction_id: transactionDB.cod_transaction,
+    bank_id: body.bank_id
+  })
+
+  if (!transferDB) {
+    return {
+      success: false,
+      details: ['Erro ao realizar o depósito!']
     }
   }
 
@@ -124,54 +126,20 @@ const listAllUserTransactionService = async () => {
     include: [
       {
         model: user,
-        as: 'user',
-        right: true,
-        where: { kind: 'client' }
+        as: 'user'
       },
       {
         model: transaction_details,
         as: 'transaction_details',
+        where: {
+          cod_trans_details: { [Op.ne]: null }
+        },
         include: {
           model: financial_asset_catalog,
           as: 'financial_asset_catalog'
         }
       }
     ],
-    where: { type: 'ASSET' },
-    order: [['user_id', 'ASC']],
-    raw: true,
-    nest: true
-  })
-
-  return {
-    success: true,
-    message: 'Ativo(s) listado(s) com sucesso!',
-    data: userDB.map((item) => {
-      return transactionMapper.toDTOAllUserAssets(item)
-    })
-  }
-}
-
-const listByIdUserTransactionService = async (id) => {
-  const userDB = await transaction.findAll({
-    include: [
-      {
-        model: user,
-        as: 'user',
-        right: true,
-        where: { cod_user: id }
-      },
-      {
-        model: transaction_details,
-        as: 'transaction_details',
-        include: {
-          model: financial_asset_catalog,
-          as: 'financial_asset_catalog'
-        }
-      },
-    ],
-    where: { type: 'ASSET' },
-    order: [['user_id', 'ASC']],
     raw: true,
     nest: true
   })
@@ -185,9 +153,69 @@ const listByIdUserTransactionService = async (id) => {
   }
 }
 
+const listByIdUserTransactionService = async (id) => {
+  const userDB = await transaction.findAll({
+    include: [
+      {
+        model: user,
+        as: 'user',
+        where: { cod_user: id }
+      },
+      {
+        model: transaction_details,
+        as: 'transaction_details',
+        where: {
+          cod_trans_details: { [Op.ne]: null }
+        },
+        include: {
+          model: financial_asset_catalog,
+          as: 'financial_asset_catalog'
+        }
+      }
+    ],
+    raw: true,
+    nest: true
+  })
+
+  return {
+    success: true,
+    message: 'Ativo(s) listado(s) com sucesso!',
+    data: userDB.map((item) => {
+      return transactionMapper.toDTOUserIdAssets(item)
+    })
+  }
+}
+
+const listByIdUserDepositService = async (id) => {
+  const userDB = await transfer.findAll({
+    include: [
+      {
+        model: transaction,
+        as: 'transaction',
+        where: { user_id: id }
+      },
+      {
+        model: bank,
+        as: 'bank'
+      }
+    ],
+    raw: true,
+    nest: true
+  })
+
+  return {
+    success: true,
+    message: 'Ativo(s) listado(s) com sucesso!',
+    data: userDB.map((item) => {
+      return transactionMapper.toDTOListDeposit(item)
+    })
+  }
+}
+
 module.exports = {
   createTransactionService,
   createDepositService,
+  listByIdUserDepositService,
   listAllUserTransactionService,
   listByIdUserTransactionService
 }
