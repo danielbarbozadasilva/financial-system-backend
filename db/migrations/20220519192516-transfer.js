@@ -23,6 +23,11 @@ module.exports = {
         type: Sequelize.DATE,
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       },
+      transaction_id: {
+        type: Sequelize.INTEGER,
+        references: { model: 'transaction', key: 'cod_transaction' },
+        onDelete: 'CASCADE'
+      },
       bank_id: {
         type: Sequelize.INTEGER,
         references: { model: 'bank', key: 'cod_bank' },

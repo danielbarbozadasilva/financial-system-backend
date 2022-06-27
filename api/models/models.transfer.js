@@ -33,6 +33,10 @@ module.exports = (sequelize, DataTypes) => {
   )
 
   transfer.associate = function (models) {
+    transfer.belongsTo(models.transaction, {
+      foreignKey: 'transaction_id',
+      as: 'transaction'
+    }),
     transfer.belongsTo(models.bank, {
       foreignKey: 'bank_id',
       as: 'bank'
