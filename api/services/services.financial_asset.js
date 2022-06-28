@@ -126,7 +126,7 @@ const deleteFinancialAssetsService = async (id) => {
 
 const listTop05FinancialAssetsService = async () => {
   const financialDB = await sequelize.query(
-    'SELECT f.cod_fin_asset, f.name, f.description, f.bvmf, f.current_price, f.quantity, f.image, t.financial_asset_id, COUNT(*) FROM transaction_details t inner join financial_asset_catalog f on t.financial_asset_id = f.cod_fin_asset group by financial_asset_id order by COUNT(financial_asset_id) DESC',
+    'SELECT f.cod_fin_asset, f.name, f.description, f.bvmf, f.current_price, f.quantity, f.image, t.financial_asset_id, COUNT(*) FROM transaction_details t INNER JOIN financial_asset_catalog f on t.financial_asset_id = f.cod_fin_asset GROUP BY financial_asset_id ORDER BY COUNT(financial_asset_id) DESC LIMIT 5',
     { type: QueryTypes.SELECT }
   )
   return {
