@@ -110,4 +110,11 @@ module.exports = (router) => {
       }),
       financialController.deleteFinancialAssetsController
     )
+
+  router
+    .route('/financial/assets/top05')
+    .get(
+      authorizationMiddleware('*'),
+      financialController.listTop05FinancialAssetsController
+    )
 }

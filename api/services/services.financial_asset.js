@@ -1,4 +1,5 @@
-const { financial_asset_catalog } = require('../models/models.index')
+const { QueryTypes } = require('sequelize')
+const { financial_asset_catalog, sequelize } = require('../models/models.index')
 const financialAssetMapper = require('../mappers/mappers.financial_asset')
 const fileUtils = require('../utils/utils.file')
 
@@ -6,6 +7,7 @@ const ErrorBusinessRule = require('../utils/errors/errors.business_rule')
 
 const listFinancialAssetsService = async () => {
   const financialDB = await financial_asset_catalog.findAll({})
+
   return {
     success: true,
     message: 'Ativos listados com sucesso!',
@@ -61,7 +63,6 @@ const createFinancialAssetsService = async (body) => {
     success: true,
     message: 'Ativo cadastrado com sucesso!',
     data: financialAssetMapper.toDTO(financialDB)
-
   }
 }
 
@@ -103,7 +104,6 @@ const updateFinancialAssetsService = async (body, id) => {
     success: true,
     message: 'Ativo atualizado com sucesso!',
     data: financialAssetMapper.toDTO(financialDB)
-
   }
 }
 
@@ -124,10 +124,25 @@ const deleteFinancialAssetsService = async (id) => {
   }
 }
 
+const listTop05FinancialAssetsService = async () => {
+  const financialDB = await sequelize.query(
+    'SELECT f.cod_fin_asset, f.name, f.description, f.bvmf, f.current_price, f.quantity, f.image, t.financial_asset_id, COUNT(*) FROM transaction_details t inner join financial_asset_catalog f on t.financial_asset_id = f.cod_fin_asset group by financial_asset_id order by COUNT(financial_asset_id) DESC',
+    { type: QueryTypes.SELECT }
+  )
+  return {
+    success: true,
+    message: 'Top 05 listado com sucesso!',
+    data: financialDB.map((item) => {
+      return financialAssetMapper.toDTO(item)
+    })
+  }
+}
+
 module.exports = {
   listFinancialAssetsService,
   listByIdFinancialAssetsService,
   createFinancialAssetsService,
   updateFinancialAssetsService,
-  deleteFinancialAssetsService
+  deleteFinancialAssetsService,
+  listTop05FinancialAssetsService
 }
