@@ -1,5 +1,0 @@
-{
-    "api/**/*.{js,ts,jsx,tsx}": [
-      "eslint --fix"
-      ]
-    }

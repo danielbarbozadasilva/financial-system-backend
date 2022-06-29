@@ -11,8 +11,7 @@
     "dev": "nodemon ./index.js",
     "add-migrations": "yarn sequelize db:migrate",
     "add-seeders": "yarn sequelize db:seed:all",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "postinstall": "husky install"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
@@ -39,24 +38,12 @@
     "nodemon": "^2.0.7",
     "path": "^0.12.7",
     "sequelize": "^6.6.2",
-    "standard": "^17.0.0",
     "swagger-ui-express": "^4.4.0",
     "uuid": "^8.3.2",
     "winston": "^3.3.3"
   },
   "devDependencies": {
-    "@commitlint/cli": "^16.0.0",
-    "@commitlint/config-conventional": "^16.0.0",
     "@types/swagger-ui-express": "^4.1.3",
-    "eslint": "^8.6.0",
-    "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-import": "^2.25.3",
-    "eslint-plugin-prettier": "^4.0.0",
-    "git-commit-msg-linter": "^4.1.3",
-    "husky": "^7.0.2",
-    "lint-staged": "^9.5.0",
-    "prettier": "^2.5.1",
     "sequelize-cli": "^6.2.0"
   }
 }

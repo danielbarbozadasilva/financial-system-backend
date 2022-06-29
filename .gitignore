@@ -3,3 +3,4 @@ node_modules
 .vscode
 data
 instruções.txt
+./api/utils/file/*
