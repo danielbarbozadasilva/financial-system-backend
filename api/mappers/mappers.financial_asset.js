@@ -11,7 +11,8 @@ const toDTO = (model) => {
       currency: 'BRL'
     }),
     quantity: model.quantity,
-    image: fileUtils.UtilCreateAddressDownload('financial', model.image.name)
+    image: fileUtils.UtilCreateAddressDownload('financial', model.image.name),
+    count: model?.qtd,
   }
 }
 
