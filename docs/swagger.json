@@ -77,7 +77,7 @@
                     "birth_date": "1990/09/08",
                     "password": "daniel",
                     "phone": "(21)2321-2345",
-                    "status": true,
+                    "status": "Ativo",
                     "kind": "client",
                     "address": "Rua abc, 123",
                     "uf": "RJ",
@@ -298,7 +298,7 @@
     "/client": {
       "get": {
         "summary": "Listar os Clientes",
-        "description": "Essa rota lista todos os clientes",
+        "description": "Essa rota lista todos os clientes, incluindo as suas respectivas transações",
         "tags": ["Clientes"],
         "responses": {
           "200": {
@@ -464,7 +464,7 @@
             "required": true
           },
           "status": {
-            "type": "boolean",
+            "type": "string",
             "required": true
           },
           "kind": {
