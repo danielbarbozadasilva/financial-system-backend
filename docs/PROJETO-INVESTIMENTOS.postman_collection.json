@@ -46,7 +46,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"email\": \"daniel@gmail.com\",\n    \"password\": \"daniel\"\n}",
+							"raw": "{\n    \"cpf\": \"233.113.223-35\",\n    \"password\": \"tatiana\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -150,6 +150,61 @@
 							"path": [
 								"v1",
 								"financial"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "financial_assets.ListTop05",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "http://localhost:3011/v1/financial/assets/top05",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3011",
+							"path": [
+								"v1",
+								"financial",
+								"assets",
+								"top05"
 							]
 						}
 					},
