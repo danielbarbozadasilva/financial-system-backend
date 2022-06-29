@@ -37,10 +37,10 @@ const profile = [
   }
 ]
 
-const userIsValidService = async (email, password) => {
+const userIsValidService = async (cpf, password) => {
   const userDB = await user.findOne({
     where: {
-      email: email,
+      cpf: cpf,
       password: cryptography.UtilCreateHash(password)
     }
   })
@@ -62,13 +62,12 @@ const verifyFunctionalityProfileService = async (typeUser, test) => {
   }
 }
 
-const createCredentialService = async (email) => {
+const createCredentialService = async (cpf) => {
   const userDB = await user.findOne({
     where: {
-      email: email
+      cpf: cpf
     }
   })
-
   const userDTO = userMapper.toUserDTO(userDB)
   const userToken = cryptography.UtilCreateToken(userDTO)
 
@@ -81,16 +80,17 @@ const createCredentialService = async (email) => {
   }
 }
 
-const authService = async (email, password) => {
-  const resultDB = await userIsValidService(email, password)
+const authService = async (cpf, password) => {
+  
+  const resultDB = await userIsValidService(cpf, password)
   if (!resultDB) {
     return {
       success: false,
       message: 'Unable to authenticate user',
-      details: ['Invalid username or password']
+      details: ['Invalid cpf or password']
     }
   }
-  const resultCredentials = await createCredentialService(email)
+  const resultCredentials = await createCredentialService(cpf)
   if (!resultCredentials) {
     return {
       success: false,
