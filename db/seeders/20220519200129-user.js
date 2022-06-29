@@ -9,7 +9,7 @@ module.exports = {
         {
           name: 'Daniel Barboza',
           email: 'daniel@gmail.com',
-          cpf: '123.123.123-45',
+          cpf: '413.423.614-41',
           gender: 'M',
           birth_date: '1997-03-05',
           password: cryptography.UtilCreateHash('daniel'),
