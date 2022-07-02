@@ -56,7 +56,7 @@ const listByIdClientService = async (id) => {
 
   return {
     success: true,
-    message: 'Clientes listados com sucesso!',
+    message: 'Cliente listado com sucesso!',
     data: clientMapper.toDTOList(...userDB)
   }
 }
@@ -81,7 +81,7 @@ const changeStatusService = async (clientId, status) => {
   if (resultDB) {
     return {
       success: true,
-      message: 'Operation performed successfully',
+      message: 'Status atualizado com sucesso!',
       data: {
         name: clientDB.name,
         status: status
@@ -167,7 +167,7 @@ const updateClientService = async (clientId, body) => {
 
   return {
     success: true,
-    message: 'Data updated successfully',
+    message: 'Cliente atualizado com sucesso',
     data: { name: resultFind.name }
   }
 }
