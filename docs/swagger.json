@@ -27,7 +27,7 @@
               "examples": {
                 "auth": {
                   "value": {
-                    "email": "daniel@gmail.com",
+                    "cpf": "413.423.614-41",
                     "password": "daniel"
                   }
                 }
@@ -191,7 +191,7 @@
           {
             "name": "id",
             "in": "path",
-            "type": "string",
+            "type": "integer",
             "description": "Id do Ativo",
             "required": true
           }
@@ -200,6 +200,9 @@
         "description": "Essa rota lista o ativo pelo Id",
         "tags": ["Ativos Financeiros"],
         "responses": {
+          "401": {
+            "description": "Unauthorized User!"
+          },
           "200": {
             "description": "Ativo listado com sucesso!",
             "content": {
@@ -225,7 +228,7 @@
           {
             "name": "id",
             "in": "path",
-            "type": "string",
+            "type": "integer",
             "description": "Id do Ativo",
             "required": true
           }
@@ -274,7 +277,7 @@
           {
             "name": "id",
             "in": "path",
-            "type": "string",
+            "type": "integer",
             "description": "Id do Ativo",
             "required": true
           }
@@ -296,11 +299,23 @@
       }
     },
     "/client": {
+      "parameters": [
+        {
+          "name": "token",
+          "in": "header",
+          "type": "string",
+          "description": "token",
+          "required": true
+        }
+      ],
       "get": {
         "summary": "Listar os Clientes",
-        "description": "Essa rota lista todos os clientes, incluindo as suas respectivas transações",
+        "description": "Essa rota lista todos os clientes",
         "tags": ["Clientes"],
         "responses": {
+          "401": {
+            "description": "Unauthorized User!"
+          },
           "200": {
             "description": "Clientes listados com sucesso!",
             "content": {
@@ -308,6 +323,143 @@
                 "schema": {
                   "type": "object",
                   "$ref": "#/components/schemas/List_Client"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/client/{clientid}": {
+      "get": {
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "type": "string",
+            "description": "token",
+            "required": true
+          },
+          {
+            "name": "clientid",
+            "in": "path",
+            "type": "integer",
+            "description": "Id do cliente",
+            "required": true
+          }
+        ],
+        "summary": "Listar o cliente pelo Id",
+        "description": "Essa rota lista o cliente pelo Id",
+        "tags": ["Clientes"],
+        "responses": {
+          "401": {
+            "description": "Unauthorized User!"
+          },
+          "200": {
+            "description": "Cliente listado com sucesso!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/List_Client"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "type": "string",
+            "description": "token",
+            "required": true
+          },
+          {
+            "name": "clientid",
+            "in": "path",
+            "type": "integer",
+            "description": "Id do cliente",
+            "required": true
+          }
+        ],
+        "summary": "Atualizar Cliente",
+        "description": "Essa rota atualiza um cliente",
+        "tags": ["Clientes"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Update_Client"
+              }
+            }
+          }
+        },
+        "responses": {
+          "401": {
+            "description": "Unauthorized User!"
+          },
+          "400": {
+            "description": [
+              "Este e-mail já está em uso",
+              "Este cpf já está em uso"
+            ]
+          },
+          "200": {
+            "description": "Cliente atualizado com sucesso!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/List_Update_Client"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/client/{id}/status/{status}": {
+      "put": {
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "type": "string",
+            "description": "token",
+            "required": true
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "type": "integer",
+            "description": "Id do clinte",
+            "required": true
+          },
+          {
+            "name": "status",
+            "in": "path",
+            "type": "string",
+            "description": "status",
+            "required": true
+          }
+        ],
+        "summary": "Alterar status do cliente",
+        "description": "Essa rota altera o status do cliente",
+        "tags": ["Clientes"],
+        "responses": {
+          "401": {
+            "description": "Unauthorized User!"
+          },
+          "200": {
+            "description": "Status atualizado com sucesso!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Status_Client"
                 }
               }
             }
@@ -428,84 +580,235 @@
           }
         }
       },
+
       "List_Client": {
         "type": "object",
         "properties": {
-          "id": {
+          "clientid": {
             "type": "integer",
-            "required": true
+            "required": true,
+            "example": "1"
           },
           "name": {
             "type": "string",
-            "required": true
+            "required": true,
+            "example": "example"
           },
           "email": {
             "type": "string",
-            "required": true
+            "required": true,
+            "example": "example@gmail.com"
           },
           "cpf": {
             "type": "string",
-            "required": true
+            "required": true,
+            "example": "999.999.999-99"
           },
           "gender": {
             "type": "string",
-            "required": true
+            "required": true,
+            "example": "M"
           },
           "birth_date": {
             "type": "string",
-            "required": true
+            "required": true,
+            "example": "04/09/2000"
           },
           "password": {
             "type": "string",
-            "required": true
+            "required": true,
+            "example": "example"
           },
           "phone": {
+            "type": "string",
+            "required": true,
+            "example": "(99)9999-9999"
+          },
+          "status": {
+            "type": "string",
+            "required": true,
+            "example": "Ativo"
+          },
+          "kind": {
+            "type": "string",
+            "required": true,
+            "example": "client"
+          },
+          "address": {
+            "address": {
+              "type": "string",
+              "required": true,
+              "example": "Rua abc"
+            },
+            "uf": {
+              "type": "string",
+              "required": true,
+              "example": "RJ"
+            },
+            "city": {
+              "type": "string",
+              "required": true,
+              "example": "Rio de janeiro"
+            },
+            "zip_code": {
+              "type": "string",
+              "required": true,
+              "example": "23098-200"
+            },
+            "complement": {
+              "type": "string",
+              "required": true,
+              "example": "casa"
+            }
+          },
+          "transaction": {
+            "id": {
+              "type": "integer",
+              "required": false,
+              "example": "1"
+            },
+            "total_quantity": {
+              "type": "integer",
+              "required": false,
+              "example": "1"
+            },
+            "total_price": {
+              "type": "float",
+              "required": false,
+              "example": "10.95"
+            }
+          },
+          "transaction_details": {
+            "id": {
+              "type": "integer",
+              "required": false,
+              "example": "1"
+            },
+            "name": {
+              "type": "string",
+              "required": false,
+              "example": "Empresa04"
+            },
+            "description": {
+              "type": "string",
+              "required": false,
+              "example": "Empresa04 é o maior fabricante de automóveis do mundo"
+            },
+            "bvmf": {
+              "type": "string",
+              "required": false,
+              "example": "EFGE32"
+            },
+            "current_price": {
+              "type": "float",
+              "required": false,
+              "example": "R$23,90"
+            },
+            "quantity": {
+              "type": "integer",
+              "required": false,
+              "example": "20"
+            }
+          }
+        }
+      },
+
+      "Update_Client": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "required": true,
+            "example": "example"
+          },
+          "email": {
+            "type": "string",
+            "required": true,
+            "example": "example@gmail.com"
+          },
+          "cpf": {
+            "type": "string",
+            "required": true,
+            "example": "999.999.999-99"
+          },
+          "gender": {
+            "type": "string",
+            "required": true,
+            "example": "M"
+          },
+          "birth_date": {
+            "type": "string",
+            "required": true,
+            "example": "04/09/2000"
+          },
+          "password": {
+            "type": "string",
+            "required": true,
+            "example": "example"
+          },
+          "phone": {
+            "type": "string",
+            "required": true,
+            "example": "(99)9999-9999"
+          },
+          "cod_address": {
+            "type": "integer",
+            "required": true,
+            "example": "1"
+          },
+          "address": {
+            "type": "string",
+            "required": true,
+            "example": "Rua abc"
+          },
+          "uf": {
+            "type": "string",
+            "required": true,
+            "example": "RJ"
+          },
+          "city": {
+            "type": "string",
+            "required": true,
+            "example": "Rio de janeiro"
+          },
+          "zip_code": {
+            "type": "string",
+            "required": true,
+            "example": "99999-999"
+          },
+          "complement": {
+            "type": "string",
+            "required": true,
+            "example": "casa"
+          }
+        }
+      },
+      
+      "List_Update_Client": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "required": true
+          }
+        }
+      },
+
+      "Status_Client": {
+        "type": "object",
+        "properties": {
+          "name": {
             "type": "string",
             "required": true
           },
           "status": {
             "type": "string",
             "required": true
-          },
-          "kind": {
-            "type": "string",
-            "required": true
-          },
-          "address": {
-            "type": "string",
-            "required": true
-          },
-          "uf": {
-            "type": "string",
-            "required": true
-          },
-          "city": {
-            "type": "string",
-            "required": true
-          },
-          "zip_code": {
-            "type": "string",
-            "required": true
-          },
-          "complement": {
-            "type": "string",
-            "required": true
-          },
-          "cod_transaction": {
-            "type": "integer",
-            "required": false
-          },
-          "total_quantity": {
-            "type": "integer",
-            "required": false
-          },
-          "total_price": {
-            "type": "float",
-            "required": false
           }
         }
       }
     },
+
     "securityDefinitions": {
       "JWT": {
         "description": "JWT token",
