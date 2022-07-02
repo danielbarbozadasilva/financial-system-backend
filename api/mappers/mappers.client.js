@@ -51,20 +51,20 @@ const toDTO = (model) => {
 
 const toDTOList = (clientDB) => {
   return {
-    id: clientDB.cod_user,
-    name: clientDB.name,
-    email: clientDB.email,
-    cpf: clientDB.cpf,
-    gender: clientDB.gender,
-    birth_date: clientDB.birth_date,
-    password: clientDB.password,
-    phone: clientDB.phone,
-    status: clientDB.status,
-    address: clientDB.address.address,
-    uf: clientDB.address.uf,
-    city: clientDB.address.city,
-    zip_code: clientDB.address.zip_code,
-    complement: clientDB.address.complement
+    id: clientDB?.cod_user,
+    name: clientDB?.name,
+    email: clientDB?.email,
+    cpf: clientDB?.cpf,
+    gender: clientDB?.gender,
+    birth_date: clientDB?.birth_date,
+    password: clientDB?.password,
+    phone: clientDB?.phone,
+    status: clientDB?.status,
+    address: clientDB?.address?.address,
+    uf: clientDB?.address?.uf,
+    city: clientDB?.address?.city,
+    zip_code: clientDB?.address?.zip_code,
+    complement: clientDB?.address?.complement
   }
 }
 
