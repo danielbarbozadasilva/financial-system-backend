@@ -11,6 +11,16 @@ const toDTO = (transactionDB, transactionDetailsDB) => {
   }
 }
 
+const toDTODeposit = (model) => {
+  return {
+    id: model.cod_transfer,
+    origin_cpf: model.origin_cpf,
+    deposit_value: model.deposit_value,
+    transaction_id: model.transaction_id,
+    bank_id: model.bank_id
+  }
+}
+
 const toDTOListDeposit = (model) => {
   const date = new Date()
 
@@ -87,6 +97,7 @@ const toDTOUserIdAssets = (model) => {
 
 module.exports = {
   toDTO,
+  toDTODeposit,
   toDTOUserIdAssets,
   toDTOListDeposit
 }
