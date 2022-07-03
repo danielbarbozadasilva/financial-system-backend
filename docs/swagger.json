@@ -298,6 +298,26 @@
         }
       }
     },
+    "/financial/assets/top05": {
+      "get": {
+        "summary": "Listar os 5 ativos mais adquiridos",
+        "description": "Essa rota lista os 5 ativos mais adquiridos",
+        "tags": ["Ativos Financeiros"],
+        "responses": {
+          "200": {
+            "description": "Top 05 listado com sucesso!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/List_Top05_Assets"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/client": {
       "parameters": [
         {
@@ -712,7 +732,47 @@
           }
         }
       },
-
+      "List_Top05_Assets": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "required": false,
+            "example": "1"
+          },
+          "name": {
+            "type": "string",
+            "required": false,
+            "example": "Empresa04"
+          },
+          "description": {
+            "type": "string",
+            "required": false,
+            "example": "Empresa04 é o maior fabricante de automóveis do mundo"
+          },
+          "bvmf": {
+            "type": "string",
+            "required": false,
+            "example": "EFGE32"
+          },
+          "quantity": {
+            "type": "integer",
+            "required": false,
+            "example": "20"
+          },
+          "current_price": {
+            "type": "float",
+            "required": false,
+            "example": "R$23,90"
+          },
+          "count": {
+            "type": "integer",
+            "required": false,
+            "example": "1"
+          }
+          
+        }
+      },
       "Update_Client": {
         "type": "object",
         "properties": {
@@ -783,7 +843,7 @@
           }
         }
       },
-      
+
       "List_Update_Client": {
         "type": "object",
         "properties": {
