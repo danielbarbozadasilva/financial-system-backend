@@ -37,10 +37,10 @@ module.exports = (router) => {
     transactionController.createTransactionController
   )
 
-  router.route('/transaction/deposit/user/:userid').post(
+  router.route('/transaction/deposit/client/:clientid').post(
     authorizationMiddleware('CREATE_DEPOSIT'),
     middlewareValidateDTO('params', {
-      userid: joi.number().integer().required().messages({
+      clientid: joi.number().integer().required().messages({
         'any.required': '"client id" is a required field',
         'number.empty': '"client id" can not be empty'
       })

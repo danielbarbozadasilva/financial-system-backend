@@ -18,9 +18,9 @@ const createTransactionController = async (req, res) => {
 
 const createDepositController = async (req, res) => {
   const { body } = req
-  const { userid } = req.params
+  const { clientid } = req.params
   const resultService = await transactionService.createDepositService(
-    userid,
+    clientid,
     body
   )
   const code = resultService.success ? 200 : 400

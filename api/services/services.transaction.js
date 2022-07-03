@@ -71,9 +71,9 @@ const createTransactionService = async (params, body) => {
   }
 }
 
-const createDepositService = async (userid, body) => {
+const createDepositService = async (clientid, body) => {
   const accountDB = await account.findOne({
-    where: { user_id: userid }
+    where: { user_id: clientid }
   })
 
   accountDB.balance = Number(accountDB.balance) + Number(body.value)
@@ -81,7 +81,7 @@ const createDepositService = async (userid, body) => {
   const transactionDB = await transaction.create({
     sub_total: body.value,
     total_price: body.value,
-    user_id: userid
+    user_id: clientid
   })
 
   if (!transactionDB) {
@@ -117,7 +117,7 @@ const createDepositService = async (userid, body) => {
   return {
     success: true,
     message: 'Transação cadastrada com sucesso!',
-    data: transferDB
+    data: transactionMapper.toDTODeposit(transferDB)
   }
 }
 
