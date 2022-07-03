@@ -486,6 +486,78 @@
           }
         }
       }
+    },
+    "/transaction/client": {
+      "get": {
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "type": "string",
+            "description": "token",
+            "required": true
+          }
+        ],
+        "summary": "Listar as transações realizadas pelos clientes",
+        "description": "Essa rota lista as transações realizadas pelos clientes",
+        "tags": ["Transações"],
+        "responses": {
+          "401": {
+            "description": "Unauthorized User!"
+          },
+          "200": {
+            "description": "Transações listadas com sucesso!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/List_Transactions"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/transaction/client/{id}": {
+      "get": {
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "type": "string",
+            "description": "token",
+            "required": true
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "type": "integer",
+            "description": "Id do clinte",
+            "required": true
+          }
+        ],
+        "summary": "Listar as transações realizadas pelo cliente",
+        "description": "Essa rota lista as transações realizadas pelo cliente",
+        "tags": ["Transações"],
+        "responses": {
+          "401": {
+            "description": "Unauthorized User!"
+          },
+          "200": {
+            "description": "Transações listadas com sucesso!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/List_Transactions"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -732,45 +804,45 @@
           }
         }
       },
+
       "List_Top05_Assets": {
         "type": "object",
         "properties": {
           "id": {
             "type": "integer",
-            "required": false,
+            "required": true,
             "example": "1"
           },
           "name": {
             "type": "string",
-            "required": false,
+            "required": true,
             "example": "Empresa04"
           },
           "description": {
             "type": "string",
-            "required": false,
+            "required": true,
             "example": "Empresa04 é o maior fabricante de automóveis do mundo"
           },
           "bvmf": {
             "type": "string",
-            "required": false,
+            "required": true,
             "example": "EFGE32"
           },
           "quantity": {
             "type": "integer",
-            "required": false,
+            "required": true,
             "example": "20"
           },
           "current_price": {
             "type": "float",
-            "required": false,
+            "required": true,
             "example": "R$23,90"
           },
           "count": {
             "type": "integer",
-            "required": false,
+            "required": true,
             "example": "1"
           }
-          
         }
       },
       "Update_Client": {
@@ -864,6 +936,62 @@
           "status": {
             "type": "string",
             "required": true
+          }
+        }
+      },
+
+      "List_Transactions": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "required": true,
+            "example": "1"
+          },
+          "total_quantity": {
+            "type": "integer",
+            "required": true,
+            "example": "1"
+          },
+          "total_price": {
+            "type": "string",
+            "required": true,
+            "example": "R$ 64,19"
+          },
+          "id_asset": {
+            "type": "integer",
+            "required": true,
+            "example": "1"
+          },
+          "name": {
+            "type": "string",
+            "required": true,
+            "example": "Empresa01"
+          },
+          "description": {
+            "type": "string",
+            "required": true,
+            "example": "Empresa01 é uma empresa Estado-unidense fabricante de circuitos integrados, especialmente processadores e placas de vídeo."
+          },
+          "bvmf": {
+            "type": "string",
+            "required": true,
+            "example": "WMD34"
+          },
+          "current_price": {
+            "type": "string",
+            "required": true,
+            "example": "R$ 64,19"
+          },
+          "purchase_price": {
+            "type": "string",
+            "required": true,
+            "example": "R$ 64,19"
+          },
+          "current_date": {
+            "type": "string",
+            "required": true,
+            "example": "03/07/2022 16:53:18"
           }
         }
       }
