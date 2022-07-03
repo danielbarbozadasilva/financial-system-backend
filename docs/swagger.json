@@ -520,7 +520,7 @@
       }
     },
 
-    "/transaction/client/{id}": {
+    "/transaction/client/{clientid}": {
       "get": {
         "parameters": [
           {
@@ -531,7 +531,7 @@
             "required": true
           },
           {
-            "name": "id",
+            "name": "clientid",
             "in": "path",
             "type": "integer",
             "description": "Id do clinte",
@@ -551,7 +551,102 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "$ref": "#/components/schemas/List_Transactions"
+                  "$ref": "#/components/schemas/List_Deposit"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/transaction/deposit/client/{clientid}": {
+      "get": {
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "type": "string",
+            "description": "token",
+            "required": true
+          },
+          {
+            "name": "clientid",
+            "in": "path",
+            "type": "integer",
+            "description": "Id do clinte",
+            "required": true
+          }
+        ],
+        "summary": "Listar os depósitos pelo cliente",
+        "description": "Essa rota lista os depósitos pelo cliente",
+        "tags": ["Transações"],
+        "responses": {
+          "401": {
+            "description": "Unauthorized User!"
+          },
+          "200": {
+            "description": "Depósito(s) listado(s) com sucesso!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/List_Deposit"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "type": "string",
+            "description": "token",
+            "required": true
+          },
+          {
+            "name": "clientid",
+            "in": "path",
+            "type": "integer",
+            "description": "Id do clinte",
+            "required": true
+          }
+        ],
+        "summary": "Realizar Depósito",
+        "description": "Essa rota realiza o depósito",
+        "tags": ["Transações"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Create_Deposit"
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": [
+              "Erro ao cadastrar a transação",
+              "Erro ao realizar o depósito!",
+              "Erro ao registrar o valor!"
+            ]
+          },
+          "401": {
+            "description": "Unauthorized User!"
+          },
+          "200": {
+            "description": "Transação cadastrada com sucesso!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "items": {
+                    "$ref": "#/components/schemas/List_Create_Deposit"
+                  }
                 }
               }
             }
@@ -992,6 +1087,144 @@
             "type": "string",
             "required": true,
             "example": "03/07/2022 16:53:18"
+          }
+        }
+      },
+
+      "List_Deposit": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "required": true,
+            "example": "1"
+          },
+          "deposit_value": {
+            "type": "string",
+            "required": true,
+            "example": "R$ 64,19"
+          },
+          "origin_cpf": {
+            "type": "string",
+            "required": true,
+            "example": "999.999.999-99"
+          },
+          "current_date": {
+            "type": "string",
+            "required": true,
+            "example": "03/07/2022 10:06:57"
+          },
+          "transaction_id": {
+            "type": "integer",
+            "required": true,
+            "example": "5"
+          },
+          "bank_id": {
+            "type": "integer",
+            "required": true,
+            "example": "1"
+          },
+          "total_quantity": {
+            "type": "integer",
+            "required": true,
+            "example": "1"
+          },
+          "sub_total": {
+            "type": "string",
+            "required": true,
+            "example": "R$ 64,19"
+          },
+          "total_price": {
+            "type": "string",
+            "required": true,
+            "example": "R$ 64,19"
+          },
+          "user_id": {
+            "type": "integer",
+            "required": true,
+            "example": "1"
+          },
+          "cod_bank": {
+            "type": "integer",
+            "required": true,
+            "example": "1"
+          },
+          "bank_name": {
+            "type": "string",
+            "required": true,
+            "example": "Banco 01"
+          },
+          "branch": {
+            "type": "string",
+            "required": true,
+            "example": "0845"
+          }
+        }
+      },
+
+      "Create_Deposit": {
+        "type": "object",
+        "properties": {
+          "branch": {
+            "type": "string",
+            "required": true,
+            "example": "0845"
+          },
+          "origin_cpf": {
+            "type": "string",
+            "required": true,
+            "example": "139.345.567-90"
+          },
+          "value": {
+            "type": "float",
+            "required": true,
+            "example": 200.9
+          },
+          "bank_id": {
+            "type": "integer",
+            "required": true,
+            "example": "1"
+          },
+          "user_id": {
+            "type": "integer",
+            "required": true,
+            "example": "1"
+          }
+        }
+      },
+      
+      "List_Create_Deposit": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "required": true,
+            "example": "1"
+          },
+          "branch": {
+            "type": "string",
+            "required": true,
+            "example": "0845"
+          },
+          "origin_cpf": {
+            "type": "string",
+            "required": true,
+            "example": "139.345.567-90"
+          },
+          "value": {
+            "type": "float",
+            "required": true,
+            "example": 200.9
+          },
+          "bank_id": {
+            "type": "integer",
+            "required": true,
+            "example": "1"
+          },
+          "user_id": {
+            "type": "integer",
+            "required": true,
+            "example": "1"
           }
         }
       }
