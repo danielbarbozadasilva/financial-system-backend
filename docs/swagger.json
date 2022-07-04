@@ -9,7 +9,7 @@
   "servers": [
     {
       "url": "http://localhost:3011/v1",
-      "description": "Api de test"
+      "description": "Api de teste"
     }
   ],
   "paths": {
@@ -17,7 +17,7 @@
       "post": {
         "summary": "Logar usuário",
         "description": "Essa rota é responsável por autenticar o usuário",
-        "tags": ["Autenticar"],
+        "tags": ["Autenticar Usuário"],
         "requestBody": {
           "content": {
             "application/json": {
@@ -37,10 +37,13 @@
         },
         "responses": {
           "400": {
-            "description": "Invalid username or password"
+            "description": [
+              "Cpf ou senha inválidos!",
+              "Foi foi possivel criar uma credencial!"
+            ]
           },
           "200": {
-            "description": "Successfully authenticated user",
+            "description": "Usuário autenticado com sucesso!",
             "content": {
               "application/json": {
                 "schema": {
@@ -60,7 +63,7 @@
       "post": {
         "summary": "Cadastrar usuário",
         "description": "Essa rota será responsável por realizar o cadastro do usuário",
-        "tags": ["Registrar"],
+        "tags": ["Registrar Usuário"],
         "requestBody": {
           "content": {
             "application/json": {
@@ -98,7 +101,7 @@
             ]
           },
           "200": {
-            "description": "user registered successfully",
+            "description": "Cadastro realizado com sucesso!",
             "content": {
               "application/json": {
                 "schema": {
@@ -157,10 +160,16 @@
         },
         "responses": {
           "401": {
-            "description": "Unauthorized User!"
+            "description": "Usuário não autenticado!"
+          },
+          "403": {
+            "description": "Usuário não autorizado!"
           },
           "400": {
-            "description": "Erro ao cadastrar o ativo"
+            "description": [
+              "Erro ao cadastrar o ativo!",
+              "Não foi possivel mover a imagem!"
+            ]
           },
           "200": {
             "description": "Ativo cadastrado com sucesso!",
@@ -201,7 +210,10 @@
         "tags": ["Ativos Financeiros"],
         "responses": {
           "401": {
-            "description": "Unauthorized User!"
+            "description": "Usuário não autenticado!"
+          },
+          "403": {
+            "description": "Usuário não autorizado!"
           },
           "200": {
             "description": "Ativo listado com sucesso!",
@@ -247,10 +259,16 @@
         },
         "responses": {
           "401": {
-            "description": "Unauthorized User!"
+            "description": "Usuário não autenticado!"
+          },
+          "403": {
+            "description": "Usuário não autorizado!"
           },
           "400": {
-            "description": "Não existe um ativo com esse Id"
+            "description": [
+              "Não existe um ativo com esse Id!",
+              "Erro ao atualizar o ativo"
+            ]
           },
           "200": {
             "description": "Ativo atualizado com sucesso!",
@@ -287,10 +305,16 @@
         "tags": ["Ativos Financeiros"],
         "responses": {
           "401": {
-            "description": "Unauthorized User!"
+            "description": "Usuário não autenticado!"
+          },
+          "403": {
+            "description": "Usuário não autorizado!"
           },
           "400": {
-            "description": "Não existe um ativo com esse Id"
+            "description": [
+              "Erro ao excluir o ativo",
+              "Não existe um ativo com esse Id"
+            ]
           },
           "200": {
             "description": "Ativo atualizado com sucesso!"
@@ -334,7 +358,10 @@
         "tags": ["Clientes"],
         "responses": {
           "401": {
-            "description": "Unauthorized User!"
+            "description": "Usuário não autenticado!"
+          },
+          "403": {
+            "description": "Usuário não autorizado!"
           },
           "200": {
             "description": "Clientes listados com sucesso!",
@@ -373,7 +400,10 @@
         "tags": ["Clientes"],
         "responses": {
           "401": {
-            "description": "Unauthorized User!"
+            "description": "Usuário não autenticado!"
+          },
+          "403": {
+            "description": "Usuário não autorizado!"
           },
           "200": {
             "description": "Cliente listado com sucesso!",
@@ -419,12 +449,17 @@
         },
         "responses": {
           "401": {
-            "description": "Unauthorized User!"
+            "description": "Usuário não autenticado!"
+          },
+          "403": {
+            "description": "Usuário não autorizado!"
           },
           "400": {
             "description": [
+              "Não existe um cliente com esse id",
               "Este e-mail já está em uso",
-              "Este cpf já está em uso"
+              "Este cpf já está em uso",
+              "Erro ao atualizar o cliente"
             ]
           },
           "200": {
@@ -471,7 +506,16 @@
         "tags": ["Clientes"],
         "responses": {
           "401": {
-            "description": "Unauthorized User!"
+            "description": "Usuário não autenticado!"
+          },
+          "403": {
+            "description": "Usuário não autorizado!"
+          },
+          "400": {
+            "description": [
+              "Não existe um cliente com esse id",
+              "Erro ao atualizar o status"
+            ]
           },
           "200": {
             "description": "Status atualizado com sucesso!",
@@ -504,7 +548,10 @@
         "tags": ["Transações"],
         "responses": {
           "401": {
-            "description": "Unauthorized User!"
+            "description": "Usuário não autenticado!"
+          },
+          "403": {
+            "description": "Usuário não autorizado!"
           },
           "200": {
             "description": "Transações listadas com sucesso!",
@@ -544,7 +591,10 @@
         "tags": ["Transações"],
         "responses": {
           "401": {
-            "description": "Unauthorized User!"
+            "description": "Usuário não autenticado!"
+          },
+          "403": {
+            "description": "Usuário não autorizado!"
           },
           "200": {
             "description": "Transações listadas com sucesso!",
@@ -552,7 +602,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "$ref": "#/components/schemas/List_Deposit"
+                  "$ref": "#/components/schemas/List_Transactions"
                 }
               }
             }
@@ -579,12 +629,15 @@
             "required": true
           }
         ],
-        "summary": "Listar os depósitos pelo cliente",
-        "description": "Essa rota lista os depósitos pelo cliente",
+        "summary": "Listar os depósitos realizados pelo cliente",
+        "description": "Essa rota lista os depósitos realizados pelo cliente",
         "tags": ["Transações"],
         "responses": {
           "401": {
-            "description": "Unauthorized User!"
+            "description": "Usuário não autenticado!"
+          },
+          "403": {
+            "description": "Usuário não autorizado!"
           },
           "200": {
             "description": "Depósito(s) listado(s) com sucesso!",
@@ -637,7 +690,10 @@
             ]
           },
           "401": {
-            "description": "Unauthorized User!"
+            "description": "Usuário não autenticado!"
+          },
+          "403": {
+            "description": "Usuário não autorizado!"
           },
           "200": {
             "description": "Transação cadastrada com sucesso!",
@@ -695,7 +751,10 @@
         },
         "responses": {
           "401": {
-            "description": "Unauthorized User!"
+            "description": "Usuário não autenticado!"
+          },
+          "403": {
+            "description": "Usuário não autorizado!"
           },
           "400": {
             "description": [
@@ -705,12 +764,12 @@
             ]
           },
           "200": {
-            "description": "Transação cadastrada com sucesso!",
+            "description": "Transação realizada com sucesso!",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "$ref": "#/components/schemas/Created_Transactions"
+                  "$ref": "#/components/schemas/List_Created_Transactions"
                 }
               }
             }
@@ -734,7 +793,10 @@
         "tags": ["Informações Bancárias"],
         "responses": {
           "401": {
-            "description": "Unauthorized User!"
+            "description": "Usuário não autenticado!"
+          },
+          "403": {
+            "description": "Usuário não autorizado!"
           },
           "200": {
             "description": "Informações bancárias listadas com sucesso!",
@@ -773,7 +835,10 @@
         "tags": ["Informações Bancárias"],
         "responses": {
           "401": {
-            "description": "Unauthorized User!"
+            "description": "Usuário não autenticado!"
+          },
+          "403": {
+            "description": "Usuário não autorizado!"
           },
           "200": {
             "description": "Informações bancárias listadas com sucesso!",
@@ -812,7 +877,10 @@
         "tags": ["Informações Bancárias"],
         "responses": {
           "401": {
-            "description": "Unauthorized User!"
+            "description": "Usuário não autenticado!"
+          },
+          "403": {
+            "description": "Usuário não autorizado!"
           },
           "200": {
             "description": "Saldo listado com sucesso!",
@@ -821,6 +889,41 @@
                 "schema": {
                   "type": "object",
                   "$ref": "#/components/schemas/Balance_Account"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/bank": {
+      "get": {
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "type": "string",
+            "description": "token",
+            "required": true
+          }
+        ],
+        "summary": "Listar os bancos",
+        "description": "Essa rota lista os bancos cadastrados no sistema",
+        "tags": ["Lista de Bancos"],
+        "responses": {
+          "401": {
+            "description": "Usuário não autenticado!"
+          },
+          "403": {
+            "description": "Usuário não autorizado!"
+          },
+          "200": {
+            "description": "Bancos listados com sucesso!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/List_Banks"
                 }
               }
             }
@@ -906,6 +1009,40 @@
         }
       },
 
+      "List_Assets": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "required": true
+          },
+          "name": {
+            "type": "string",
+            "required": true
+          },
+          "description": {
+            "type": "string",
+            "required": true
+          },
+          "bvmf": {
+            "type": "string",
+            "required": true
+          },
+          "current_price": {
+            "type": "string",
+            "required": true
+          },
+          "quantity": {
+            "type": "integer",
+            "required": true
+          },
+          "image": {
+            "type": "string",
+            "required": true
+          }
+        }
+      },
+
       "Register_Assets": {
         "type": "object",
         "properties": {
@@ -947,128 +1084,104 @@
         "properties": {
           "clientid": {
             "type": "integer",
-            "required": true,
-            "example": "1"
+            "required": true
           },
           "name": {
             "type": "string",
-            "required": true,
-            "example": "example"
+            "required": true
           },
           "email": {
             "type": "string",
-            "required": true,
-            "example": "example@gmail.com"
+            "required": true
           },
           "cpf": {
             "type": "string",
-            "required": true,
-            "example": "999.999.999-99"
+            "required": true
           },
           "gender": {
             "type": "string",
-            "required": true,
-            "example": "M"
+            "required": true
           },
           "birth_date": {
             "type": "string",
-            "required": true,
-            "example": "04/09/2000"
+            "required": true
           },
           "password": {
             "type": "string",
-            "required": true,
-            "example": "example"
+            "required": true
           },
           "phone": {
             "type": "string",
-            "required": true,
-            "example": "(99)9999-9999"
+            "required": true
           },
           "status": {
             "type": "string",
-            "required": true,
-            "example": "Ativo"
+            "required": true
           },
           "kind": {
             "type": "string",
-            "required": true,
-            "example": "client"
+            "required": true
           },
           "address": {
             "address": {
               "type": "string",
-              "required": true,
-              "example": "Rua abc"
+              "required": true
             },
             "uf": {
               "type": "string",
-              "required": true,
-              "example": "RJ"
+              "required": true
             },
             "city": {
               "type": "string",
-              "required": true,
-              "example": "Rio de janeiro"
+              "required": true
             },
             "zip_code": {
               "type": "string",
-              "required": true,
-              "example": "23098-200"
+              "required": true
             },
             "complement": {
               "type": "string",
-              "required": true,
-              "example": "casa"
+              "required": true
             }
           },
           "transaction": {
             "id": {
               "type": "integer",
-              "required": false,
-              "example": "1"
+              "required": false
             },
             "total_quantity": {
               "type": "integer",
-              "required": false,
-              "example": "1"
+              "required": false
             },
             "total_price": {
               "type": "float",
-              "required": false,
-              "example": "10.95"
+              "required": false
             }
           },
           "transaction_details": {
             "id": {
               "type": "integer",
-              "required": false,
-              "example": "1"
+              "required": false
             },
             "name": {
               "type": "string",
-              "required": false,
-              "example": "Empresa04"
+              "required": false
             },
             "description": {
               "type": "string",
-              "required": false,
-              "example": "Empresa04 é o maior fabricante de automóveis do mundo"
+              "required": false
             },
             "bvmf": {
               "type": "string",
-              "required": false,
-              "example": "EFGE32"
+              "required": false
             },
             "current_price": {
               "type": "float",
-              "required": false,
-              "example": "R$23,90"
+              "required": false
             },
             "quantity": {
               "type": "integer",
-              "required": false,
-              "example": "20"
+              "required": false
             }
           }
         }
@@ -1079,38 +1192,31 @@
         "properties": {
           "id": {
             "type": "integer",
-            "required": true,
-            "example": "1"
+            "required": true
           },
           "name": {
             "type": "string",
-            "required": true,
-            "example": "Empresa04"
+            "required": true
           },
           "description": {
             "type": "string",
-            "required": true,
-            "example": "Empresa04 é o maior fabricante de automóveis do mundo"
+            "required": true
           },
           "bvmf": {
             "type": "string",
-            "required": true,
-            "example": "EFGE32"
+            "required": true
           },
           "quantity": {
             "type": "integer",
-            "required": true,
-            "example": "20"
+            "required": true
           },
           "current_price": {
             "type": "float",
-            "required": true,
-            "example": "R$23,90"
+            "required": true
           },
           "count": {
             "type": "integer",
-            "required": true,
-            "example": "1"
+            "required": true
           }
         }
       },
@@ -1215,53 +1321,43 @@
         "properties": {
           "id": {
             "type": "integer",
-            "required": true,
-            "example": "1"
+            "required": true
           },
           "total_quantity": {
             "type": "integer",
-            "required": true,
-            "example": "1"
+            "required": true
           },
           "total_price": {
             "type": "string",
-            "required": true,
-            "example": "R$ 64,19"
+            "required": true
           },
           "id_asset": {
             "type": "integer",
-            "required": true,
-            "example": "1"
+            "required": true
           },
           "name": {
             "type": "string",
-            "required": true,
-            "example": "Empresa01"
+            "required": true
           },
           "description": {
             "type": "string",
-            "required": true,
-            "example": "Empresa01 é uma empresa Estado-unidense fabricante de circuitos integrados, especialmente processadores e placas de vídeo."
+            "required": true
           },
           "bvmf": {
             "type": "string",
-            "required": true,
-            "example": "WMD34"
+            "required": true
           },
           "current_price": {
             "type": "string",
-            "required": true,
-            "example": "R$ 64,19"
+            "required": true
           },
           "purchase_price": {
             "type": "string",
-            "required": true,
-            "example": "R$ 64,19"
+            "required": true
           },
           "current_date": {
             "type": "string",
-            "required": true,
-            "example": "03/07/2022 16:53:18"
+            "required": true
           }
         }
       },
@@ -1269,6 +1365,36 @@
       "Created_Transactions": {
         "type": "object",
         "properties": {
+          "subtotal_price": {
+            "type": "float",
+            "required": true,
+            "example": 200.9
+          },
+          "total_price": {
+            "type": "float",
+            "required": true,
+            "example": 200.9
+          },
+          "quantity": {
+            "type": "integer",
+            "required": true,
+            "example": 1
+          },
+          "current_price": {
+            "type": "float",
+            "required": true,
+            "example": 200.9
+          }
+        }
+      },
+
+      "List_Created_Transactions": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "required": true
+          },
           "subtotal_price": {
             "type": "string",
             "required": true
@@ -1293,68 +1419,55 @@
         "properties": {
           "id": {
             "type": "integer",
-            "required": true,
-            "example": "1"
+            "required": true
           },
           "deposit_value": {
             "type": "string",
-            "required": true,
-            "example": "R$ 64,19"
+            "required": true
           },
           "origin_cpf": {
             "type": "string",
-            "required": true,
-            "example": "999.999.999-99"
+            "required": true
           },
           "current_date": {
             "type": "string",
-            "required": true,
-            "example": "03/07/2022 10:06:57"
+            "required": true
           },
           "transaction_id": {
             "type": "integer",
-            "required": true,
-            "example": "5"
+            "required": true
           },
           "bank_id": {
             "type": "integer",
-            "required": true,
-            "example": "1"
+            "required": true
           },
           "total_quantity": {
             "type": "integer",
-            "required": true,
-            "example": "1"
+            "required": true
           },
           "sub_total": {
             "type": "string",
-            "required": true,
-            "example": "R$ 64,19"
+            "required": true
           },
           "total_price": {
             "type": "string",
-            "required": true,
-            "example": "R$ 64,19"
+            "required": true
           },
           "user_id": {
             "type": "integer",
-            "required": true,
-            "example": "1"
+            "required": true
           },
           "cod_bank": {
             "type": "integer",
-            "required": true,
-            "example": "1"
+            "required": true
           },
           "bank_name": {
             "type": "string",
-            "required": true,
-            "example": "Banco 01"
+            "required": true
           },
           "branch": {
             "type": "string",
-            "required": true,
-            "example": "0845"
+            "required": true
           }
         }
       },
@@ -1395,33 +1508,27 @@
         "properties": {
           "id": {
             "type": "integer",
-            "required": true,
-            "example": "1"
+            "required": true
           },
           "branch": {
             "type": "string",
-            "required": true,
-            "example": "0845"
+            "required": true
           },
           "origin_cpf": {
             "type": "string",
-            "required": true,
-            "example": "139.345.567-90"
+            "required": true
           },
           "value": {
             "type": "float",
-            "required": true,
-            "example": 200.9
+            "required": true
           },
           "bank_id": {
             "type": "integer",
-            "required": true,
-            "example": "1"
+            "required": true
           },
           "user_id": {
             "type": "integer",
-            "required": true,
-            "example": "1"
+            "required": true
           }
         }
       },
@@ -1593,6 +1700,21 @@
             "type": "string",
             "required": true
           }
+        }
+      },
+
+      "List_Banks": {
+        "cod_bank": {
+          "type": "integer",
+          "required": true
+        },
+        "name": {
+          "type": "string",
+          "required": true
+        },
+        "branch": {
+          "type": "string",
+          "required": true
         }
       }
     },
