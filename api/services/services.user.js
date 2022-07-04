@@ -94,20 +94,20 @@ const authService = async (cpf, password) => {
   if (!resultDB) {
     return {
       success: false,
-      message: 'Unable to authenticate user',
-      details: ['Invalid cpf or password']
+      message: 'Não foi possivel autenticar o usuário',
+      details: ['Cpf ou senha inválidos!']
     }
   }
   const resultCredentials = await createCredentialService(cpf)
   if (!resultCredentials) {
     return {
       success: false,
-      details: ['it was not possible to create the credential']
+      details: ['Foi foi possivel criar uma credencial!']
     }
   }
   return {
     success: true,
-    message: 'Successfully authenticated user',
+    message: 'Usuário autenticado com sucesso!',
     data: resultCredentials
   }
 }

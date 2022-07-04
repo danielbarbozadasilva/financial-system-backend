@@ -66,8 +66,8 @@ const changeStatusService = async (clientId, status) => {
   if (!clientDB) {
     return {
       success: false,
-      message: 'Operation cannot be performed',
-      details: ['there is no client with this id']
+      message: 'Operação não pode ser realizada!',
+      details: ['Não existe um cliente com esse id']
     }
   }
 
@@ -92,7 +92,7 @@ const changeStatusService = async (clientId, status) => {
   if (!resultDB) {
     return {
       success: false,
-      message: 'operation cannot be performed'
+      message: 'Erro ao atualizar o status'
     }
   }
 }
@@ -103,8 +103,8 @@ const updateClientService = async (clientId, body) => {
   if (!resultFind) {
     return {
       success: false,
-      message: 'could not perform the operation',
-      details: ["client id doesn't exist."]
+      message: 'Operação não pode ser realizada!',
+      details: ['Não existe um cliente com esse id']
     }
   }
 
@@ -160,8 +160,8 @@ const updateClientService = async (clientId, body) => {
   if (!clientDB || !addressDB) {
     return {
       success: false,
-      message: 'operation cannot be performed',
-      details: ['The value does not exist']
+      message: 'Operação não pode ser realizada',
+      details: ['Erro ao atualizar o cliente']
     }
   }
 

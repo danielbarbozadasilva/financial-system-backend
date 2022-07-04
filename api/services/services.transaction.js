@@ -65,7 +65,7 @@ const createTransactionService = async (params, body) => {
 
   return {
     success: true,
-    message: 'Transação cadastrada com sucesso!',
+    message: 'Transação realizada com sucesso!',
     data: transactionMapper.toDTO(transactionDB, transactionDetailsDB)
   }
 }

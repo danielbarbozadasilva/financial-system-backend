@@ -18,18 +18,18 @@ const authorizationMiddleware =
         if (test != '*') {
           if (!token) {
             return Promise.reject(
-              new ErrorUnauthenticatedUser('Unauthenticated User Error')
+              new ErrorUnauthenticatedUser('Usuário não autenticado!')
             )
           }
 
           if (!cryptographyUtils.UtilValidateToken(token)) {
             return Promise.reject(
-              new ErrorUnauthenticatedUser('Unauthenticated User Error')
+              new ErrorUnauthenticatedUser('Usuário não autenticado!')
             )
           }
 
           if (profileFunctionality) {
-            return Promise.reject(new ErrorUserNotAllowed('Unauthorized User!'))
+            return Promise.reject(new ErrorUserNotAllowed('Usuário não autorizado!'))
           }
         }
 

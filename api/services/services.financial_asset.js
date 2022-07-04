@@ -49,8 +49,8 @@ const createFinancialAssetsService = async (body) => {
   if (moveFile !== undefined) {
     return {
       success: false,
-      message: 'Operation cannot be performed',
-      details: ['It is not possible to move the product']
+      message: 'A operação não pode ser realizada',
+      details: ['Não foi possivel mover a imagem']
     }
   }
   if (!financialDB) {
@@ -72,7 +72,7 @@ const updateFinancialAssetsService = async (body, id) => {
   })
 
   if (!financialDB) {
-    throw new ErrorBusinessRule('Não existe um ativo com esse Id')
+    throw new ErrorBusinessRule('Não existe um ativo com esse Id!')
   }
 
   financialDB.name = body.name
@@ -108,6 +108,14 @@ const updateFinancialAssetsService = async (body, id) => {
 }
 
 const deleteFinancialAssetsService = async (id) => {
+  const result = await financial_asset_catalog.findOne({
+    where: { cod_fin_asset: id }
+  })
+
+  if (!result) {
+    throw new ErrorBusinessRule('Não existe um ativo com esse Id!')
+  }
+
   const financialDB = await financial_asset_catalog.destroy({
     where: { cod_fin_asset: id }
   })
