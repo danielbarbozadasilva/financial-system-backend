@@ -108,7 +108,7 @@ module.exports = (router) => {
           'number.empty': '"financial id" can not be empty'
         })
       }),
-      financialController.deleteFinancialAssetsController
+      asyncMiddleware(financialController.deleteFinancialAssetsController)
     )
 
   router
