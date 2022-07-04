@@ -490,7 +490,7 @@
 							"formdata": []
 						},
 						"url": {
-							"raw": "http://localhost:3011/v1/financial/1",
+							"raw": "http://localhost:3011/v1/financial/4",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -499,7 +499,7 @@
 							"path": [
 								"v1",
 								"financial",
-								"1"
+								"4"
 							]
 						}
 					},
@@ -718,7 +718,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3011/v1/transaction/user/3/asset/1",
+							"raw": "http://localhost:3011/v1/transaction/client/3/asset/2",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -727,10 +727,10 @@
 							"path": [
 								"v1",
 								"transaction",
-								"user",
+								"client",
 								"3",
 								"asset",
-								"1"
+								"2"
 							],
 							"query": [
 								{
@@ -784,7 +784,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3011/v1/transaction/deposit/user/3",
+							"raw": "http://localhost:3011/v1/transaction/deposit/client/3",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -794,7 +794,7 @@
 								"v1",
 								"transaction",
 								"deposit",
-								"user",
+								"client",
 								"3"
 							],
 							"query": [
@@ -875,7 +875,7 @@
 							}
 						],
 						"url": {
-							"raw": "http://localhost:3011/v1/transaction/deposit/client/3",
+							"raw": "http://localhost:3011/v1/transaction/deposit/client/2",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -886,7 +886,7 @@
 								"transaction",
 								"deposit",
 								"client",
-								"3"
+								"2"
 							]
 						}
 					},
