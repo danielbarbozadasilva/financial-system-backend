@@ -12,7 +12,7 @@ const { Op } = require('sequelize')
 
 const createTransactionService = async (params, body) => {
   const accountDB = await account.findOne({
-    where: { user_id: params.userid }
+    where: { user_id: params.clientid }
   })
 
   var checkBalance = Number(accountDB.balance) > Number(body.total_price)
@@ -25,11 +25,10 @@ const createTransactionService = async (params, body) => {
   }
 
   const transactionDB = await transaction.create({
-    type: 'ASSET',
     total_quantity: body.quantity,
     sub_total: body.subtotal_price,
     total_price: body.total_price,
-    user_id: params.userid
+    user_id: params.clientid
   })
 
   if (!transactionDB) {
@@ -49,7 +48,7 @@ const createTransactionService = async (params, body) => {
   if (!transactionDetailsDB) {
     return {
       success: false,
-      details: ['Erro ao cadastrar a transação']
+      details: ['Erro ao cadastrar a transação!']
     }
   }
 
@@ -60,7 +59,7 @@ const createTransactionService = async (params, body) => {
   if (!resultDB) {
     return {
       success: false,
-      details: ['Erro ao atualizar o valor em conta']
+      details: ['Erro ao atualizar o valor em conta!']
     }
   }
 

@@ -4,12 +4,12 @@ const middlewareValidateDTO = require('../../utils/middlewares/middlewares.valid
 const authorizationMiddleware = require('../../utils/middlewares/middlewares.authorization')
 
 module.exports = (router) => {
-  router.route('/transaction/user/:userid/asset/:assetid').post(
-    authorizationMiddleware('CREATE_TRANSACTION'),
+  router.route('/transaction/client/:clientid/asset/:assetid').post(
+    authorizationMiddleware('*'),
     middlewareValidateDTO('params', {
-      userid: joi.number().integer().required().messages({
-        'any.required': '"user id" is a required field',
-        'number.empty': '"user id" can not be empty'
+      clientid: joi.number().integer().required().messages({
+        'any.required': '"client id" is a required field',
+        'number.empty': '"client id" can not be empty'
       }),
       assetid: joi.number().integer().required().messages({
         'any.required': '"asset id" is a required field',
