@@ -487,6 +487,7 @@
         }
       }
     },
+
     "/transaction/client": {
       "get": {
         "parameters": [
@@ -647,6 +648,69 @@
                   "items": {
                     "$ref": "#/components/schemas/List_Create_Deposit"
                   }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/transaction/client/{clientid}/asset/{assetid}": {
+      "post": {
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "type": "string",
+            "description": "token",
+            "required": true
+          },
+          {
+            "name": "clientid",
+            "in": "path",
+            "type": "integer",
+            "description": "Id do clinte",
+            "required": true
+          },
+          {
+            "name": "assetid",
+            "in": "path",
+            "type": "integer",
+            "description": "Id do ativo",
+            "required": true
+          }
+        ],
+        "summary": "Realizar uma transação",
+        "description": "Essa rota permite ao cliente realizar uma transação",
+        "tags": ["Transações"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Created_Transactions"
+              }
+            }
+          }
+        },
+        "responses": {
+          "401": {
+            "description": "Unauthorized User!"
+          },
+          "400": {
+            "description": [
+              "Saldo insuficiente para realizar a transação!",
+              "Erro ao cadastrar a transação!",
+              "Erro ao atualizar o valor em conta!"
+            ]
+          },
+          "200": {
+            "description": "Transação cadastrada com sucesso!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Created_Transactions"
                 }
               }
             }
@@ -940,6 +1004,7 @@
           }
         }
       },
+
       "Update_Client": {
         "type": "object",
         "properties": {
@@ -1091,6 +1156,28 @@
         }
       },
 
+      "Created_Transactions": {
+        "type": "object",
+        "properties": {
+          "subtotal_price": {
+            "type": "string",
+            "required": true
+          },
+          "total_price": {
+            "type": "string",
+            "required": true
+          },
+          "quantity": {
+            "type": "integer",
+            "required": true
+          },
+          "current_price": {
+            "type": "string",
+            "required": true
+          }
+        }
+      },
+
       "List_Deposit": {
         "type": "object",
         "properties": {
@@ -1192,7 +1279,7 @@
           }
         }
       },
-      
+
       "List_Create_Deposit": {
         "type": "object",
         "properties": {
