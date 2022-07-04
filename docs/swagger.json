@@ -717,6 +717,116 @@
           }
         }
       }
+    },
+    "/account": {
+      "get": {
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "type": "string",
+            "description": "token",
+            "required": true
+          }
+        ],
+        "summary": "Listar as contas dos clientes",
+        "description": "Essa rota lista as contas dos clientes",
+        "tags": ["Informações Bancárias"],
+        "responses": {
+          "401": {
+            "description": "Unauthorized User!"
+          },
+          "200": {
+            "description": "Informações bancárias listadas com sucesso!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/List_Bank_Client"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/account/{accountid}": {
+      "get": {
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "type": "string",
+            "description": "token",
+            "required": true
+          },
+          {
+            "name": "accountid",
+            "in": "path",
+            "type": "integer",
+            "description": "Id da conta",
+            "required": true
+          }
+        ],
+        "summary": "Listar as contas do cliente",
+        "description": "Essa rota lista as contas do cliente",
+        "tags": ["Informações Bancárias"],
+        "responses": {
+          "401": {
+            "description": "Unauthorized User!"
+          },
+          "200": {
+            "description": "Informações bancárias listadas com sucesso!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/List_Bank_Client"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/account/client/{clientid}": {
+      "get": {
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "type": "string",
+            "description": "token",
+            "required": true
+          },
+          {
+            "name": "clientid",
+            "in": "path",
+            "type": "integer",
+            "description": "Id da conta",
+            "required": true
+          }
+        ],
+        "summary": "Listar o saldo bancário do cliente",
+        "description": "Essa rota lista o saldo bancário do cliente",
+        "tags": ["Informações Bancárias"],
+        "responses": {
+          "401": {
+            "description": "Unauthorized User!"
+          },
+          "200": {
+            "description": "Saldo listado com sucesso!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Balance_Account"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -1312,6 +1422,176 @@
             "type": "integer",
             "required": true,
             "example": "1"
+          }
+        }
+      },
+
+      "List_Bank_Client": {
+        "id": {
+          "type": "integer",
+          "required": true
+        },
+        "number": {
+          "type": "string",
+          "required": true
+        },
+        "type": {
+          "type": "string",
+          "required": true
+        },
+        "balance": {
+          "type": "string",
+          "required": true
+        },
+        "open_date": {
+          "type": "string",
+          "required": true
+        },
+        "id_user": {
+          "type": "integer",
+          "required": true
+        },
+        "name": {
+          "type": "string",
+          "required": true
+        },
+        "email": {
+          "type": "string",
+          "required": true
+        },
+        "cpf": {
+          "type": "string",
+          "required": true
+        },
+        "gender": {
+          "type": "string",
+          "required": true
+        },
+        "birth_date": {
+          "type": "string",
+          "required": true
+        },
+        "phone": {
+          "type": "string",
+          "required": true
+        },
+        "status": {
+          "type": "boolean",
+          "required": true
+        },
+        "kind": {
+          "type": "string",
+          "required": true
+        },
+        "created_at": {
+          "type": "string",
+          "required": true
+        },
+        "updated_at": {
+          "type": "string",
+          "required": true
+        },
+        "name_branch": {
+          "type": "string",
+          "required": true
+        }
+      },
+
+      "Balance_Account": {
+        "id": {
+          "type": "integer",
+          "required": true
+        },
+        "type": {
+          "type": "string",
+          "required": true
+        },
+        "balance": {
+          "type": "string",
+          "required": true
+        },
+        "open_date": {
+          "type": "string",
+          "required": true
+        },
+        "total_assets": {
+          "type": "string",
+          "required": true
+        },
+        "consolidated": {
+          "type": "string",
+          "required": true
+        },
+        "user_id": {
+          "type": "integer",
+          "required": true
+        },
+        "branch_id": {
+          "type": "integer",
+          "required": true
+        },
+        "user": {
+          "id": {
+            "type": "integer",
+            "required": true
+          },
+          "name": {
+            "type": "string",
+            "required": true
+          },
+          "email": {
+            "type": "string",
+            "required": true
+          },
+          "cpf": {
+            "type": "string",
+            "required": true
+          },
+          "gender": {
+            "type": "string",
+            "required": true
+          },
+          "birth_date": {
+            "type": "string",
+            "required": true
+          },
+          "password": {
+            "type": "string",
+            "required": true
+          },
+          "phone": {
+            "type": "string",
+            "required": true
+          },
+          "status": {
+            "type": "boolean",
+            "required": true
+          },
+          "kind": {
+            "type": "string",
+            "required": true
+          },
+          "created_at": {
+            "type": "string",
+            "required": true
+          },
+          "updated_at": {
+            "type": "string",
+            "required": true
+          },
+          "address_id": {
+            "type": "integer",
+            "required": true
+          }
+        },
+        "branch": {
+          "id": {
+            "type": "integer",
+            "required": true
+          },
+          "name": {
+            "type": "string",
+            "required": true
           }
         }
       }
