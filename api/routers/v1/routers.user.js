@@ -66,7 +66,7 @@ module.exports = (router) => {
         'any.required': `"zip_code" is a required field`,
         'string.empty': `"zip_code" can not be empty`
       }),
-      complement: joi.string().optional(),
+      complement: joi.string().allow(""),
       auth: joi.boolean().optional()
     }),
     userController.registerController
