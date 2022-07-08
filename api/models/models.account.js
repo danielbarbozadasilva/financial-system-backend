@@ -9,16 +9,19 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER
       },
       number: {
-        allowNull: false,
-        type: DataTypes.TEXT
+        allowNull: true,
+        type: DataTypes.TEXT,
+        defaultValue: Math.floor(Math.random() * String(65536124))+'-0'
       },
       type: {
-        allowNull: false,
-        type: DataTypes.TEXT
+        allowNull: true,
+        type: DataTypes.TEXT,
+        defaultValue: 'C/C'
       },
       balance: {
-        allowNull: false,
-        type: DataTypes.FLOAT
+        allowNull: true,
+        type: DataTypes.FLOAT,
+        defaultValue: 0
       },
       open_date: {
         allowNull: true,

@@ -9,8 +9,9 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER
       },
       name: {
-        allowNull: false,
-        type: DataTypes.TEXT
+        allowNull: true,
+        type: DataTypes.TEXT,
+        defaultValue: 'Agência 01'
       }
     },
     {

@@ -10,8 +10,9 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       name: {
-        allowNull: false,
-        type: Sequelize.TEXT
+        type: Sequelize.TEXT,
+        allowNull: true,
+        defaultValue: 'Agência 01'
       }
     })
   },

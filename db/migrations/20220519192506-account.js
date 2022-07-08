@@ -10,15 +10,17 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       number: {
-        allowNull: false,
-        type: Sequelize.TEXT
+        allowNull: true,
+        type: Sequelize.TEXT,
+        defaultValue: Math.floor(Math.random() * String(655361241))+'-0'
       },
       type: {
-        allowNull: false,
-        type: Sequelize.TEXT
+        allowNull: true,
+        type: Sequelize.TEXT,
+        defaultValue: 'C/C'
       },
       balance: {
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.DECIMAL(15, 2),
         defaultValue: 0
       },

@@ -9,12 +9,14 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER
       },
       name: {
-        allowNull: false,
-        type: DataTypes.TEXT
+        allowNull: true,
+        type: DataTypes.TEXT,
+        defaultValue: 'Banco 01'
       },
       branch: {
-        allowNull: false,
-        type: DataTypes.TEXT
+        allowNull: true,
+        type: DataTypes.TEXT,
+        defaultValue: '0845'
       }
     },
     {
