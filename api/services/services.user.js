@@ -1,4 +1,4 @@
-const { user, address, account } = require('../models/models.index')
+const { user, address, account, branch } = require('../models/models.index')
 const cryptography = require('../utils/utils.cryptography')
 const userMapper = require('../mappers/mappers.user')
 const { Op } = require('sequelize')
@@ -63,18 +63,8 @@ const verifyFunctionalityProfileService = async (typeUser, test) => {
 }
 
 const createCredentialService = async (cpf) => {
-  const userDB = await account.findOne({
-    include: [
-      {
-        model: user,
-        as: 'user',
-        right: true,
-        required: false,
-        where: {
-          cpf: cpf
-        }
-      }
-    ]
+  const userDB = await user.findOne({
+    where: { cpf: cpf }
   })
 
   const userDTO = userMapper.toUserDTO(userDB)
@@ -190,8 +180,17 @@ const registerService = async (body) => {
     address_id: addressDB.cod_address
   })
 
+  const branchDB = await branch.create({
+    name: 'Agência 01'
+  })
+  
+  const accountDB = await account.create({
+    user_id: userDB.cod_user,
+    branch_id: branchDB.cod_branch
+  })
+
   if (body.auth) {
-    var data = await createCredentialService(body.email)
+    var data = await createCredentialService(body.cpf)
   }
 
   return {
