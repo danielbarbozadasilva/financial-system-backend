@@ -1,41 +1,22 @@
+const { QueryTypes } = require('sequelize')
 const {
   user,
   address,
-  transaction,
-  transaction_details,
-  financial_asset_catalog
+  sequelize
 } = require('../models/models.index')
 const cryptography = require('../utils/utils.cryptography')
 const clientMapper = require('../mappers/mappers.client')
 const serviceUser = require('./services.user')
 
 const listAllClientsService = async () => {
-  const userDB = await transaction.findAll({
-    include: [
-      {
-        model: user,
-        as: 'user',
-        right: true,
-        where: { kind: 'client' },
-        include: {
-          model: address,
-          as: 'address'
-        }
-      },
-      {
-        model: transaction_details,
-        as: 'transaction_details',
-        include: {
-          model: financial_asset_catalog,
-          as: 'financial_asset_catalog'
-        }
-      }
-    ]
-  })
+  const userDB = await sequelize.query(
+    'SELECT *, u.name as user_name FROM user u INNER JOIN address d ON u.address_id = d.cod_address LEFT JOIN transaction t on t.user_id=u.cod_user LEFT JOIN transaction_details td ON t.cod_transaction=td.transaction_id LEFT JOIN financial_asset_catalog f ON td.financial_asset_id = f.cod_fin_asset WHERE u.kind="client" GROUP BY u.cod_user ORDER BY u.name;',
+    { type: QueryTypes.SELECT }
+  )
   return {
     success: true,
-    message: 'Clientes listados com sucesso!',
-    data: userDB.map((item) => {
+    message: 'Cliente(s) listado(s) com sucesso!',
+    data: userDB.map((item)=>{
       return clientMapper.toDTO(item)
     })
   }
