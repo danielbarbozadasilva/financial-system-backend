@@ -11,16 +11,20 @@ const transactionMapper = require('../mappers/mappers.transaction')
 const { Op } = require('sequelize')
 
 const createTransactionService = async (params, body) => {
-  const accountDB = await account.findOne({
-    where: { user_id: params.clientid }
-  })
 
-  var checkBalance = Number(accountDB.balance) > Number(body.total_price)
-
-  if (!checkBalance) {
+  var balance = await verifyBalance(params.clientid, body.total_price) 
+  if (!balance) {
     return {
       success: false,
       details: 'Saldo insuficiente para realizar a transação!'
+    }
+  }
+
+  var quantity = await verifyQuantity(params.assetid, body.quantity)
+  if (!quantity) {
+    return {
+      success: false,
+      details: 'Quantidade indisponível no momento!'
     }
   }
 
@@ -52,14 +56,19 @@ const createTransactionService = async (params, body) => {
     }
   }
 
-  accountDB.balance = accountDB.balance - body.total_price
-
-  const resultDB = await accountDB.save()
-
-  if (!resultDB) {
+  var subQuantity = await subtractQuantity(params.assetid, body.quantity)
+  if (!subQuantity) {
     return {
       success: false,
       details: ['Erro ao atualizar o valor em conta!']
+    }
+  }
+
+  var subBalance = await subtractBalance(params.clientid, body)
+  if (!subBalance) {
+    return {
+      success: false,
+      details: ['Erro ao atualizar a quantidade!']
     }
   }
 
@@ -76,7 +85,7 @@ const createDepositService = async (clientid, body) => {
   })
 
   accountDB.balance = Number(accountDB.balance) + Number(body.value)
-
+  
   const transactionDB = await transaction.create({
     sub_total: body.value,
     total_price: body.value,
@@ -209,6 +218,36 @@ const listByIdUserDepositService = async (id) => {
       return transactionMapper.toDTOListDeposit(item)
     })
   }
+}
+
+const verifyQuantity = async (assetid, quantity) => {
+  const result = await financial_asset_catalog.findByPk(assetid)
+  var checkCount = Number(result.quantity) >= Number(quantity)
+  return checkCount
+}
+
+const verifyBalance = async (id, total_price) => {
+  const result = await account.findOne({
+    where: { user_id: id}
+  })
+  var checkCount = Number(result.balance) >= Number(total_price)
+  return checkCount
+}
+
+const subtractQuantity = async (id, quantity) => {
+  const result = await financial_asset_catalog.findByPk(id)
+  result.quantity = result.quantity - quantity
+  const resultDB = await result.save()
+  return resultDB
+}
+
+const subtractBalance = async (id, body) => {
+  const accountDB = await account.findOne({
+    where: { user_id: id}
+  })
+  accountDB.balance = accountDB.balance - body.total_price
+  const resultDB = await accountDB.save()
+  return resultDB
 }
 
 module.exports = {
