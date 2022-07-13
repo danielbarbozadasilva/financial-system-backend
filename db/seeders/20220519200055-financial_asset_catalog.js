@@ -6,8 +6,8 @@ module.exports = {
       'financial_asset_catalog',
       [
         {
-          name: 'Empresa01',
-          description: 'Empresa01 é uma empresa dos Estados Unidos que desenvolve, fabrica, licencia, apoia e vende softwares de computador.',
+          name: 'Ativo 1',
+          description: 'Uma empresa dos Estados Unidos que desenvolve, fabrica, licencia, apoia e vende softwares de computador.',
           bvmf: 'SSFT34',
           current_price: 53.95,
           quantity: 100,
@@ -18,8 +18,8 @@ module.exports = {
           })
         },
         {
-          name: 'Empresa02',
-          description: 'Empresa02 é uma fabricante de automóveis multinacional estadunidense sediada em Dearborn, Michigan.',
+          name: 'Ativo 2',
+          description: 'Uma fabricante de automóveis multinacional estadunidense sediada em Dearborn, Michigan.',
           bvmf: 'WDMO34',
           current_price: 64.19,
           quantity: 200,
@@ -30,8 +30,8 @@ module.exports = {
           })
         },
         {
-          name: 'Empresa03',
-          description: 'Empresa03 é uma empresa argentina de tecnologia que oferece soluções de comércio eletrônico. ',
+          name: 'Ativo 3',
+          description: 'Uma empresa argentina de tecnologia que oferece soluções de comércio eletrônico. ',
           bvmf: 'MWLI14',
           current_price: 31.99,
           quantity: 100,
@@ -42,8 +42,8 @@ module.exports = {
           })
         },
         {
-          name: 'Empresa04',
-          description: 'Empresa04 é o maior fabricante de automóveis do mundo',
+          name: 'Ativo 4',
+          description: 'O maior fabricante de automóveis do mundo.',
           bvmf: 'SFNB12',
           current_price: 32.12,
           quantity: 50,
@@ -54,8 +54,8 @@ module.exports = {
           })
         },
         {
-          name: 'Empresa05',
-          description: 'Empresa05 é o maior banco brasileiro, com sede na cidade de São Paulo, no estado homônimo.',
+          name: 'Ativo 5',
+          description: 'O maior banco brasileiro, com sede na cidade de São Paulo, no estado homônimo.',
           bvmf: 'IGUB4',
           current_price: 25.73,
           quantity: 150,
@@ -66,8 +66,8 @@ module.exports = {
           })
         },
         {
-          name: 'Empresa06',
-          description: 'Empresa06 é uma empresa multinacional de tecnologia que fabrica softwares e hardwares.',
+          name: 'Ativo 6',
+          description: 'Uma empresa multinacional de tecnologia que fabrica softwares e hardwares.',
           bvmf: 'CVDC34',
           current_price: 18.75,
           quantity: 300,
@@ -78,8 +78,8 @@ module.exports = {
           })
         },
         {
-          name: 'Empresa07',
-          description: 'Empresa06 é uma empresa multinacional e de tecnologia sediada em Santa Clara, Califórnia, no Vale do Silício.',
+          name: 'Ativo 7',
+          description: 'Uma empresa multinacional e de tecnologia sediada em Santa Clara, Califórnia, no Vale do Silício.',
           bvmf: 'ETLC34',
           current_price: 34.93,
           quantity: 250,
@@ -90,10 +90,10 @@ module.exports = {
           })
         },
         {
-          name: 'Empresa08',
-          description: 'Empresa08 é uma empresa Estado-unidense fabricante de circuitos integrados, especialmente processadores e placas de vídeo.',
+          name: 'Ativo 8',
+          description: 'Uma empresa Estado-unidense fabricante de circuitos integrados, especialmente processadores e placas de vídeo.',
           bvmf: 'WMD34',
-          current_price: 510.04,
+          current_price: 50.04,
           quantity: 50,
           image: JSON.stringify({
             origin: 'img08.jpg',
