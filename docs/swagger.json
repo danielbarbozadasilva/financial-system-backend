@@ -49,7 +49,7 @@
                 "schema": {
                   "type": "object",
                   "items": {
-                    "$ref": "#/components/schemas/Auth"
+                    "$ref": "#/components/schemas/List_Auth"
                   }
                 }
               }
@@ -947,6 +947,33 @@
           }
         }
       },
+
+      "List_Auth": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "required": true
+          },
+          "name": {
+            "type": "string",
+            "required": true
+          },
+          "email": {
+            "type": "string",
+            "required": true
+          },
+          "cpf": {
+            "type": "string",
+            "required": true
+          },
+          "type": {
+            "type": "integer",
+            "required": true
+          }
+        }
+      },
+      
       "Register": {
         "type": "object",
         "properties": {
