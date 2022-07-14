@@ -2,6 +2,7 @@ const joi = require('joi')
 const transactionController = require('../../controllers/controllers.transaction')
 const middlewareValidateDTO = require('../../utils/middlewares/middlewares.validate_dto')
 const authorizationMiddleware = require('../../utils/middlewares/middlewares.authorization')
+const asyncMiddleware = require('../../utils/middlewares/middlewares.async')
 
 module.exports = (router) => {
   router.route('/transaction/client/:clientid/asset/:assetid').post(
@@ -34,7 +35,7 @@ module.exports = (router) => {
         'number.empty': `"quantity" can not be empty`
       })
     }),
-    transactionController.createTransactionController
+    asyncMiddleware(transactionController.createTransactionController)
   )
 
   router.route('/transaction/deposit/client/:clientid').post(
@@ -67,7 +68,7 @@ module.exports = (router) => {
         'number.empty': `"value" can not be empty`
       })
     }),
-    transactionController.createDepositController
+    asyncMiddleware(transactionController.createDepositController)
   )
 
   router

@@ -3,6 +3,7 @@ const joi = require('joi')
 const clientController = require('../../controllers/controllers.client')
 const middlewareValidateDTO = require('../../utils/middlewares/middlewares.validate_dto')
 const authorizationMiddleware = require('../../utils/middlewares/middlewares.authorization')
+const asyncMiddleware = require('../../utils/middlewares/middlewares.async')
 
 module.exports = (router) => {
   router
@@ -86,7 +87,7 @@ module.exports = (router) => {
           'string.empty': `"complement" can not be empty`
         })
       }),
-      clientController.updateClientController
+      asyncMiddleware(clientController.updateClientController)
     )
 
   router.route('/client/:clientid/status/:status').put(

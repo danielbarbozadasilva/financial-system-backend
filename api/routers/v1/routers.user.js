@@ -1,6 +1,7 @@
 const joi = require('joi')
 const userController = require('../../controllers/controllers.user')
 const middlewareValidateDTO = require('../../utils/middlewares/middlewares.validate_dto')
+const asyncMiddleware = require('../../utils/middlewares/middlewares.async')
 
 module.exports = (router) => {
   router.route('/auth').post(
@@ -69,6 +70,6 @@ module.exports = (router) => {
       complement: joi.string().allow(""),
       auth: joi.boolean().optional()
     }),
-    userController.registerController
+    asyncMiddleware(userController.registerController)
   )
 }
