@@ -4,7 +4,7 @@ const asyncMiddleware = (fn, options) => (req, res, next) => {
   fn(req, res, next).catch((err) => {
     if (err instanceof ErrorGeneric) {
       return res.status(err.statusCode).send({
-        details: [err.message]
+        message: err.message
       })
     }
     return res.status(500).send({
