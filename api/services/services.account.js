@@ -18,9 +18,7 @@ const listAllAccountService = async () => {
   return {
     success: true,
     message: 'Informações bancárias listadas com sucesso!',
-    data: accountDB.map((item) => {
-      return accountMapper.toDTO(item)
-    })
+    data: accountDB.map((item) => accountMapper.toDTO(item))
   }
 }
 

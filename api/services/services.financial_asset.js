@@ -11,9 +11,7 @@ const listFinancialAssetsService = async () => {
   return {
     success: true,
     message: 'Ativos listados com sucesso!',
-    data: financialDB.map((item) => {
-      return financialAssetMapper.toDTO(item)
-    })
+    data: financialDB.map((item) => financialAssetMapper.toDTO(item))
   }
 }
 
@@ -140,9 +138,7 @@ const listTop05FinancialAssetsService = async () => {
   return {
     success: true,
     message: 'Top 05 listado com sucesso!',
-    data: financialDB.map((item) => {
-      return financialAssetMapper.toDTO(item)
-    })
+    data: financialDB.map((item) => financialAssetMapper.toDTO(item))
   }
 }
 

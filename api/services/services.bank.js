@@ -7,9 +7,7 @@ const listAllBanksService = async () => {
   return {
     success: true,
     message: 'Bancos listados com sucesso!',
-     data: bankDB.map((item) => {
-       return bankMapper.toDTO(item)
-    })
+    data: bankDB.map((item) => bankMapper.toDTO(item))
   }
 }
 module.exports = {
