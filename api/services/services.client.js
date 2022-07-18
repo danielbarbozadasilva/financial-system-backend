@@ -1,9 +1,8 @@
 const { QueryTypes } = require('sequelize')
-const {
-  user,
-  address,
-  sequelize
-} = require('../models/models.index')
+const { user, address, sequelize } = require('../models/models.index')
+const ErrorGeneric = require('../utils/errors/erros.generic_error')
+const ErrorBusinessRule = require('../utils/errors/errors.business_rule')
+
 const cryptography = require('../utils/utils.cryptography')
 const clientMapper = require('../mappers/mappers.client')
 const serviceUser = require('./services.user')
@@ -16,9 +15,7 @@ const listAllClientsService = async () => {
   return {
     success: true,
     message: 'Cliente(s) listado(s) com sucesso!',
-    data: userDB.map((item)=>{
-      return clientMapper.toDTO(item)
-    })
+    data: userDB.map((item) => clientMapper.toDTO(item))
   }
 }
 
@@ -54,7 +51,7 @@ const changeStatusService = async (clientId, status) => {
 
   const resultDB = await user.update(
     {
-      status: status
+      status
     },
     { where: { cod_user: clientId } }
   )
@@ -65,7 +62,7 @@ const changeStatusService = async (clientId, status) => {
       message: 'Status atualizado com sucesso!',
       data: {
         name: clientDB.name,
-        status: status
+        status
       }
     }
   }
@@ -82,11 +79,7 @@ const updateClientService = async (clientId, body) => {
   const resultFind = await user.findByPk(clientId)
 
   if (!resultFind) {
-    return {
-      success: false,
-      message: 'Operação não pode ser realizada!',
-      details: ['Não existe um cliente com esse id']
-    }
+    throw new ErrorBusinessRule('Não existe um cliente com esse id!')
   }
 
   const resultEmail = await serviceUser.verifyEmailBodyExistService(
@@ -94,11 +87,7 @@ const updateClientService = async (clientId, body) => {
     body.email
   )
   if (resultEmail) {
-    return {
-      success: false,
-      message: 'Já existe este e-mail em nossa base de dados',
-      details: ['Este e-mail já está em uso']
-    }
+    throw new ErrorBusinessRule('Este e-mail já está em uso!')
   }
 
   const resultCpf = await serviceUser.verifyCpfBodyExistService(
@@ -106,44 +95,42 @@ const updateClientService = async (clientId, body) => {
     body.cpf
   )
   if (resultCpf) {
-    return {
-      success: false,
-      message: 'Já existe este cpf em nossa base de dados',
-      details: ['Este cpf já está em uso']
-    }
+    throw new ErrorBusinessRule('Este cpf já está em uso!')
   }
 
-  const addressDB = await address.update(
-    {
-      address: body.address,
-      uf: body.uf,
-      city: body.city,
-      zip_code: body.zip_code,
-      complement: body.complement
-    },
-    { where: { cod_address: body.cod_address } }
-  )
+  const infoTransaction = await sequelize.transaction()
 
-  const clientDB = await user.update(
-    {
-      name: body.name,
-      email: body.email,
-      cpf: body.cpf,
-      gender: body.gender,
-      birth_date: body.birth_date,
-      password: cryptography.UtilCreateHash(body.password),
-      phone: body.phone,
-      address_id: body.cod_address
-    },
-    { where: { cod_user: clientId } }
-  )
+  try {
+    await address.update(
+      {
+        address: body.address,
+        uf: body.uf,
+        city: body.city,
+        zip_code: body.zip_code,
+        complement: body.complement
+      },
+      { where: { cod_address: body.cod_address } },
+      { transaction: infoTransaction }
+    )
 
-  if (!clientDB || !addressDB) {
-    return {
-      success: false,
-      message: 'Operação não pode ser realizada',
-      details: ['Erro ao atualizar o cliente']
-    }
+    await user.update(
+      {
+        name: body.name,
+        email: body.email,
+        cpf: body.cpf,
+        gender: body.gender,
+        birth_date: body.birth_date,
+        password: cryptography.UtilCreateHash(body.password),
+        phone: body.phone,
+        address_id: body.cod_address
+      },
+      { where: { cod_user: clientId } },
+      { transaction: infoTransaction }
+    )
+    await infoTransaction.commit()
+  } catch (error) {
+    await infoTransaction.rollback()
+    throw new ErrorGeneric('Erro ao atualizar o cliente!')
   }
 
   return {

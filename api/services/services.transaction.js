@@ -1,3 +1,4 @@
+const { Op } = require('sequelize')
 const {
   transaction,
   transaction_details,
@@ -5,14 +6,28 @@ const {
   user,
   financial_asset_catalog,
   transfer,
-  bank
+  bank,
+  sequelize
 } = require('../models/models.index')
 const transactionMapper = require('../mappers/mappers.transaction')
-const { Op } = require('sequelize')
+const ErrorGeneric = require('../utils/errors/erros.generic_error')
+
+const verifyQuantity = async (assetid, quantity) => {
+  const result = await financial_asset_catalog.findByPk(assetid)
+  const checkCount = Number(result.quantity) >= Number(quantity)
+  return checkCount
+}
+
+const verifyBalance = async (id, total_price) => {
+  const result = await account.findOne({
+    where: { user_id: id }
+  })
+  const checkCount = Number(result.balance) >= Number(total_price)
+  return checkCount
+}
 
 const createTransactionService = async (params, body) => {
-
-  var balance = await verifyBalance(params.clientid, body.total_price) 
+  const balance = await verifyBalance(params.clientid, body.total_price)
   if (!balance) {
     return {
       success: false,
@@ -20,7 +35,7 @@ const createTransactionService = async (params, body) => {
     }
   }
 
-  var quantity = await verifyQuantity(params.assetid, body.quantity)
+  const quantity = await verifyQuantity(params.assetid, body.quantity)
   if (!quantity) {
     return {
       success: false,
@@ -28,104 +43,110 @@ const createTransactionService = async (params, body) => {
     }
   }
 
-  const transactionDB = await transaction.create({
-    total_quantity: body.quantity,
-    sub_total: body.subtotal_price,
-    total_price: body.total_price,
-    user_id: params.clientid
-  })
+  const infoTransaction = await sequelize.transaction()
 
-  if (!transactionDB) {
+  try {
+    const transactionDB = await transaction.create(
+      {
+        total_quantity: body.quantity,
+        sub_total: body.subtotal_price,
+        total_price: body.total_price,
+        user_id: params.clientid
+      },
+      { transaction: infoTransaction }
+    )
+
+    const transactionDetailsDB = await transaction_details.create(
+      {
+        quantity: body.quantity,
+        purchase_price: body.current_price,
+        financial_asset_id: params.assetid,
+        transaction_id: transactionDB.cod_transaction
+      },
+      { transaction: infoTransaction }
+    )
+
+    const financialResult = await financial_asset_catalog.findByPk(
+      params.assetid
+    )
+
+    await financial_asset_catalog.update(
+      {
+        quantity: Number(financialResult.quantity) - Number(body.quantity)
+      },
+      { where: { cod_fin_asset: params.assetid } },
+      { transaction: infoTransaction }
+    )
+
+    const accountDB = await account.findOne({
+      where: { user_id: params.clientid }
+    })
+
+    await account.update(
+      {
+        balance: Number(accountDB.balance) - Number(body.total_price)
+      },
+      { where: { user_id: params.clientid } },
+      { transaction: infoTransaction }
+    )
+
+    await infoTransaction.commit()
+
     return {
-      success: false,
-      details: ['Erro ao cadastrar a transação']
+      success: true,
+      message: 'Transação realizada com sucesso!',
+      data: transactionMapper.toDTO(transactionDB, transactionDetailsDB)
     }
-  }
-
-  const transactionDetailsDB = await transaction_details.create({
-    quantity: body.quantity,
-    purchase_price: body.current_price,
-    financial_asset_id: params.assetid,
-    transaction_id: transactionDB.cod_transaction
-  })
-
-  if (!transactionDetailsDB) {
-    return {
-      success: false,
-      details: ['Erro ao cadastrar a transação!']
-    }
-  }
-
-  var subQuantity = await subtractQuantity(params.assetid, body.quantity)
-  if (!subQuantity) {
-    return {
-      success: false,
-      details: ['Erro ao atualizar o valor em conta!']
-    }
-  }
-
-  var subBalance = await subtractBalance(params.clientid, body)
-  if (!subBalance) {
-    return {
-      success: false,
-      details: ['Erro ao atualizar a quantidade!']
-    }
-  }
-
-  return {
-    success: true,
-    message: 'Transação realizada com sucesso!',
-    data: transactionMapper.toDTO(transactionDB, transactionDetailsDB)
+  } catch (error) {
+    await infoTransaction.rollback()
+    throw new ErrorGeneric('Erro ao realizar a transação!')
   }
 }
 
 const createDepositService = async (clientid, body) => {
-  const accountDB = await account.findOne({
-    where: { user_id: clientid }
-  })
+  const infoTransaction = await sequelize.transaction()
+  try {
+    const transactionDB = await transaction.create(
+      {
+        sub_total: body.value,
+        total_price: body.value,
+        user_id: clientid
+      },
+      { transaction: infoTransaction }
+    )
 
-  accountDB.balance = Number(accountDB.balance) + Number(body.value)
-  
-  const transactionDB = await transaction.create({
-    sub_total: body.value,
-    total_price: body.value,
-    user_id: clientid
-  })
+    const transferDB = await transfer.create(
+      {
+        origin_cpf: body.origin_cpf,
+        deposit_value: body.value,
+        transaction_id: transactionDB.cod_transaction,
+        bank_id: body.bank_id
+      },
+      { transaction: infoTransaction }
+    )
 
-  if (!transactionDB) {
+    const accountDB = await account.findOne(
+      { where: { user_id: clientid } },
+      { transaction: infoTransaction }
+    )
+
+    await account.update(
+      {
+        balance: Number(accountDB.balance) + Number(body.value)
+      },
+      { where: { user_id: clientid } },
+      { transaction: infoTransaction }
+    )
+
+    await infoTransaction.commit()
     return {
-      success: false,
-      details: ['Erro ao cadastrar a transação!']
+      success: true,
+      message: 'Transação cadastrada com sucesso!',
+      data: transactionMapper.toDTODeposit(transferDB)
     }
-  }
-
-  const transferDB = await transfer.create({
-    origin_cpf: body.origin_cpf,
-    deposit_value: body.value,
-    transaction_id: transactionDB.cod_transaction,
-    bank_id: body.bank_id
-  })
-
-  if (!transferDB) {
-    return {
-      success: false,
-      details: ['Erro ao realizar o depósito!']
-    }
-  }
-
-  const resultDB = await accountDB.save()
-
-  if (!resultDB) {
-    return {
-      success: false,
-      details: ['Erro ao registrar o valor!']
-    }
-  }
-
-  return {
-    success: true,
-    message: 'Transação cadastrada com sucesso!',
-    data: transactionMapper.toDTODeposit(transferDB)
+  } catch (error) {
+    await infoTransaction.rollback()
+    throw new ErrorGeneric('Erro ao realizar o depósito!')
   }
 }
 
@@ -155,9 +176,7 @@ const listAllUserTransactionService = async () => {
   return {
     success: true,
     message: 'Transações listadas com sucesso!',
-    data: userDB.map((item) => {
-      return transactionMapper.toDTOUserIdAssets(item)
-    })
+    data: userDB.map((item) => transactionMapper.toDTOUserIdAssets(item))
   }
 }
 
@@ -188,9 +207,7 @@ const listByIdUserTransactionService = async (id) => {
   return {
     success: true,
     message: 'Transações listadas com sucesso!',
-    data: userDB.map((item) => {
-      return transactionMapper.toDTOUserIdAssets(item)
-    })
+    data: userDB.map((item) => transactionMapper.toDTOUserIdAssets(item))
   }
 }
 
@@ -214,40 +231,8 @@ const listByIdUserDepositService = async (id) => {
   return {
     success: true,
     message: 'Depósito(s) listado(s) com sucesso!',
-    data: userDB.map((item) => {
-      return transactionMapper.toDTOListDeposit(item)
-    })
+    data: userDB.map((item) => transactionMapper.toDTOListDeposit(item))
   }
-}
-
-const verifyQuantity = async (assetid, quantity) => {
-  const result = await financial_asset_catalog.findByPk(assetid)
-  var checkCount = Number(result.quantity) >= Number(quantity)
-  return checkCount
-}
-
-const verifyBalance = async (id, total_price) => {
-  const result = await account.findOne({
-    where: { user_id: id}
-  })
-  var checkCount = Number(result.balance) >= Number(total_price)
-  return checkCount
-}
-
-const subtractQuantity = async (id, quantity) => {
-  const result = await financial_asset_catalog.findByPk(id)
-  result.quantity = result.quantity - quantity
-  const resultDB = await result.save()
-  return resultDB
-}
-
-const subtractBalance = async (id, body) => {
-  const accountDB = await account.findOne({
-    where: { user_id: id}
-  })
-  accountDB.balance = accountDB.balance - body.total_price
-  const resultDB = await accountDB.save()
-  return resultDB
 }
 
 module.exports = {

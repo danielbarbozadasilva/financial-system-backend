@@ -1,7 +1,15 @@
-const { user, address, account, branch } = require('../models/models.index')
+const { Op } = require('sequelize')
+const {
+  user,
+  address,
+  account,
+  branch,
+  sequelize
+} = require('../models/models.index')
 const cryptography = require('../utils/utils.cryptography')
 const userMapper = require('../mappers/mappers.user')
-const { Op } = require('sequelize')
+const ErrorGeneric = require('../utils/errors/erros.generic_error')
+const ErrorBusinessRule = require('../utils/errors/errors.business_rule')
 
 const profile = [
   {
@@ -40,31 +48,37 @@ const profile = [
 const userIsValidService = async (cpf, password) => {
   const userDB = await user.findOne({
     where: {
-      cpf: cpf,
+      cpf,
       password: cryptography.UtilCreateHash(password)
     }
   })
-  return userDB ? true : false
+  return !!userDB
 }
 
-const searchTypeUserByIdService = (type) => {
-  return profile.find((item) => {
-    return item.id === type
+const userIsActiveService = async (cpf) => {
+  const resultDB = await user.findOne({
+    where: {
+      cpf,
+      status: 1
+    }
   })
+  return !!resultDB
 }
+
+const searchTypeUserByIdService = (type) =>
+  profile.find((item) => item.id === type)
 
 const verifyFunctionalityProfileService = async (typeUser, test) => {
   const profile = searchTypeUserByIdService(typeUser)
   if (profile?.functionality?.includes(test) == true && profile.id) {
     return false
-  } else {
-    return true
   }
+  return true
 }
 
 const createCredentialService = async (cpf) => {
   const userDB = await user.findOne({
-    where: { cpf: cpf }
+    where: { cpf }
   })
 
   const userDTO = userMapper.toUserDTO(userDB)
@@ -75,8 +89,8 @@ const createCredentialService = async (cpf) => {
       token: userToken,
       userDTO
     }
-    return false
   }
+  return false
 }
 
 const authService = async (cpf, password) => {
@@ -86,6 +100,14 @@ const authService = async (cpf, password) => {
       success: false,
       message: 'Não foi possivel autenticar o usuário',
       details: ['Cpf ou senha inválidos!']
+    }
+  }
+  const resultActive = await userIsActiveService(cpf)
+  if (!resultActive) {
+    return {
+      success: false,
+      message: 'Não fo possivel efetuar o login',
+      details: ['Sua conta foi desativada pelo Administrador!']
     }
   }
   const resultCredentials = await createCredentialService(cpf)
@@ -105,7 +127,7 @@ const authService = async (cpf, password) => {
 const verifyEmailExists = async (email) => {
   const resultEmail = await user.findOne({
     where: {
-      email: email
+      email
     }
   })
   return resultEmail
@@ -114,89 +136,102 @@ const verifyEmailExists = async (email) => {
 const verifyCpfExists = async (cpf) => {
   const resulCpf = await user.findOne({
     where: {
-      cpf: cpf
+      cpf
     }
   })
-  return resulCpf ? true : false
+  return !!resulCpf
 }
 
 const verifyEmailBodyExistService = async (id, email) => {
   const users = await user.findOne({
     where: {
-      email: email,
+      email,
       cod_user: { [Op.notIn]: [id] }
     }
   })
-  return users === null ? false : true
+  return users !== null
 }
 
 const verifyCpfBodyExistService = async (id, cpf) => {
   const users = await user.findOne({
     where: {
-      cpf: cpf,
+      cpf,
       cod_user: { [Op.notIn]: [id] }
     }
   })
-  return users === null ? false : true
+  return users !== null
 }
 
 const registerService = async (body) => {
+  let data = {}
   const resultEmail = await verifyEmailExists(body.email)
   if (resultEmail) {
-    return {
-      success: false,
-      message: 'Já existe este e-mail em nossa base de dados',
-      details: ['Este e-mail já está em uso']
-    }
+    throw new ErrorBusinessRule('Este e-mail já está em uso!')
   }
 
   const resultCpf = await verifyCpfExists(body.cpf)
   if (resultCpf) {
-    return {
-      success: false,
-      message: 'Já existe este cpf em nossa base de dados',
-      details: ['Este cpf já está em uso']
+    throw new ErrorBusinessRule('Este cpf já está em uso!')
+  }
+
+  const infoTransaction = await sequelize.transaction()
+  try {
+    const addressDB = await address.create(
+      {
+        address: body.address,
+        uf: body.uf,
+        city: body.city,
+        zip_code: body.zip_code,
+        complement: body.complement
+      },
+      { transaction: infoTransaction }
+    )
+
+    const userDB = await user.create(
+      {
+        name: body.name,
+        email: body.email,
+        cpf: body.cpf,
+        gender: body.gender,
+        birth_date: body.birth_date,
+        password: cryptography.UtilCreateHash(body.password),
+        status: body.status,
+        phone: body.phone,
+        kind: 'client',
+        address_id: addressDB.cod_address
+      },
+      { transaction: infoTransaction }
+    )
+
+    const branchDB = await branch.create(
+      {
+        name: 'Agência 01'
+      },
+      { transaction: infoTransaction }
+    )
+
+    await account.create(
+      {
+        user_id: userDB.cod_user,
+        branch_id: branchDB.cod_branch
+      },
+      { transaction: infoTransaction }
+    )
+
+    await infoTransaction.commit()
+
+    if (body.auth) {
+      data = await createCredentialService(body.cpf)
     }
-  }
 
-  const addressDB = await address.create({
-    address: body.address,
-    uf: body.uf,
-    city: body.city,
-    zip_code: body.zip_code,
-    complement: body.complement
-  })
-
-  const userDB = await user.create({
-    name: body.name,
-    email: body.email,
-    cpf: body.cpf,
-    gender: body.gender,
-    birth_date: body.birth_date,
-    password: cryptography.UtilCreateHash(body.password),
-    status: body.status,
-    phone: body.phone,
-    kind: 'client',
-    address_id: addressDB.cod_address
-  })
-
-  const branchDB = await branch.create({
-    name: 'Agência 01'
-  })
-  
-  const accountDB = await account.create({
-    user_id: userDB.cod_user,
-    branch_id: branchDB.cod_branch
-  })
-
-  if (body.auth) {
-    var data = await createCredentialService(body.cpf)
-  }
-
-  return {
-    success: true,
-    message: 'Cadastro realizado com sucesso!',
-    data: data || userMapper.toUserRegister(userDB, addressDB)
+    return {
+      success: true,
+      message: 'Cadastro realizado com sucesso!',
+      data: data || userMapper.toUserRegister(userDB, addressDB)
+    }
+  } catch (error) {
+    await infoTransaction.rollback()
+    throw new ErrorGeneric('Não foi possivel realizar o cadastro!')
   }
 }
 
