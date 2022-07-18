@@ -69,29 +69,17 @@ const createTransactionService = async (params, body) => {
     const financialResult = await financial_asset_catalog.findByPk(
       params.assetid
     )
-
-    await financial_asset_catalog.update(
-      {
-        quantity: Number(financialResult.quantity) - Number(body.quantity)
-      },
-      { where: { cod_fin_asset: params.assetid } },
-      { transaction: infoTransaction }
-    )
+    financialResult.quantity -= Number(body.quantity)
+    await financialResult.save({ transaction: infoTransaction })
 
     const accountDB = await account.findOne({
       where: { user_id: params.clientid }
     })
+    accountDB.balance -= Number(body.total_price)
+    await accountDB.save({ transaction: infoTransaction })
 
-    await account.update(
-      {
-        balance: Number(accountDB.balance) - Number(body.total_price)
-      },
-      { where: { user_id: params.clientid } },
-      { transaction: infoTransaction }
-    )
 
     await infoTransaction.commit()
-
     return {
       success: true,
       message: 'Transação realizada com sucesso!',

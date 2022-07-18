@@ -114,7 +114,7 @@ const authService = async (cpf, password) => {
   if (!resultCredentials) {
     return {
       success: false,
-      details: ['Foi foi possivel criar uma credencial!']
+      details: ['Não foi possivel criar a credencial!']
     }
   }
   return {
@@ -195,9 +195,9 @@ const registerService = async (body) => {
         gender: body.gender,
         birth_date: body.birth_date,
         password: cryptography.UtilCreateHash(body.password),
-        status: body.status,
         phone: body.phone,
         kind: 'client',
+        status: 'true',
         address_id: addressDB.cod_address
       },
       { transaction: infoTransaction }

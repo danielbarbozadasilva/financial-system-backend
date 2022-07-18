@@ -70,7 +70,7 @@ const changeStatusService = async (clientId, status) => {
   if (!resultDB) {
     return {
       success: false,
-      message: 'Erro ao atualizar o status'
+      message: 'Erro ao atualizar o status!'
     }
   }
 }
@@ -119,6 +119,7 @@ const updateClientService = async (clientId, body) => {
         email: body.email,
         cpf: body.cpf,
         gender: body.gender,
+        kind: 'client',
         birth_date: body.birth_date,
         password: cryptography.UtilCreateHash(body.password),
         phone: body.phone,
