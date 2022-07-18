@@ -46,7 +46,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"cpf\": \"233.113.223-35\",\n    \"password\": \"tatiana\"\n}",
+							"raw": "{\n    \"cpf\": \"413.423.614-41\",\n    \"password\": \"daniel\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -75,7 +75,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"name\": \"Daniel\",\r\n  \"email\": \"daniedldd@gmail.com\",\r\n  \"cpf\": \"113.123.123.90\",\r\n  \"gender\": \"M\",\r\n  \"birth_date\": \"1990/09/08\",\r\n  \"password\": \"daniel\",\r\n  \"phone\": \"(21)2321-2345\",\r\n  \"status\": true,\r\n  \"address\": \"Rua abc, 123\",\r\n  \"uf\": \"RJ\",\r\n  \"city\": \"Rio de janeiro\",\r\n  \"zip_code\": \"23454-234\",\r\n  \"complement\": \"casa\"\r\n}",
+							"raw": "{\r\n  \"name\": \"Daniel\",\r\n  \"email\": \"d22@gmail.com\",\r\n  \"cpf\": \"222.123.123.90\",\r\n  \"gender\": \"M\",\r\n  \"birth_date\": \"1990/09/08\",\r\n  \"password\": \"daniel\",\r\n  \"phone\": \"(21)2321-2345\",\r\n  \"address\": \"Rua abc, 123\",\r\n  \"uf\": \"RJ\",\r\n  \"city\": \"Rio de janeiro\",\r\n  \"zip_code\": \"23454-234\",\r\n  \"complement\": \"casa\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -596,7 +596,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Gabriel\",\r\n    \"email\": \"fatima@gmail.com\",\r\n    \"cpf\": \"231.113.223-35\",\r\n    \"gender\": \"M\",\r\n    \"birth_date\": \"1999/09/02\",\r\n    \"password\": \"gabriel\",\r\n    \"phone\": \"(21) 2345-0987\",\r\n    \"cod_address\": \"2\",\r\n    \"address\": \"Rua gabriel\",\r\n    \"uf\": \"SP\",\r\n    \"city\": \"São Paulo\",\r\n    \"zip_code\": \"235558-200\",\r\n    \"complement\": \"casa\"\r\n}",
+							"raw": "{\r\n    \"name\": \"dddd\",\r\n    \"email\": \"fatima@gmail.com\",\r\n    \"cpf\": \"231.113.223-35\",\r\n    \"gender\": \"M\",\r\n    \"birth_date\": \"1999/09/02\",\r\n    \"password\": \"gabriel\",\r\n    \"phone\": \"(21) 2345-0987\",\r\n    \"cod_address\": \"2\",\r\n    \"address\": \"Rua gabriel\",\r\n    \"uf\": \"SP\",\r\n    \"city\": \"São Paulo\",\r\n    \"zip_code\": \"235558-200\",\r\n    \"complement\": \"casa\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -718,7 +718,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3011/v1/transaction/client/3/asset/2",
+							"raw": "http://localhost:3011/v1/transaction/client/2/asset/1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -728,9 +728,9 @@
 								"v1",
 								"transaction",
 								"client",
-								"3",
+								"2",
 								"asset",
-								"2"
+								"1"
 							],
 							"query": [
 								{

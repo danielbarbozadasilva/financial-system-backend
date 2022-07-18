@@ -37,10 +37,7 @@
         },
         "responses": {
           "400": {
-            "description": [
-              "Cpf ou senha inválidos!",
-              "Foi foi possivel criar uma credencial!"
-            ]
+            "description": "Cpf ou senha inválidos!\n\nFoi foi possivel criar uma credencial! \n\n Sua conta foi desativada pelo Administrador!"
           },
           "200": {
             "description": "Usuário autenticado com sucesso!",
@@ -80,8 +77,6 @@
                     "birth_date": "1990/09/08",
                     "password": "daniel",
                     "phone": "(21)2321-2345",
-                    "status": "Ativo",
-                    "kind": "client",
                     "address": "Rua abc, 123",
                     "uf": "RJ",
                     "city": "Rio de janeiro",
@@ -95,10 +90,7 @@
         },
         "responses": {
           "400": {
-            "description": [
-              "Este e-mail já está em uso",
-              "Este cpf já está em uso"
-            ]
+            "description": "Este e-mail já está em uso! \n\n Este cpf já está em uso! \n\n Não foi possivel realizar o cadastro!"
           },
           "200": {
             "description": "Cadastro realizado com sucesso!",
@@ -167,8 +159,7 @@
           },
           "400": {
             "description": [
-              "Erro ao cadastrar o ativo!",
-              "Não foi possivel mover a imagem!"
+              "Erro ao cadastrar o ativo! \n\n Não foi possivel mover a imagem!"
             ]
           },
           "200": {
@@ -265,10 +256,7 @@
             "description": "Usuário não autorizado!"
           },
           "400": {
-            "description": [
-              "Não existe um ativo com esse Id!",
-              "Erro ao atualizar o ativo"
-            ]
+            "description": "Não existe um ativo com esse Id!\n\nErro ao atualizar o ativo"
           },
           "200": {
             "description": "Ativo atualizado com sucesso!",
@@ -311,10 +299,7 @@
             "description": "Usuário não autorizado!"
           },
           "400": {
-            "description": [
-              "Erro ao excluir o ativo",
-              "Não existe um ativo com esse Id"
-            ]
+            "description": "Erro ao excluir o ativo\n\nNão existe um ativo com esse Id"
           },
           "200": {
             "description": "Ativo atualizado com sucesso!"
@@ -455,12 +440,7 @@
             "description": "Usuário não autorizado!"
           },
           "400": {
-            "description": [
-              "Não existe um cliente com esse id",
-              "Este e-mail já está em uso",
-              "Este cpf já está em uso",
-              "Erro ao atualizar o cliente"
-            ]
+            "description": "Não existe um cliente com esse id!\n\nEste e-mail já está em uso!\n\nEste cpf já está em uso!\n\nErro ao atualizar o cliente!"
           },
           "200": {
             "description": "Cliente atualizado com sucesso!",
@@ -512,10 +492,7 @@
             "description": "Usuário não autorizado!"
           },
           "400": {
-            "description": [
-              "Não existe um cliente com esse id",
-              "Erro ao atualizar o status"
-            ]
+            "description": "Não existe um cliente com esse id!\n\nErro ao atualizar o status!"
           },
           "200": {
             "description": "Status atualizado com sucesso!",
@@ -683,11 +660,7 @@
         },
         "responses": {
           "400": {
-            "description": [
-              "Erro ao cadastrar a transação",
-              "Erro ao realizar o depósito!",
-              "Erro ao registrar o valor!"
-            ]
+            "description": "Erro ao cadastrar a transação!\n\nErro ao realizar o depósito!\n\nErro ao registrar o valor!"
           },
           "401": {
             "description": "Usuário não autenticado!"
@@ -757,11 +730,7 @@
             "description": "Usuário não autorizado!"
           },
           "400": {
-            "description": [
-              "Saldo insuficiente para realizar a transação!",
-              "Erro ao cadastrar a transação!",
-              "Erro ao atualizar o valor em conta!"
-            ]
+            "description": "Saldo insuficiente para realizar a transação!\n\nErro ao cadastrar a transação!\n\nErro ao atualizar o valor em conta!"
           },
           "200": {
             "description": "Transação realizada com sucesso!",
@@ -1238,7 +1207,7 @@
             "required": true
           },
           "current_price": {
-            "type": "float",
+            "type": "string",
             "required": true
           },
           "count": {
@@ -1561,6 +1530,8 @@
       },
 
       "List_Bank_Client": {
+        "type": "object",
+        "properties": {
         "id": {
           "type": "integer",
           "required": true
@@ -1629,9 +1600,12 @@
           "type": "string",
           "required": true
         }
-      },
+      }
+    },
 
       "Balance_Account": {
+        "type": "object",
+        "properties": {
         "id": {
           "type": "integer",
           "required": true
@@ -1728,9 +1702,12 @@
             "required": true
           }
         }
+      }
       },
 
       "List_Banks": {
+        "type": "object",
+        "properties": {
         "cod_bank": {
           "type": "integer",
           "required": true
@@ -1744,6 +1721,7 @@
           "required": true
         }
       }
+    }
     },
 
     "securityDefinitions": {
