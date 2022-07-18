@@ -48,56 +48,56 @@ const toDTOUserAssets = (accountDB, transactionDB) => {
   })
 
   return {
-    id: accountDB.cod_account,
-    type: accountDB.type,
-    balance: parseFloat(accountDB.balance).toLocaleString('pt-br', {
+    id: accountDB?.cod_account,
+    type: accountDB?.type,
+    balance: parseFloat(accountDB?.balance)?.toLocaleString('pt-br', {
       style: 'currency',
       currency: 'BRL'
     }),
     open_date:
-      date.toLocaleDateString(accountDB.open_date) +
+      date?.toLocaleDateString(accountDB?.open_date) +
       ' ' +
       accountDB?.open_date?.toLocaleTimeString('pt-BR'),
-    total_assets: parseFloat(element).toLocaleString('pt-br', {
+    total_assets: parseFloat(element)?.toLocaleString('pt-br', {
       style: 'currency',
       currency: 'BRL'
     }),
-    consolidated: (Number(accountDB.balance) + element).toLocaleString(
+    consolidated: (Number(accountDB?.balance) + element)?.toLocaleString(
       'pt-br',
       {
         style: 'currency',
         currency: 'BRL'
       }
     ),
-    user_id: accountDB.user_id,
-    branch_id: accountDB.branch_id,
+    user_id: accountDB?.user_id,
+    branch_id: accountDB?.branch_id,
     user: {
-      id: accountDB.user.cod_user,
-      name: accountDB.user.name,
-      email: accountDB.user.email,
-      cpf: accountDB.user.cpf,
-      gender: accountDB.user.gender,
+      id: accountDB?.user?.cod_user,
+      name: accountDB?.user?.name,
+      email: accountDB?.user?.email,
+      cpf: accountDB?.user?.cpf,
+      gender: accountDB?.user?.gender,
       birth_date:
-        date.toLocaleDateString(accountDB?.user?.birth_date) +
+        date?.toLocaleDateString(accountDB?.user?.birth_date) +
         ' ' +
         accountDB?.user?.birth_date?.toLocaleTimeString('pt-BR'),
-      password: accountDB.user.password,
-      phone: accountDB.user.phone,
-      status: accountDB.user.status,
-      kind: accountDB.user.kind,
+      password: accountDB?.user?.password,
+      phone: accountDB?.user?.phone,
+      status: accountDB?.user?.status,
+      kind: accountDB?.user?.kind,
       created_at:
-        date.toLocaleDateString(accountDB.user.created_at) +
+        date?.toLocaleDateString(accountDB?.user?.created_at) +
         ' ' +
         accountDB?.user?.created_at?.toLocaleTimeString('pt-BR'),
       updated_at:
-        date.toLocaleDateString(accountDB.user.updated_at) +
+        date?.toLocaleDateString(accountDB?.user?.updated_at) +
         ' ' +
         accountDB?.user?.updated_at?.toLocaleTimeString('pt-BR'),
-      address_id: accountDB.user.address_id
+      address_id: accountDB?.user?.address_id
     },
     branch: {
-      id: accountDB.branch.cod_branch,
-      name: accountDB.branch.name
+      id: accountDB?.branch?.cod_branch,
+      name: accountDB?.branch?.name
     }
   }
 }
