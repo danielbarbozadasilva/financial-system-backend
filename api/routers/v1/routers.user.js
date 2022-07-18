@@ -47,10 +47,6 @@ module.exports = (router) => {
         'any.required': `"phone" is a required field`,
         'string.empty': `"phone" can not be empty`
       }),
-      status: joi.boolean().required().messages({
-        'any.required': `"status" is a required field`,
-        'string.empty': `"status" can not be empty`
-      }),
       address: joi.string().required().messages({
         'any.required': `"address" is a required field`,
         'string.empty': `"address" can not be empty`
