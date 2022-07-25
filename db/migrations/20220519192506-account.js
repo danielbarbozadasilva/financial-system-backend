@@ -9,27 +9,34 @@ module.exports = {
         allowNull: false,
         type: Sequelize.INTEGER
       },
+      number: {
+        allowNull: true,
+        type: Sequelize.TEXT,
+        defaultValue: Math.floor(Math.random() * String(655361241))+'-0'
+      },
       type: {
-        allowNull: false,
-        type: Sequelize.TEXT
+        allowNull: true,
+        type: Sequelize.TEXT,
+        defaultValue: 'C/C'
       },
       balance: {
-        allowNull: false,
-        type: Sequelize.FLOAT,
+        allowNull: true,
+        type: Sequelize.DECIMAL(15, 2),
         defaultValue: 0
       },
       open_date: {
-        allowNull: false,
-        type: Sequelize.DATE
+        allowNull: true,
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       },
       user_id: {
         type: Sequelize.INTEGER,
         references: { model: 'user', key: 'cod_user' },
         onDelete: 'CASCADE'
       },
-      bank_id: {
+      branch_id: {
         type: Sequelize.INTEGER,
-        references: { model: 'bank', key: 'cod_bank' },
+        references: { model: 'branch', key: 'cod_branch' },
         onDelete: 'CASCADE'
       }
     })

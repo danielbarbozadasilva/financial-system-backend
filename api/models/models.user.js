@@ -43,6 +43,16 @@ module.exports = (sequelize, DataTypes) => {
       kind: {
         allowNull: false,
         type: DataTypes.TEXT
+      },
+      created_at: {
+        allowNull: true,
+        type: DataTypes.DATE,
+        defaultValue: sequelize.literal('CURRENT_TIMESTAMP')
+      },
+      updated_at: {
+        allowNull: true,
+        type: DataTypes.DATE,
+        defaultValue: sequelize.literal('CURRENT_TIMESTAMP')
       }
     },
     {
@@ -55,11 +65,6 @@ module.exports = (sequelize, DataTypes) => {
   )
 
   user.associate = function (models) {
-    user.hasMany(models.account, {
-      foreignKey: 'account_id',
-      as: 'account'
-    })
-
     user.belongsTo(models.address, {
       foreignKey: 'address_id',
       as: 'address'

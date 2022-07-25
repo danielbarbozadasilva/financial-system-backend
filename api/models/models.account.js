@@ -8,17 +8,25 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         type: DataTypes.INTEGER
       },
+      number: {
+        allowNull: true,
+        type: DataTypes.TEXT,
+        defaultValue: Math.floor(Math.random() * String(65536124))+'-0'
+      },
       type: {
-        allowNull: false,
-        type: DataTypes.TEXT
+        allowNull: true,
+        type: DataTypes.TEXT,
+        defaultValue: 'C/C'
       },
       balance: {
-        allowNull: false,
-        type: DataTypes.FLOAT
+        allowNull: true,
+        type: DataTypes.FLOAT,
+        defaultValue: 0
       },
       open_date: {
-        allowNull: false,
-        type: DataTypes.DATE
+        allowNull: true,
+        type: DataTypes.DATE,
+        defaultValue: sequelize.literal('CURRENT_TIMESTAMP')
       }
     },
     {
@@ -36,9 +44,9 @@ module.exports = (sequelize, DataTypes) => {
       as: 'user'
     })
 
-    account.belongsTo(models.bank, {
-      foreignKey: 'bank_id',
-      as: 'bank'
+    account.belongsTo(models.branch, {
+      foreignKey: 'branch_id',
+      as: 'branch'
     })
   }
   return account

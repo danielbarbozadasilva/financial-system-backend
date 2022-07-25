@@ -2,12 +2,11 @@ const fs = require('fs')
 const uuid = require('uuid').v4
 const path = require('path')
 
-const root_address = process.env.FILE_BASE_PATH
+const root_address = `${__dirname}/file`.replaceAll('\\', '/')
 const image_address = process.env.IMAGE_PATH
 
-const UtilCreateAddress = (destiny, file_name = '') => {
-  return path.join(root_address, destiny, file_name)
-}
+const UtilCreateAddress = (destiny, file_name = '') =>
+  path.join(root_address, destiny, file_name)
 
 const UtilCreateAddressDownload = (source, file_name) => {
   const address = path.join(source, file_name).replace('\\', '/')
@@ -19,9 +18,7 @@ const UtilCreateName = (type) => {
   return `${uuid()}.${resp}`
 }
 
-const UtilMove = (old_path, new_path) => {
-  return fs.renameSync(old_path, new_path)
-}
+const UtilMove = (old_path, new_path) => fs.renameSync(old_path, new_path)
 
 const UtilRemove = (source, file) => {
   const address_file = UtilCreateAddress(source, file)

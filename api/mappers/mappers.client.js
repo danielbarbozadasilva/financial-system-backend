@@ -1,24 +1,24 @@
 const toDTO = (model) => {
   const date = new Date()
   return {
-    id: model.user.cod_user,
-    name: model.user.name,
-    email: model.user.email,
-    cpf: model.user.cpf,
-    gender: model.user.gender,
-    birth_date: date.toLocaleDateString(model.user.birth_date),
-    password: model.user.password,
-    phone: model.user.phone,
-    kind: model.user.kind,
-    status: model.user.status === true ? 'Ativo' : 'Desativado',
+    id: model.cod_user,
+    name: model.user_name,
+    email: model.email,
+    cpf: model.cpf,
+    gender: model.gender,
+    birth_date: date.toLocaleDateString(model.birth_date),
+    password: model.password,
+    phone: model.phone,
+    kind: model.kind,
+    status: model.status === 1 ? 'Ativo' : 'Desativado',
     address: [
       {
-        id: model.user.address.cod_address,
-        address: model.user.address.address,
-        uf: model.user.address.uf,
-        city: model.user.address.city,
-        zip_code: model.user.address.zip_code,
-        complement: model.user.address.complement
+        id: model.cod_address,
+        address: model.address,
+        uf: model.uf,
+        city: model.city,
+        zip_code: model.zip_code,
+        complement: model.complement
       }
     ],
     transaction: [
@@ -31,38 +31,40 @@ const toDTO = (model) => {
         })
       }
     ],
-    transaction_details: model.transaction_details.map((item) => {
-      return {
-        id: item.financial_asset_catalog?.cod_fin_asset,
-        name: item.financial_asset_catalog?.name,
-        description: item.financial_asset_catalog?.description,
-        bvmf: item.financial_asset_catalog?.bvmf,
-        current_price: parseFloat(item.financial_asset_catalog.current_price).toLocaleString('pt-br', {
+    transaction_details: [
+      {
+        id: model?.cod_fin_asset,
+        name: model?.name,
+        description: model?.description,
+        bvmf: model?.bvmf,
+        current_price: parseFloat(
+          model.current_price
+        ).toLocaleString('pt-br', {
           style: 'currency',
           currency: 'BRL'
         }),
-        quantity: item.financial_asset_catalog?.quantity
+        quantity: model?.quantity
       }
-    })
+    ]
   }
 }
 
 const toDTOList = (clientDB) => {
   return {
-    id: clientDB.cod_user,
-    name: clientDB.name,
-    email: clientDB.email,
-    cpf: clientDB.cpf,
-    gender: clientDB.gender,
-    birth_date: clientDB.birth_date,
-    password: clientDB.password,
-    phone: clientDB.phone,
-    status: clientDB.status,
-    address: clientDB.address.address,
-    uf: clientDB.address.uf,
-    city: clientDB.address.city,
-    zip_code: clientDB.address.zip_code,
-    complement: clientDB.address.complement
+    id: clientDB?.cod_user,
+    name: clientDB?.name,
+    email: clientDB?.email,
+    cpf: clientDB?.cpf,
+    gender: clientDB?.gender,
+    birth_date: clientDB?.birth_date,
+    password: clientDB?.password,
+    phone: clientDB?.phone,
+    status: clientDB?.status,
+    address: clientDB?.address?.address,
+    uf: clientDB?.address?.uf,
+    city: clientDB?.address?.city,
+    zip_code: clientDB?.address?.zip_code,
+    complement: clientDB?.address?.complement
   }
 }
 

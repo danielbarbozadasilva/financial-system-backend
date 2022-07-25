@@ -1,6 +1,5 @@
 const cryptographyUtils = require('../utils.cryptography')
 const userService = require('../../services/services.user')
-
 const ErrorUserNotAllowed = require('../errors/errors.user_not_allowed')
 const ErrorUnauthenticatedUser = require('../errors/errors.user_not_authenticated')
 
@@ -10,26 +9,27 @@ const authorizationMiddleware =
     const test = rota
     const { token } = req.headers
     const { type } = cryptographyUtils.UtilDecodeToken(token)
-    const profileFunctionality =
-      await userService.verifyFunctionalityProfileService(type, test)
 
-    await Promise.all([profileFunctionality])
+    await userService
+      .verifyFunctionalityProfileService(type, test)
       .then((result) => {
         if (test != '*') {
           if (!token) {
             return Promise.reject(
-              new ErrorUnauthenticatedUser('Unauthenticated User Error')
+              new ErrorUnauthenticatedUser('Usuário não autenticado!')
             )
           }
 
           if (!cryptographyUtils.UtilValidateToken(token)) {
             return Promise.reject(
-              new ErrorUnauthenticatedUser('Unauthenticated User Error')
+              new ErrorUnauthenticatedUser('Usuário não autenticado!')
             )
           }
 
-          if (profileFunctionality) {
-            return Promise.reject(new ErrorUserNotAllowed('Unauthorized User!'))
+          if (result) {
+            return Promise.reject(
+              new ErrorUserNotAllowed('Usuário não autorizado!')
+            )
           }
         }
 

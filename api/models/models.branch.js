@@ -1,8 +1,8 @@
 module.exports = (sequelize, DataTypes) => {
-  const bank = sequelize.define(
-    'bank',
+  const branch = sequelize.define(
+    'branch',
     {
-      cod_bank: {
+      cod_branch: {
         primaryKey: true,
         autoIncrement: true,
         allowNull: false,
@@ -11,12 +11,7 @@ module.exports = (sequelize, DataTypes) => {
       name: {
         allowNull: true,
         type: DataTypes.TEXT,
-        defaultValue: 'Banco 01'
-      },
-      branch: {
-        allowNull: true,
-        type: DataTypes.TEXT,
-        defaultValue: '0845'
+        defaultValue: 'Agência 01'
       }
     },
     {
@@ -24,9 +19,16 @@ module.exports = (sequelize, DataTypes) => {
       paranoid: true,
       timestamps: false,
       freezeTableName: true,
-      tableName: 'bank'
+      tableName: 'branch'
     }
   )
-  
-  return bank
+
+  branch.associate = function (models) {
+    branch.hasMany(models.account, {
+      foreignKey: 'branch_id',
+      as: 'branch'
+    })
+  }
+
+  return branch
 }

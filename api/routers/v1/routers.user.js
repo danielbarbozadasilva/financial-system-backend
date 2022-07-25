@@ -1,21 +1,23 @@
 const joi = require('joi')
 const userController = require('../../controllers/controllers.user')
 const middlewareValidateDTO = require('../../utils/middlewares/middlewares.validate_dto')
+const asyncMiddleware = require('../../utils/middlewares/middlewares.async')
 
 module.exports = (router) => {
   router.route('/auth').post(
     middlewareValidateDTO('body', {
-      email: joi.string().required().messages({
-        'any.required': `"email" is a required field`,
-        'string.empty': `"email" can not be empty`
+      cpf: joi.string().required().messages({
+        'any.required': `"cpf" is a required field`,
+        'string.empty': `"cpf" can not be empty`
       }),
       password: joi.string().required().messages({
         'any.required': `"password" is a required field`,
         'string.empty': `"password" can not be empty`
       })
     }),
-    userController.authController
+    asyncMiddleware(userController.authController)
   )
+
   router.route('/register').post(
     middlewareValidateDTO('body', {
       name: joi.string().required().messages({
@@ -46,10 +48,6 @@ module.exports = (router) => {
         'any.required': `"phone" is a required field`,
         'string.empty': `"phone" can not be empty`
       }),
-      status: joi.boolean().required().messages({
-        'any.required': `"status" is a required field`,
-        'string.empty': `"status" can not be empty`
-      }),
       address: joi.string().required().messages({
         'any.required': `"address" is a required field`,
         'string.empty': `"address" can not be empty`
@@ -66,9 +64,9 @@ module.exports = (router) => {
         'any.required': `"zip_code" is a required field`,
         'string.empty': `"zip_code" can not be empty`
       }),
-      complement: joi.string().optional(),
+      complement: joi.string().allow(''),
       auth: joi.boolean().optional()
     }),
-    userController.registerController
+    asyncMiddleware(userController.registerController)
   )
 }

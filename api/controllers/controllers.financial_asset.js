@@ -57,10 +57,21 @@ const deleteFinancialAssetsController = async (req, res) => {
   return res.status(code).send({ message, data })
 }
 
+const listTop05FinancialAssetsController = async (req, res) => {
+  const resultService = await financialService.listTop05FinancialAssetsService()
+  const code = resultService.success ? 200 : 400
+  const message = resultService.success
+    ? { message: resultService.message }
+    : { details: resultService.details }
+  const data = resultService.data ? resultService.data : ''
+  return res.status(code).send({ message, data })
+}
+
 module.exports = {
   listAllFinancialAssetsController,
   listByIdFinancialAssetsController,
   createFinancialAssetsController,
   updateFinancialAssetsController,
-  deleteFinancialAssetsController
+  deleteFinancialAssetsController,
+  listTop05FinancialAssetsController
 }

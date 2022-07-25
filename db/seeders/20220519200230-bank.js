@@ -7,19 +7,15 @@ module.exports = {
       [
         {
           name: 'Banco 01',
-          branch: '0123'
+          branch: '0845'
         },
         {
           name: 'Banco 02',
-          branch: '0456'
+          branch: '0121'
         },
         {
           name: 'Banco 03',
-          branch: '0789'
-        },
-        {
-          name: 'Banco 04',
-          branch: '0098'
+          branch: '0443'
         }
       ],
       {

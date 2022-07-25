@@ -3,14 +3,16 @@ const joi = require('joi')
 const clientController = require('../../controllers/controllers.client')
 const middlewareValidateDTO = require('../../utils/middlewares/middlewares.validate_dto')
 const authorizationMiddleware = require('../../utils/middlewares/middlewares.authorization')
+const asyncMiddleware = require('../../utils/middlewares/middlewares.async')
 
 module.exports = (router) => {
   router
     .route('/client')
     .get(
-      authorizationMiddleware('LIST_CLIENT'),
-      clientController.listAllClientsController
+      authorizationMiddleware('SEARCH_FINANCIAL'),
+      asyncMiddleware(clientController.listAllClientsController)
     )
+
   router
     .route('/client/:clientid')
     .get(
@@ -18,17 +20,17 @@ module.exports = (router) => {
       middlewareValidateDTO('params', {
         clientid: joi.number().integer().required().messages({
           'any.required': '"client id" is a required field',
-          'string.empty': '"client id" can not be empty'
+          'number.empty': '"client id" can not be empty'
         })
       }),
-      clientController.listByIdClientController
+      asyncMiddleware(clientController.listByIdClientController)
     )
     .put(
       authorizationMiddleware('UPDATE_CLIENT'),
       middlewareValidateDTO('params', {
         clientid: joi.number().integer().required().messages({
           'any.required': '"client id" is a required field',
-          'string.empty': '"client id" can not be empty'
+          'number.empty': '"client id" can not be empty'
         })
       }),
       middlewareValidateDTO('body', {
@@ -62,7 +64,7 @@ module.exports = (router) => {
         }),
         cod_address: joi.number().integer().required().messages({
           'any.required': `"cod_address" is a required field`,
-          'string.empty': `"cod_address" can not be empty`
+          'number.empty': `"cod_address" can not be empty`
         }),
         address: joi.string().required().messages({
           'any.required': `"address" is a required field`,
@@ -85,7 +87,7 @@ module.exports = (router) => {
           'string.empty': `"complement" can not be empty`
         })
       }),
-      clientController.updateClientController
+      asyncMiddleware(clientController.updateClientController)
     )
 
   router.route('/client/:clientid/status/:status').put(
@@ -93,14 +95,13 @@ module.exports = (router) => {
     middlewareValidateDTO('params', {
       clientid: joi.number().integer().required().messages({
         'any.required': '"client id" is a required field',
-        'string.empty': '"client id" can not be empty',
-        'string.regex': '"client id" out of the expected format'
+        'number.empty': '"client id" can not be empty'
       }),
       status: joi.string().required().messages({
         'any.required': '"status" is a required field',
         'string.empty': '"status" can not be empty'
       })
     }),
-    clientController.changeStatusClientController
+    asyncMiddleware(clientController.changeStatusClientController)
   )
 }

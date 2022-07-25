@@ -1,101 +1,89 @@
-const {
-  user,
-  address,
-  transaction,
-  transaction_details,
-  financial_asset_catalog
-} = require('../models/models.index')
+const { QueryTypes } = require('sequelize')
+const { user, address, sequelize } = require('../models/models.index')
+const ErrorGeneric = require('../utils/errors/erros.generic_error')
+const ErrorBusinessRule = require('../utils/errors/errors.business_rule')
+
 const cryptography = require('../utils/utils.cryptography')
 const clientMapper = require('../mappers/mappers.client')
 const serviceUser = require('./services.user')
 
 const listAllClientsService = async () => {
-  const userDB = await transaction.findAll({
-    include: [
-      {
-        model: user,
-        as: 'user',
-        right: true,
-        where: { kind: 'client' },
-        include: {
-          model: address,
-          as: 'address',
-          required: true
-        }
-      },
-      {
-        model: transaction_details,
-        as: 'transaction_details',
-        include: {
-          model: financial_asset_catalog,
-          as: 'financial_asset_catalog'
-        }
-      }
-    ],
-    order: [['user_id', 'ASC']]
-  })
-  return {
-    success: true,
-    message: 'Clientes listados com sucesso!',
-    data: userDB.map((item) => {
-      return clientMapper.toDTO(item)
-    })
+  try {
+    const userDB = await sequelize.query(
+      'SELECT *, u.name as user_name FROM user u INNER JOIN address d ON u.address_id = d.cod_address LEFT JOIN transaction t on t.user_id=u.cod_user LEFT JOIN transaction_details td ON t.cod_transaction=td.transaction_id LEFT JOIN financial_asset_catalog f ON td.financial_asset_id = f.cod_fin_asset WHERE u.kind="client" GROUP BY u.cod_user ORDER BY u.name;',
+      { type: QueryTypes.SELECT }
+    )
+    return {
+      success: true,
+      message: 'Cliente(s) listado(s) com sucesso!',
+      data: userDB.map((item) => clientMapper.toDTO(item))
+    }
+  } catch (err) {
+    throw new ErrorGeneric(`Internal Server Error! Código: ${err.name}`)
   }
 }
 
 const listByIdClientService = async (id) => {
-  const userDB = await user.findAll({
-    include: [
-      {
-        model: address,
-        as: 'address',
-        required: true
-      }
-    ],
-    where: { kind: 'client', cod_user: id },
-    order: [['cod_user', 'ASC']]
-  })
+  try {
+    const userDB = await user.findAll({
+      include: [
+        {
+          model: address,
+          as: 'address',
+          required: true
+        }
+      ],
+      where: { kind: 'client', cod_user: id },
+      order: [['cod_user', 'ASC']]
+    })
 
-  return {
-    success: true,
-    message: 'Clientes listados com sucesso!',
-    data: clientMapper.toDTOList(...userDB)
+    return {
+      success: true,
+      message: 'Cliente listado com sucesso!',
+      data: clientMapper.toDTOList(...userDB)
+    }
+  } catch (err) {
+    throw new ErrorGeneric(`Internal Server Error! Código: ${err.name}`)
   }
 }
 
 const changeStatusService = async (clientId, status) => {
-  const clientDB = await user.findByPk(clientId)
-  if (!clientDB) {
-    return {
-      success: false,
-      message: 'Operation cannot be performed',
-      details: ['there is no client with this id']
-    }
-  }
-
-  const resultDB = await user.update(
-    {
-      status: status
-    },
-    { where: { cod_user: clientId } }
-  )
-
-  if (resultDB) {
-    return {
-      success: true,
-      message: 'Operation performed successfully',
-      data: {
-        name: clientDB.name,
-        status: status
+  try {
+    const clientDB = await user.findByPk(clientId)
+    if (!clientDB) {
+      return {
+        success: false,
+        message: 'Operação não pode ser realizada!',
+        details: ['Não existe um cliente com esse id']
       }
     }
-  }
 
-  if (!resultDB) {
-    return {
-      success: false,
-      message: 'operation cannot be performed'
+    const resultDB = await user.update(
+      {
+        status
+      },
+      { where: { cod_user: clientId } }
+    )
+
+    if (resultDB) {
+      return {
+        success: true,
+        message: 'Status atualizado com sucesso!',
+        data: {
+          name: clientDB.name,
+          status
+        }
+      }
     }
+
+    if (!resultDB) {
+      return {
+        success: false,
+        message: 'Erro ao atualizar o status!'
+      }
+    }
+  } catch (err) {
+    throw new ErrorGeneric(`Internal Server Error! Código: ${err.name}`)
   }
 }
 
@@ -103,11 +91,7 @@ const updateClientService = async (clientId, body) => {
   const resultFind = await user.findByPk(clientId)
 
   if (!resultFind) {
-    return {
-      success: false,
-      message: 'could not perform the operation',
-      details: ["client id doesn't exist."]
-    }
+    throw new ErrorBusinessRule('Não existe um cliente com esse id!')
   }
 
   const resultEmail = await serviceUser.verifyEmailBodyExistService(
@@ -115,11 +99,7 @@ const updateClientService = async (clientId, body) => {
     body.email
   )
   if (resultEmail) {
-    return {
-      success: false,
-      message: 'Já existe este e-mail em nossa base de dados',
-      details: ['Este e-mail já está em uso']
-    }
+    throw new ErrorBusinessRule('Este e-mail já está em uso!')
   }
 
   const resultCpf = await serviceUser.verifyCpfBodyExistService(
@@ -127,49 +107,48 @@ const updateClientService = async (clientId, body) => {
     body.cpf
   )
   if (resultCpf) {
-    return {
-      success: false,
-      message: 'Já existe este cpf em nossa base de dados',
-      details: ['Este cpf já está em uso']
-    }
+    throw new ErrorBusinessRule('Este cpf já está em uso!')
   }
 
-  const addressDB = await address.update(
-    {
-      address: body.address,
-      uf: body.uf,
-      city: body.city,
-      zip_code: body.zip_code,
-      complement: body.complement
-    },
-    { where: { cod_address: body.cod_address } }
-  )
+  const infoTransaction = await sequelize.transaction()
 
-  const clientDB = await user.update(
-    {
-      name: body.name,
-      email: body.email,
-      cpf: body.cpf,
-      gender: body.gender,
-      birth_date: body.birth_date,
-      password: cryptography.UtilCreateHash(body.password),
-      phone: body.phone,
-      address_id: body.cod_address
-    },
-    { where: { cod_user: clientId } }
-  )
+  try {
+    await address.update(
+      {
+        address: body.address,
+        uf: body.uf,
+        city: body.city,
+        zip_code: body.zip_code,
+        complement: body.complement
+      },
+      { where: { cod_address: body.cod_address } },
+      { transaction: infoTransaction }
+    )
 
-  if (!clientDB || !addressDB) {
-    return {
-      success: false,
-      message: 'operation cannot be performed',
-      details: ['The value does not exist']
-    }
+    await user.update(
+      {
+        name: body.name,
+        email: body.email,
+        cpf: body.cpf,
+        gender: body.gender,
+        kind: 'client',
+        birth_date: body.birth_date,
+        password: cryptography.UtilCreateHash(body.password),
+        phone: body.phone,
+        address_id: body.cod_address
+      },
+      { where: { cod_user: clientId } },
+      { transaction: infoTransaction }
+    )
+    await infoTransaction.commit()
+  } catch (error) {
+    await infoTransaction.rollback()
+    throw new ErrorGeneric('Erro ao atualizar o cliente!')
   }
 
   return {
     success: true,
-    message: 'Data updated successfully',
+    message: 'Cliente atualizado com sucesso',
     data: { name: resultFind.name }
   }
 }

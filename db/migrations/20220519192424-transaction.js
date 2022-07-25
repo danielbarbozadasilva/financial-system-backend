@@ -10,8 +10,13 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       total_quantity: {
+        allowNull: true,
+        type: Sequelize.INTEGER,
+        defaultValue: 1
+      },
+      sub_total: {
         allowNull: false,
-        type: Sequelize.INTEGER
+        type: Sequelize.DECIMAL(15, 2)
       },
       total_price: {
         allowNull: false,

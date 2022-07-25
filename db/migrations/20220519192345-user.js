@@ -46,6 +46,16 @@ module.exports = {
         allowNull: false,
         type: Sequelize.TEXT
       },
+      created_at: {
+        allowNull: true,
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+      },
+      updated_at: {
+        allowNull: true,
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+      },
       address_id: {
         type: Sequelize.INTEGER,
         references: { model: 'address', key: 'cod_address' },
