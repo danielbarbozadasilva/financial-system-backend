@@ -1303,11 +1303,13 @@
         "properties": {
           "name": {
             "type": "string",
-            "required": true
+            "required": true,
+            "example": "example"
           },
           "status": {
             "type": "string",
-            "required": true
+            "required": true,
+            "example": "true ou false"
           }
         }
       },
