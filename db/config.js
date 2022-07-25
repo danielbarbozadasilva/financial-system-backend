@@ -1,6 +1,3 @@
-const path = require('path')
-const APP_ROOT = path.resolve(__dirname)
-
 const node_enviroment = process.env.NODE_ENV || 'development'
 
 if (node_enviroment === 'development') {

@@ -94,33 +94,37 @@ const createCredentialService = async (cpf) => {
 }
 
 const authService = async (cpf, password) => {
-  const resultDB = await userIsValidService(cpf, password)
-  if (!resultDB) {
-    return {
-      success: false,
-      message: 'Não foi possivel autenticar o usuário',
-      details: ['Cpf ou senha inválidos!']
+  try {
+    const resultDB = await userIsValidService(cpf, password)
+    if (!resultDB) {
+      return {
+        success: false,
+        message: 'Não foi possivel autenticar o usuário',
+        details: ['Cpf ou senha inválidos!']
+      }
     }
-  }
-  const resultActive = await userIsActiveService(cpf)
-  if (!resultActive) {
-    return {
-      success: false,
-      message: 'Não fo possivel efetuar o login',
-      details: ['Sua conta foi desativada pelo Administrador!']
+    const resultActive = await userIsActiveService(cpf)
+    if (!resultActive) {
+      return {
+        success: false,
+        message: 'Não fo possivel efetuar o login',
+        details: ['Sua conta foi desativada pelo Administrador!']
+      }
     }
-  }
-  const resultCredentials = await createCredentialService(cpf)
-  if (!resultCredentials) {
-    return {
-      success: false,
-      details: ['Não foi possivel criar a credencial!']
+    const resultCredentials = await createCredentialService(cpf)
+    if (!resultCredentials) {
+      return {
+        success: false,
+        details: ['Não foi possivel criar a credencial!']
+      }
     }
-  }
-  return {
-    success: true,
-    message: 'Usuário autenticado com sucesso!',
-    data: resultCredentials
+    return {
+      success: true,
+      message: 'Usuário autenticado com sucesso!',
+      data: resultCredentials
+    }
+  } catch (err) {
+    throw new ErrorGeneric(`Internal Server Error! Código: ${err.name}`)
   }
 }
 
