@@ -1,0 +1,1738 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Api de gestão financeira",
+    "description": "Management API in NodeJs using Express, Mysql, swagger and Design Pattern (MVC)",
+    "contact": { "email": "daniel80barboza@gmail.com" },
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3011/v1",
+      "description": "Api de teste"
+    }
+  ],
+  "paths": {
+    "/auth": {
+      "post": {
+        "summary": "Logar usuário",
+        "description": "Essa rota é responsável por autenticar o usuário",
+        "tags": ["Autenticar Usuário"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Auth"
+              },
+              "examples": {
+                "auth": {
+                  "value": {
+                    "cpf": "413.423.614-41",
+                    "password": "daniel"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Cpf ou senha inválidos!\n\nFoi foi possivel criar uma credencial! \n\n Sua conta foi desativada pelo Administrador!"
+          },
+          "200": {
+            "description": "Usuário autenticado com sucesso!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "items": {
+                    "$ref": "#/components/schemas/List_Auth"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/register": {
+      "post": {
+        "summary": "Cadastrar usuário",
+        "description": "Essa rota será responsável por realizar o cadastro do usuário",
+        "tags": ["Registrar Usuário"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Register"
+              },
+              "examples": {
+                "register": {
+                  "value": {
+                    "name": "Daniel",
+                    "email": "daniel@gmail.com",
+                    "cpf": "123.123.123.90",
+                    "gender": "M",
+                    "birth_date": "1990/09/08",
+                    "password": "daniel",
+                    "phone": "(21)2321-2345",
+                    "address": "Rua abc, 123",
+                    "uf": "RJ",
+                    "city": "Rio de janeiro",
+                    "zip_code": "23454-234",
+                    "complement": "casa"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Este e-mail já está em uso! \n\n Este cpf já está em uso! \n\n Não foi possivel realizar o cadastro!"
+          },
+          "200": {
+            "description": "Cadastro realizado com sucesso!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "items": {
+                    "$ref": "#/components/schemas/Register"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/financial": {
+      "get": {
+        "summary": "Listar os ativos",
+        "description": "Essa rota lista todos os ativos",
+        "tags": ["Ativos Financeiros"],
+        "responses": {
+          "200": {
+            "description": "Ativos listados com sucesso!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/List_Assets"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "type": "string",
+            "description": "token",
+            "required": true
+          }
+        ],
+        "summary": "Cadastrar ativo",
+        "description": "Essa rota cadastra o ativo",
+        "tags": ["Ativos Financeiros"],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "$ref": "#/components/schemas/Register_Assets"
+              }
+            }
+          }
+        },
+        "responses": {
+          "401": {
+            "description": "Usuário não autenticado!"
+          },
+          "403": {
+            "description": "Usuário não autorizado!"
+          },
+          "400": {
+            "description": [
+              "Erro ao cadastrar o ativo! \n\n Não foi possivel mover a imagem!"
+            ]
+          },
+          "200": {
+            "description": "Ativo cadastrado com sucesso!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "items": {
+                    "$ref": "#/components/schemas/Register_Assets"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/financial/{id}": {
+      "get": {
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "type": "string",
+            "description": "token",
+            "required": true
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "type": "integer",
+            "description": "Id do Ativo",
+            "required": true
+          }
+        ],
+        "summary": "Listar o ativo pelo Id",
+        "description": "Essa rota lista o ativo pelo Id",
+        "tags": ["Ativos Financeiros"],
+        "responses": {
+          "401": {
+            "description": "Usuário não autenticado!"
+          },
+          "403": {
+            "description": "Usuário não autorizado!"
+          },
+          "200": {
+            "description": "Ativo listado com sucesso!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/List_Assets"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "type": "string",
+            "description": "token",
+            "required": true
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "type": "integer",
+            "description": "Id do Ativo",
+            "required": true
+          }
+        ],
+        "summary": "Atualizar Ativo",
+        "description": "Essa rota atualiza um ativo",
+        "tags": ["Ativos Financeiros"],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Register_Assets"
+              }
+            }
+          }
+        },
+        "responses": {
+          "401": {
+            "description": "Usuário não autenticado!"
+          },
+          "403": {
+            "description": "Usuário não autorizado!"
+          },
+          "400": {
+            "description": "Não existe um ativo com esse Id!\n\nErro ao atualizar o ativo"
+          },
+          "200": {
+            "description": "Ativo atualizado com sucesso!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Register_Assets"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "type": "string",
+            "description": "token",
+            "required": true
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "type": "integer",
+            "description": "Id do Ativo",
+            "required": true
+          }
+        ],
+        "summary": "Excluir ativo",
+        "description": "Essa rota apaga um ativo",
+        "tags": ["Ativos Financeiros"],
+        "responses": {
+          "401": {
+            "description": "Usuário não autenticado!"
+          },
+          "403": {
+            "description": "Usuário não autorizado!"
+          },
+          "400": {
+            "description": "Erro ao excluir o ativo\n\nNão existe um ativo com esse Id"
+          },
+          "200": {
+            "description": "Ativo atualizado com sucesso!"
+          }
+        }
+      }
+    },
+    "/financial/assets/top05": {
+      "get": {
+        "summary": "Listar os 5 ativos mais adquiridos",
+        "description": "Essa rota lista os 5 ativos mais adquiridos",
+        "tags": ["Ativos Financeiros"],
+        "responses": {
+          "200": {
+            "description": "Top 05 listado com sucesso!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/List_Top05_Assets"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/client": {
+      "parameters": [
+        {
+          "name": "token",
+          "in": "header",
+          "type": "string",
+          "description": "token",
+          "required": true
+        }
+      ],
+      "get": {
+        "summary": "Listar os Clientes",
+        "description": "Essa rota lista todos os clientes",
+        "tags": ["Clientes"],
+        "responses": {
+          "401": {
+            "description": "Usuário não autenticado!"
+          },
+          "403": {
+            "description": "Usuário não autorizado!"
+          },
+          "200": {
+            "description": "Clientes listados com sucesso!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/List_Client"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/client/{clientid}": {
+      "get": {
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "type": "string",
+            "description": "token",
+            "required": true
+          },
+          {
+            "name": "clientid",
+            "in": "path",
+            "type": "integer",
+            "description": "Id do cliente",
+            "required": true
+          }
+        ],
+        "summary": "Listar o cliente pelo Id",
+        "description": "Essa rota lista o cliente pelo Id",
+        "tags": ["Clientes"],
+        "responses": {
+          "401": {
+            "description": "Usuário não autenticado!"
+          },
+          "403": {
+            "description": "Usuário não autorizado!"
+          },
+          "200": {
+            "description": "Cliente listado com sucesso!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/List_Client"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "type": "string",
+            "description": "token",
+            "required": true
+          },
+          {
+            "name": "clientid",
+            "in": "path",
+            "type": "integer",
+            "description": "Id do cliente",
+            "required": true
+          }
+        ],
+        "summary": "Atualizar Cliente",
+        "description": "Essa rota atualiza um cliente",
+        "tags": ["Clientes"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Update_Client"
+              }
+            }
+          }
+        },
+        "responses": {
+          "401": {
+            "description": "Usuário não autenticado!"
+          },
+          "403": {
+            "description": "Usuário não autorizado!"
+          },
+          "400": {
+            "description": "Não existe um cliente com esse id!\n\nEste e-mail já está em uso!\n\nEste cpf já está em uso!\n\nErro ao atualizar o cliente!"
+          },
+          "200": {
+            "description": "Cliente atualizado com sucesso!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/List_Update_Client"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/client/{id}/status/{status}": {
+      "put": {
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "type": "string",
+            "description": "token",
+            "required": true
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "type": "integer",
+            "description": "Id do clinte",
+            "required": true
+          },
+          {
+            "name": "status",
+            "in": "path",
+            "type": "string",
+            "description": "status",
+            "required": true
+          }
+        ],
+        "summary": "Alterar status do cliente",
+        "description": "Essa rota altera o status do cliente",
+        "tags": ["Clientes"],
+        "responses": {
+          "401": {
+            "description": "Usuário não autenticado!"
+          },
+          "403": {
+            "description": "Usuário não autorizado!"
+          },
+          "400": {
+            "description": "Não existe um cliente com esse id!\n\nErro ao atualizar o status!"
+          },
+          "200": {
+            "description": "Status atualizado com sucesso!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Status_Client"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/transaction/client": {
+      "get": {
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "type": "string",
+            "description": "token",
+            "required": true
+          }
+        ],
+        "summary": "Listar as transações realizadas pelos clientes",
+        "description": "Essa rota lista as transações realizadas pelos clientes",
+        "tags": ["Transações"],
+        "responses": {
+          "401": {
+            "description": "Usuário não autenticado!"
+          },
+          "403": {
+            "description": "Usuário não autorizado!"
+          },
+          "200": {
+            "description": "Transações listadas com sucesso!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/List_Transactions"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/transaction/client/{clientid}": {
+      "get": {
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "type": "string",
+            "description": "token",
+            "required": true
+          },
+          {
+            "name": "clientid",
+            "in": "path",
+            "type": "integer",
+            "description": "Id do clinte",
+            "required": true
+          }
+        ],
+        "summary": "Listar as transações realizadas pelo cliente",
+        "description": "Essa rota lista as transações realizadas pelo cliente",
+        "tags": ["Transações"],
+        "responses": {
+          "401": {
+            "description": "Usuário não autenticado!"
+          },
+          "403": {
+            "description": "Usuário não autorizado!"
+          },
+          "200": {
+            "description": "Transações listadas com sucesso!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/List_Transactions"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/transaction/deposit/client/{clientid}": {
+      "get": {
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "type": "string",
+            "description": "token",
+            "required": true
+          },
+          {
+            "name": "clientid",
+            "in": "path",
+            "type": "integer",
+            "description": "Id do clinte",
+            "required": true
+          }
+        ],
+        "summary": "Listar os depósitos realizados pelo cliente",
+        "description": "Essa rota lista os depósitos realizados pelo cliente",
+        "tags": ["Transações"],
+        "responses": {
+          "401": {
+            "description": "Usuário não autenticado!"
+          },
+          "403": {
+            "description": "Usuário não autorizado!"
+          },
+          "200": {
+            "description": "Depósito(s) listado(s) com sucesso!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/List_Deposit"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "type": "string",
+            "description": "token",
+            "required": true
+          },
+          {
+            "name": "clientid",
+            "in": "path",
+            "type": "integer",
+            "description": "Id do clinte",
+            "required": true
+          }
+        ],
+        "summary": "Realizar Depósito",
+        "description": "Essa rota realiza o depósito",
+        "tags": ["Transações"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Create_Deposit"
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Erro ao cadastrar a transação!\n\nErro ao realizar o depósito!\n\nErro ao registrar o valor!"
+          },
+          "401": {
+            "description": "Usuário não autenticado!"
+          },
+          "403": {
+            "description": "Usuário não autorizado!"
+          },
+          "200": {
+            "description": "Transação cadastrada com sucesso!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "items": {
+                    "$ref": "#/components/schemas/List_Create_Deposit"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/transaction/client/{clientid}/asset/{assetid}": {
+      "post": {
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "type": "string",
+            "description": "token",
+            "required": true
+          },
+          {
+            "name": "clientid",
+            "in": "path",
+            "type": "integer",
+            "description": "Id do clinte",
+            "required": true
+          },
+          {
+            "name": "assetid",
+            "in": "path",
+            "type": "integer",
+            "description": "Id do ativo",
+            "required": true
+          }
+        ],
+        "summary": "Realizar uma transação",
+        "description": "Essa rota permite ao cliente realizar uma transação",
+        "tags": ["Transações"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Created_Transactions"
+              }
+            }
+          }
+        },
+        "responses": {
+          "401": {
+            "description": "Usuário não autenticado!"
+          },
+          "403": {
+            "description": "Usuário não autorizado!"
+          },
+          "400": {
+            "description": "Saldo insuficiente para realizar a transação!\n\nErro ao cadastrar a transação!\n\nErro ao atualizar o valor em conta!"
+          },
+          "200": {
+            "description": "Transação realizada com sucesso!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/List_Created_Transactions"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/account": {
+      "get": {
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "type": "string",
+            "description": "token",
+            "required": true
+          }
+        ],
+        "summary": "Listar as contas dos clientes",
+        "description": "Essa rota lista as contas dos clientes",
+        "tags": ["Informações Bancárias"],
+        "responses": {
+          "401": {
+            "description": "Usuário não autenticado!"
+          },
+          "403": {
+            "description": "Usuário não autorizado!"
+          },
+          "200": {
+            "description": "Informações bancárias listadas com sucesso!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/List_Bank_Client"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/account/{accountid}": {
+      "get": {
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "type": "string",
+            "description": "token",
+            "required": true
+          },
+          {
+            "name": "accountid",
+            "in": "path",
+            "type": "integer",
+            "description": "Id da conta",
+            "required": true
+          }
+        ],
+        "summary": "Listar as contas do cliente",
+        "description": "Essa rota lista as contas do cliente",
+        "tags": ["Informações Bancárias"],
+        "responses": {
+          "401": {
+            "description": "Usuário não autenticado!"
+          },
+          "403": {
+            "description": "Usuário não autorizado!"
+          },
+          "200": {
+            "description": "Informações bancárias listadas com sucesso!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/List_Bank_Client"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/account/client/{clientid}": {
+      "get": {
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "type": "string",
+            "description": "token",
+            "required": true
+          },
+          {
+            "name": "clientid",
+            "in": "path",
+            "type": "integer",
+            "description": "Id da conta",
+            "required": true
+          }
+        ],
+        "summary": "Listar o saldo bancário do cliente",
+        "description": "Essa rota lista o saldo bancário do cliente",
+        "tags": ["Informações Bancárias"],
+        "responses": {
+          "401": {
+            "description": "Usuário não autenticado!"
+          },
+          "403": {
+            "description": "Usuário não autorizado!"
+          },
+          "200": {
+            "description": "Saldo listado com sucesso!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Balance_Account"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/bank": {
+      "get": {
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "type": "string",
+            "description": "token",
+            "required": true
+          }
+        ],
+        "summary": "Listar os bancos",
+        "description": "Essa rota lista os bancos cadastrados no sistema",
+        "tags": ["Lista de Bancos"],
+        "responses": {
+          "401": {
+            "description": "Usuário não autenticado!"
+          },
+          "403": {
+            "description": "Usuário não autorizado!"
+          },
+          "200": {
+            "description": "Bancos listados com sucesso!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/List_Banks"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Auth": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "required": true
+          },
+          "password": {
+            "type": "string",
+            "required": true
+          }
+        }
+      },
+
+      "List_Auth": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "required": true
+          },
+          "name": {
+            "type": "string",
+            "required": true
+          },
+          "email": {
+            "type": "string",
+            "required": true
+          },
+          "cpf": {
+            "type": "string",
+            "required": true
+          },
+          "type": {
+            "type": "integer",
+            "required": true
+          }
+        }
+      },
+      
+      "Register": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "required": true
+          },
+          "email": {
+            "type": "string",
+            "required": true
+          },
+          "cpf": {
+            "type": "string",
+            "required": true
+          },
+          "gender": {
+            "type": "string",
+            "required": true
+          },
+          "birth_date": {
+            "type": "string",
+            "required": true
+          },
+          "password": {
+            "type": "string",
+            "required": true
+          },
+          "phone": {
+            "type": "string",
+            "required": true
+          },
+          "kind": {
+            "type": "string",
+            "required": true
+          },
+          "status": {
+            "type": "boolean",
+            "required": true
+          },
+          "address": {
+            "type": "string",
+            "required": true
+          },
+          "uf": {
+            "type": "string",
+            "required": true
+          },
+          "city": {
+            "type": "string",
+            "required": true
+          },
+          "zip_code": {
+            "type": "string",
+            "required": true
+          },
+          "complement": {
+            "type": "string",
+            "required": true
+          }
+        }
+      },
+
+      "List_Assets": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "required": true
+          },
+          "name": {
+            "type": "string",
+            "required": true
+          },
+          "description": {
+            "type": "string",
+            "required": true
+          },
+          "bvmf": {
+            "type": "string",
+            "required": true
+          },
+          "current_price": {
+            "type": "string",
+            "required": true
+          },
+          "quantity": {
+            "type": "integer",
+            "required": true
+          },
+          "image": {
+            "type": "string",
+            "required": true
+          }
+        }
+      },
+
+      "Register_Assets": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "required": true,
+            "example": "Empresa01"
+          },
+          "description": {
+            "type": "string",
+            "required": true,
+            "example": "Empresa01 é uma empresa Estado-unidense fabricante de circuitos integrados, especialmente processadores e placas de vídeo."
+          },
+          "bvmf": {
+            "type": "string",
+            "required": true,
+            "example": "WMD34"
+          },
+          "current_price": {
+            "type": "string",
+            "required": true,
+            "example": 51.04
+          },
+          "quantity": {
+            "type": "integer",
+            "required": true,
+            "example": 50
+          },
+          "image": {
+            "type": "string",
+            "required": true,
+            "format": "binary"
+          }
+        }
+      },
+
+      "List_Client": {
+        "type": "object",
+        "properties": {
+          "clientid": {
+            "type": "integer",
+            "required": true
+          },
+          "name": {
+            "type": "string",
+            "required": true
+          },
+          "email": {
+            "type": "string",
+            "required": true
+          },
+          "cpf": {
+            "type": "string",
+            "required": true
+          },
+          "gender": {
+            "type": "string",
+            "required": true
+          },
+          "birth_date": {
+            "type": "string",
+            "required": true
+          },
+          "password": {
+            "type": "string",
+            "required": true
+          },
+          "phone": {
+            "type": "string",
+            "required": true
+          },
+          "status": {
+            "type": "string",
+            "required": true
+          },
+          "kind": {
+            "type": "string",
+            "required": true
+          },
+          "address": {
+            "address": {
+              "type": "string",
+              "required": true
+            },
+            "uf": {
+              "type": "string",
+              "required": true
+            },
+            "city": {
+              "type": "string",
+              "required": true
+            },
+            "zip_code": {
+              "type": "string",
+              "required": true
+            },
+            "complement": {
+              "type": "string",
+              "required": true
+            }
+          },
+          "transaction": {
+            "id": {
+              "type": "integer",
+              "required": false
+            },
+            "total_quantity": {
+              "type": "integer",
+              "required": false
+            },
+            "total_price": {
+              "type": "float",
+              "required": false
+            }
+          },
+          "transaction_details": {
+            "id": {
+              "type": "integer",
+              "required": false
+            },
+            "name": {
+              "type": "string",
+              "required": false
+            },
+            "description": {
+              "type": "string",
+              "required": false
+            },
+            "bvmf": {
+              "type": "string",
+              "required": false
+            },
+            "current_price": {
+              "type": "float",
+              "required": false
+            },
+            "quantity": {
+              "type": "integer",
+              "required": false
+            }
+          }
+        }
+      },
+
+      "List_Top05_Assets": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "required": true
+          },
+          "name": {
+            "type": "string",
+            "required": true
+          },
+          "description": {
+            "type": "string",
+            "required": true
+          },
+          "bvmf": {
+            "type": "string",
+            "required": true
+          },
+          "quantity": {
+            "type": "integer",
+            "required": true
+          },
+          "current_price": {
+            "type": "string",
+            "required": true
+          },
+          "count": {
+            "type": "integer",
+            "required": true
+          }
+        }
+      },
+
+      "Update_Client": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "required": true,
+            "example": "example"
+          },
+          "email": {
+            "type": "string",
+            "required": true,
+            "example": "example@gmail.com"
+          },
+          "cpf": {
+            "type": "string",
+            "required": true,
+            "example": "999.999.999-99"
+          },
+          "gender": {
+            "type": "string",
+            "required": true,
+            "example": "M"
+          },
+          "birth_date": {
+            "type": "string",
+            "required": true,
+            "example": "04/09/2000"
+          },
+          "password": {
+            "type": "string",
+            "required": true,
+            "example": "example"
+          },
+          "phone": {
+            "type": "string",
+            "required": true,
+            "example": "(99)9999-9999"
+          },
+          "cod_address": {
+            "type": "integer",
+            "required": true,
+            "example": "1"
+          },
+          "address": {
+            "type": "string",
+            "required": true,
+            "example": "Rua abc"
+          },
+          "uf": {
+            "type": "string",
+            "required": true,
+            "example": "RJ"
+          },
+          "city": {
+            "type": "string",
+            "required": true,
+            "example": "Rio de janeiro"
+          },
+          "zip_code": {
+            "type": "string",
+            "required": true,
+            "example": "99999-999"
+          },
+          "complement": {
+            "type": "string",
+            "required": true,
+            "example": "casa"
+          }
+        }
+      },
+
+      "List_Update_Client": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "required": true
+          }
+        }
+      },
+
+      "Status_Client": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "required": true,
+            "example": "example"
+          },
+          "status": {
+            "type": "string",
+            "required": true,
+            "example": "true ou false"
+          }
+        }
+      },
+
+      "List_Transactions": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "required": true
+          },
+          "total_quantity": {
+            "type": "integer",
+            "required": true
+          },
+          "total_price": {
+            "type": "string",
+            "required": true
+          },
+          "id_asset": {
+            "type": "integer",
+            "required": true
+          },
+          "name": {
+            "type": "string",
+            "required": true
+          },
+          "description": {
+            "type": "string",
+            "required": true
+          },
+          "bvmf": {
+            "type": "string",
+            "required": true
+          },
+          "current_price": {
+            "type": "string",
+            "required": true
+          },
+          "purchase_price": {
+            "type": "string",
+            "required": true
+          },
+          "current_date": {
+            "type": "string",
+            "required": true
+          }
+        }
+      },
+
+      "Created_Transactions": {
+        "type": "object",
+        "properties": {
+          "subtotal_price": {
+            "type": "float",
+            "required": true,
+            "example": 200.9
+          },
+          "total_price": {
+            "type": "float",
+            "required": true,
+            "example": 200.9
+          },
+          "quantity": {
+            "type": "integer",
+            "required": true,
+            "example": 1
+          },
+          "current_price": {
+            "type": "float",
+            "required": true,
+            "example": 200.9
+          }
+        }
+      },
+
+      "List_Created_Transactions": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "required": true
+          },
+          "subtotal_price": {
+            "type": "string",
+            "required": true
+          },
+          "total_price": {
+            "type": "string",
+            "required": true
+          },
+          "quantity": {
+            "type": "integer",
+            "required": true
+          },
+          "current_price": {
+            "type": "string",
+            "required": true
+          }
+        }
+      },
+
+      "List_Deposit": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "required": true
+          },
+          "deposit_value": {
+            "type": "string",
+            "required": true
+          },
+          "origin_cpf": {
+            "type": "string",
+            "required": true
+          },
+          "current_date": {
+            "type": "string",
+            "required": true
+          },
+          "transaction_id": {
+            "type": "integer",
+            "required": true
+          },
+          "bank_id": {
+            "type": "integer",
+            "required": true
+          },
+          "total_quantity": {
+            "type": "integer",
+            "required": true
+          },
+          "sub_total": {
+            "type": "string",
+            "required": true
+          },
+          "total_price": {
+            "type": "string",
+            "required": true
+          },
+          "user_id": {
+            "type": "integer",
+            "required": true
+          },
+          "cod_bank": {
+            "type": "integer",
+            "required": true
+          },
+          "bank_name": {
+            "type": "string",
+            "required": true
+          },
+          "branch": {
+            "type": "string",
+            "required": true
+          }
+        }
+      },
+
+      "Create_Deposit": {
+        "type": "object",
+        "properties": {
+          "branch": {
+            "type": "string",
+            "required": true,
+            "example": "0845"
+          },
+          "origin_cpf": {
+            "type": "string",
+            "required": true,
+            "example": "139.345.567-90"
+          },
+          "value": {
+            "type": "float",
+            "required": true,
+            "example": 200.9
+          },
+          "bank_id": {
+            "type": "integer",
+            "required": true,
+            "example": "1"
+          },
+          "user_id": {
+            "type": "integer",
+            "required": true,
+            "example": "1"
+          }
+        }
+      },
+
+      "List_Create_Deposit": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "required": true
+          },
+          "branch": {
+            "type": "string",
+            "required": true
+          },
+          "origin_cpf": {
+            "type": "string",
+            "required": true
+          },
+          "value": {
+            "type": "float",
+            "required": true
+          },
+          "bank_id": {
+            "type": "integer",
+            "required": true
+          },
+          "user_id": {
+            "type": "integer",
+            "required": true
+          }
+        }
+      },
+
+      "List_Bank_Client": {
+        "type": "object",
+        "properties": {
+        "id": {
+          "type": "integer",
+          "required": true
+        },
+        "number": {
+          "type": "string",
+          "required": true
+        },
+        "type": {
+          "type": "string",
+          "required": true
+        },
+        "balance": {
+          "type": "string",
+          "required": true
+        },
+        "open_date": {
+          "type": "string",
+          "required": true
+        },
+        "id_user": {
+          "type": "integer",
+          "required": true
+        },
+        "name": {
+          "type": "string",
+          "required": true
+        },
+        "email": {
+          "type": "string",
+          "required": true
+        },
+        "cpf": {
+          "type": "string",
+          "required": true
+        },
+        "gender": {
+          "type": "string",
+          "required": true
+        },
+        "birth_date": {
+          "type": "string",
+          "required": true
+        },
+        "phone": {
+          "type": "string",
+          "required": true
+        },
+        "status": {
+          "type": "boolean",
+          "required": true
+        },
+        "kind": {
+          "type": "string",
+          "required": true
+        },
+        "created_at": {
+          "type": "string",
+          "required": true
+        },
+        "updated_at": {
+          "type": "string",
+          "required": true
+        },
+        "name_branch": {
+          "type": "string",
+          "required": true
+        }
+      }
+    },
+
+      "Balance_Account": {
+        "type": "object",
+        "properties": {
+        "id": {
+          "type": "integer",
+          "required": true
+        },
+        "type": {
+          "type": "string",
+          "required": true
+        },
+        "balance": {
+          "type": "string",
+          "required": true
+        },
+        "open_date": {
+          "type": "string",
+          "required": true
+        },
+        "total_assets": {
+          "type": "string",
+          "required": true
+        },
+        "consolidated": {
+          "type": "string",
+          "required": true
+        },
+        "user_id": {
+          "type": "integer",
+          "required": true
+        },
+        "branch_id": {
+          "type": "integer",
+          "required": true
+        },
+        "user": {
+          "id": {
+            "type": "integer",
+            "required": true
+          },
+          "name": {
+            "type": "string",
+            "required": true
+          },
+          "email": {
+            "type": "string",
+            "required": true
+          },
+          "cpf": {
+            "type": "string",
+            "required": true
+          },
+          "gender": {
+            "type": "string",
+            "required": true
+          },
+          "birth_date": {
+            "type": "string",
+            "required": true
+          },
+          "password": {
+            "type": "string",
+            "required": true
+          },
+          "phone": {
+            "type": "string",
+            "required": true
+          },
+          "status": {
+            "type": "boolean",
+            "required": true
+          },
+          "kind": {
+            "type": "string",
+            "required": true
+          },
+          "created_at": {
+            "type": "string",
+            "required": true
+          },
+          "updated_at": {
+            "type": "string",
+            "required": true
+          },
+          "address_id": {
+            "type": "integer",
+            "required": true
+          }
+        },
+        "branch": {
+          "id": {
+            "type": "integer",
+            "required": true
+          },
+          "name": {
+            "type": "string",
+            "required": true
+          }
+        }
+      }
+      },
+
+      "List_Banks": {
+        "type": "object",
+        "properties": {
+        "cod_bank": {
+          "type": "integer",
+          "required": true
+        },
+        "name": {
+          "type": "string",
+          "required": true
+        },
+        "branch": {
+          "type": "string",
+          "required": true
+        }
+      }
+    }
+    },
+
+    "securityDefinitions": {
+      "JWT": {
+        "description": "JWT token",
+        "type": "apiKey",
+        "in": "header",
+        "name": "Authorization"
+      }
+    }
+  }
+}

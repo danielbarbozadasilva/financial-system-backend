@@ -1,0 +1,55 @@
+{
+  "name": "financial-system-backend",
+  "author": "Daniel Barboza da Silva",
+  "license": "GPLv3 License",
+  "version": "1.0.0",
+  "description": "backend - Sistema de gestão financeira",
+  "main": "index.js",
+  "private": true,
+  "scripts": {
+    "start": "node ./index.js",
+    "dev": "nodemon ./index.js",
+    "add-migrations": "yarn sequelize db:migrate",
+    "add-seeders": "yarn sequelize db:seed:all",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/danielbarbozadasilva/financial-system-backend.git"
+  },
+  "bugs": {
+    "url": "https://github.com/danielbarbozadasilva/financial-system-backend/issues"
+  },
+  "homepage": "https://github.com/danielbarbozadasilva/financial-system-backend#readme",
+  "dependencies": {
+    "@joi/date": "^2.1.0",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "formidable": "^1.2.2",
+    "fs": "^0.0.1-security",
+    "http-status": "^1.5.2",
+    "joi": "^17.4.0",
+    "jsonwebtoken": "^8.5.1",
+    "md5": "^2.3.0",
+    "morgan": "^1.10.0",
+    "mysql2": "^2.2.5",
+    "nodemon": "^2.0.7",
+    "path": "^0.12.7",
+    "sequelize": "^6.6.2",
+    "swagger-ui-express": "^4.4.0",
+    "uuid": "^8.3.2",
+    "winston": "^3.3.3"
+  },
+  "devDependencies": {
+    "@types/swagger-ui-express": "^4.1.3",
+    "eslint": "^8.19.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "prettier": "^2.7.1",
+    "sequelize-cli": "^6.2.0"
+  }
+}
