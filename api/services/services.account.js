@@ -1,79 +1,92 @@
 const { account, user, branch, transaction } = require('../models/models.index')
 const accountMapper = require('../mappers/mappers.account')
+const ErrorGeneric = require('../utils/errors/erros.generic_error')
 
 const listAllAccountService = async () => {
-  const accountDB = await account.findAll({
-    include: [
-      {
-        model: user,
-        as: 'user',
-        required: true
-      },
-      {
-        model: branch,
-        as: 'branch'
-      }
-    ]
-  })
-  return {
-    success: true,
-    message: 'Informações bancárias listadas com sucesso!',
-    data: accountDB.map((item) => accountMapper.toDTO(item))
+  try {
+    const accountDB = await account.findAll({
+      include: [
+        {
+          model: user,
+          as: 'user',
+          required: true
+        },
+        {
+          model: branch,
+          as: 'branch'
+        }
+      ]
+    })
+    return {
+      success: true,
+      message: 'Informações bancárias listadas com sucesso!',
+      data: accountDB.map((item) => accountMapper.toDTO(item))
+    }
+  } catch (err) {
+    throw new ErrorGeneric(`Internal Server Error! Código: ${err.name}`)
   }
 }
 
 const listByIdAccountService = async (accountid) => {
-  const accountDB = await account.findOne({
-    include: [
-      {
-        model: user,
-        as: 'user',
-        required: true
-      },
-      {
-        model: branch,
-        as: 'branch'
-      }
-    ],
-    where: { cod_account: accountid }
-  })
-  return {
-    success: true,
-    message: 'Informações bancárias listadas com sucesso!',
-    data: accountMapper.toDTO(accountDB)
+  try {
+    const accountDB = await account.findOne({
+      include: [
+        {
+          model: user,
+          as: 'user',
+          required: true
+        },
+        {
+          model: branch,
+          as: 'branch'
+        }
+      ],
+      where: { cod_account: accountid }
+    })
+    return {
+      success: true,
+      message: 'Informações bancárias listadas com sucesso!',
+      data: accountMapper.toDTO(accountDB)
+    }
+  } catch (err) {
+    throw new ErrorGeneric(`Internal Server Error! Código: ${err.name}`)
   }
 }
 
 const checkBalanceService = async (id) => {
-  const accountDB = await account.findOne({
-    include: [
-      {
-        model: user,
-        as: 'user',
-        required: true,
-        where: { cod_user: id }
-      },
-      {
-        model: branch,
-        as: 'branch'
-      }
-    ]
-  })
+  try {
+    const accountDB = await account.findOne({
+      include: [
+        {
+          model: user,
+          as: 'user',
+          required: true,
+          where: { cod_user: id }
+        },
+        {
+          model: branch,
+          as: 'branch'
+        }
+      ]
+    })
 
-  const transactionDB = await transaction.findAll({
-    include: [
-      {
-        model: user,
-        as: 'user'
-      }
-    ],
-    where: { user_id: id }
-  })
+    const transactionDB = await transaction.findAll({
+      include: [
+        {
+          model: user,
+          as: 'user'
+        }
+      ],
+      where: { user_id: id }
+    })
 
-  return {
-    success: true,
-    message: 'Saldo listado com sucesso!',
-    data: accountMapper.toDTOUserAssets(accountDB, transactionDB)
+    return {
+      success: true,
+      message: 'Saldo listado com sucesso!',
+      data: accountMapper.toDTOUserAssets(accountDB, transactionDB)
+    }
+  } catch (err) {
+    throw new ErrorGeneric(`Internal Server Error! Código: ${err.name}`)
   }
 }
 

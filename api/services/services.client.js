@@ -8,70 +8,82 @@ const clientMapper = require('../mappers/mappers.client')
 const serviceUser = require('./services.user')
 
 const listAllClientsService = async () => {
-  const userDB = await sequelize.query(
-    'SELECT *, u.name as user_name FROM user u INNER JOIN address d ON u.address_id = d.cod_address LEFT JOIN transaction t on t.user_id=u.cod_user LEFT JOIN transaction_details td ON t.cod_transaction=td.transaction_id LEFT JOIN financial_asset_catalog f ON td.financial_asset_id = f.cod_fin_asset WHERE u.kind="client" GROUP BY u.cod_user ORDER BY u.name;',
-    { type: QueryTypes.SELECT }
-  )
-  return {
-    success: true,
-    message: 'Cliente(s) listado(s) com sucesso!',
-    data: userDB.map((item) => clientMapper.toDTO(item))
+  try {
+    const userDB = await sequelize.query(
+      'SELECT *, u.name as user_name FROM user u INNER JOIN address d ON u.address_id = d.cod_address LEFT JOIN transaction t on t.user_id=u.cod_user LEFT JOIN transaction_details td ON t.cod_transaction=td.transaction_id LEFT JOIN financial_asset_catalog f ON td.financial_asset_id = f.cod_fin_asset WHERE u.kind="client" GROUP BY u.cod_user ORDER BY u.name;',
+      { type: QueryTypes.SELECT }
+    )
+    return {
+      success: true,
+      message: 'Cliente(s) listado(s) com sucesso!',
+      data: userDB.map((item) => clientMapper.toDTO(item))
+    }
+  } catch (err) {
+    throw new ErrorGeneric(`Internal Server Error! Código: ${err.name}`)
   }
 }
 
 const listByIdClientService = async (id) => {
-  const userDB = await user.findAll({
-    include: [
-      {
-        model: address,
-        as: 'address',
-        required: true
-      }
-    ],
-    where: { kind: 'client', cod_user: id },
-    order: [['cod_user', 'ASC']]
-  })
+  try {
+    const userDB = await user.findAll({
+      include: [
+        {
+          model: address,
+          as: 'address',
+          required: true
+        }
+      ],
+      where: { kind: 'client', cod_user: id },
+      order: [['cod_user', 'ASC']]
+    })
 
-  return {
-    success: true,
-    message: 'Cliente listado com sucesso!',
-    data: clientMapper.toDTOList(...userDB)
+    return {
+      success: true,
+      message: 'Cliente listado com sucesso!',
+      data: clientMapper.toDTOList(...userDB)
+    }
+  } catch (err) {
+    throw new ErrorGeneric(`Internal Server Error! Código: ${err.name}`)
   }
 }
 
 const changeStatusService = async (clientId, status) => {
-  const clientDB = await user.findByPk(clientId)
-  if (!clientDB) {
-    return {
-      success: false,
-      message: 'Operação não pode ser realizada!',
-      details: ['Não existe um cliente com esse id']
-    }
-  }
-
-  const resultDB = await user.update(
-    {
-      status
-    },
-    { where: { cod_user: clientId } }
-  )
-
-  if (resultDB) {
-    return {
-      success: true,
-      message: 'Status atualizado com sucesso!',
-      data: {
-        name: clientDB.name,
-        status
+  try {
+    const clientDB = await user.findByPk(clientId)
+    if (!clientDB) {
+      return {
+        success: false,
+        message: 'Operação não pode ser realizada!',
+        details: ['Não existe um cliente com esse id']
       }
     }
-  }
 
-  if (!resultDB) {
-    return {
-      success: false,
-      message: 'Erro ao atualizar o status!'
+    const resultDB = await user.update(
+      {
+        status
+      },
+      { where: { cod_user: clientId } }
+    )
+
+    if (resultDB) {
+      return {
+        success: true,
+        message: 'Status atualizado com sucesso!',
+        data: {
+          name: clientDB.name,
+          status
+        }
+      }
     }
+
+    if (!resultDB) {
+      return {
+        success: false,
+        message: 'Erro ao atualizar o status!'
+      }
+    }
+  } catch (err) {
+    throw new ErrorGeneric(`Internal Server Error! Código: ${err.name}`)
   }
 }
 

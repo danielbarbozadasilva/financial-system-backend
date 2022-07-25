@@ -78,7 +78,6 @@ const createTransactionService = async (params, body) => {
     accountDB.balance -= Number(body.total_price)
     await accountDB.save({ transaction: infoTransaction })
 
-
     await infoTransaction.commit()
     return {
       success: true,
@@ -139,87 +138,99 @@ const createDepositService = async (clientid, body) => {
 }
 
 const listAllUserTransactionService = async () => {
-  const userDB = await transaction.findAll({
-    include: [
-      {
-        model: user,
-        as: 'user'
-      },
-      {
-        model: transaction_details,
-        as: 'transaction_details',
-        where: {
-          cod_trans_details: { [Op.ne]: null }
+  try {
+    const userDB = await transaction.findAll({
+      include: [
+        {
+          model: user,
+          as: 'user'
         },
-        include: {
-          model: financial_asset_catalog,
-          as: 'financial_asset_catalog'
+        {
+          model: transaction_details,
+          as: 'transaction_details',
+          where: {
+            cod_trans_details: { [Op.ne]: null }
+          },
+          include: {
+            model: financial_asset_catalog,
+            as: 'financial_asset_catalog'
+          }
         }
-      }
-    ],
-    raw: true,
-    nest: true
-  })
+      ],
+      raw: true,
+      nest: true
+    })
 
-  return {
-    success: true,
-    message: 'Transações listadas com sucesso!',
-    data: userDB.map((item) => transactionMapper.toDTOUserIdAssets(item))
+    return {
+      success: true,
+      message: 'Transações listadas com sucesso!',
+      data: userDB.map((item) => transactionMapper.toDTOUserIdAssets(item))
+    }
+  } catch (err) {
+    throw new ErrorGeneric(`Internal Server Error! Código: ${err.name}`)
   }
 }
 
 const listByIdUserTransactionService = async (id) => {
-  const userDB = await transaction.findAll({
-    include: [
-      {
-        model: user,
-        as: 'user',
-        where: { cod_user: id }
-      },
-      {
-        model: transaction_details,
-        as: 'transaction_details',
-        where: {
-          cod_trans_details: { [Op.ne]: null }
+  try {
+    const userDB = await transaction.findAll({
+      include: [
+        {
+          model: user,
+          as: 'user',
+          where: { cod_user: id }
         },
-        include: {
-          model: financial_asset_catalog,
-          as: 'financial_asset_catalog'
+        {
+          model: transaction_details,
+          as: 'transaction_details',
+          where: {
+            cod_trans_details: { [Op.ne]: null }
+          },
+          include: {
+            model: financial_asset_catalog,
+            as: 'financial_asset_catalog'
+          }
         }
-      }
-    ],
-    raw: true,
-    nest: true
-  })
+      ],
+      raw: true,
+      nest: true
+    })
 
-  return {
-    success: true,
-    message: 'Transações listadas com sucesso!',
-    data: userDB.map((item) => transactionMapper.toDTOUserIdAssets(item))
+    return {
+      success: true,
+      message: 'Transações listadas com sucesso!',
+      data: userDB.map((item) => transactionMapper.toDTOUserIdAssets(item))
+    }
+  } catch (err) {
+    throw new ErrorGeneric(`Internal Server Error! Código: ${err.name}`)
   }
 }
 
 const listByIdUserDepositService = async (id) => {
-  const userDB = await transfer.findAll({
-    include: [
-      {
-        model: transaction,
-        as: 'transaction',
-        where: { user_id: id }
-      },
-      {
-        model: bank,
-        as: 'bank'
-      }
-    ],
-    raw: true,
-    nest: true
-  })
+  try {
+    const userDB = await transfer.findAll({
+      include: [
+        {
+          model: transaction,
+          as: 'transaction',
+          where: { user_id: id }
+        },
+        {
+          model: bank,
+          as: 'bank'
+        }
+      ],
+      raw: true,
+      nest: true
+    })
 
-  return {
-    success: true,
-    message: 'Depósito(s) listado(s) com sucesso!',
-    data: userDB.map((item) => transactionMapper.toDTOListDeposit(item))
+    return {
+      success: true,
+      message: 'Depósito(s) listado(s) com sucesso!',
+      data: userDB.map((item) => transactionMapper.toDTOListDeposit(item))
+    }
+  } catch (err) {
+    throw new ErrorGeneric(`Internal Server Error! Código: ${err.name}`)
   }
 }
 
