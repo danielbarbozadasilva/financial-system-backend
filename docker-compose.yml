@@ -5,7 +5,7 @@ services:
     container_name: "mysql"
     image: mysql:5.7
     environment:
-      MYSQL_ROOT_PASSWORD: "dani90el"
+      MYSQL_ROOT_PASSWORD: "Fh7Ed2am1"
       MYSQL_DATABASE: "projeto"
       TZ: "America/Sao_Paulo"
 
