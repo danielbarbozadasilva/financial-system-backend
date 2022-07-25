@@ -23,7 +23,7 @@ module.exports = {
           address: 'Rua acr 123',
           uf: 'SP',
           city: 'ALTAIR',
-          zip_code: '23233-200',
+          zip_code: '22113-250',
           complement: 'apart.'
         },
         {
@@ -31,6 +31,20 @@ module.exports = {
           uf: 'SP',
           city: 'CAJAMAR',
           zip_code: '23233-200',
+          complement: 'apart.'
+        },
+        {
+          address: 'Rua hdt 123',
+          uf: 'SP',
+          city: 'CAJAMAR',
+          zip_code: '23233-200',
+          complement: 'apart.'
+        },
+        {
+          address: 'Rua fgh 123',
+          uf: 'RJ',
+          city: 'CARMO',
+          zip_code: '22133-100',
           complement: 'apart.'
         }
       ],

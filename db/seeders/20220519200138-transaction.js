@@ -7,27 +7,39 @@ module.exports = {
       [
         {
           total_quantity: 1,
-          sub_total: 61.2,
-          total_price: 53.95,
+          sub_total: 53.95,
+          total_price: 55.78,
           user_id: 2
         },
         {
           total_quantity: 1,
-          sub_total: 62.0,
-          total_price: 64.19,
+          sub_total: 64.19,
+          total_price: 67.45,
           user_id: 3
         },
         {
           total_quantity: 1,
-          sub_total: 30.2,
-          total_price: 31.99,
+          sub_total: 31.99,
+          total_price: 33.35,
           user_id: 3
         },
         {
           total_quantity: 1,
-          sub_total: 30.17,
-          total_price: 32.12,
+          sub_total: 32.12,
+          total_price: 34.57,
           user_id: 4
+        },
+        {
+          total_quantity: 1,
+          sub_total: 64.19,
+          total_price: 67.59,
+          user_id: 5
+        },
+        {
+          total_quantity: 1,
+          sub_total: 34.93,
+          total_price: 37.67,
+          user_id: 6
         }
       ],
       {

@@ -53,6 +53,30 @@ module.exports = {
           status: true,
           kind: 'client',
           address_id: 4
+        },
+        {
+          name: 'Rodrigo Souza',
+          email: 'rodrigo@gmail.com',
+          cpf: '721.423.431-10',
+          gender: 'M',
+          birth_date: '1996-04-09',
+          password: cryptography.UtilCreateHash('rodrigo'),
+          phone: '+55 (21) 2124-2133',
+          status: true,
+          kind: 'client',
+          address_id: 5
+        },
+        {
+          name: 'Marcia Barboza',
+          email: 'marcia@gmail.com',
+          cpf: '823.173.836-46',
+          gender: 'M',
+          birth_date: '1991-01-05',
+          password: cryptography.UtilCreateHash('marcia'),
+          phone: '+55 (21) 2121-2236',
+          status: true,
+          kind: 'client',
+          address_id: 6
         }
       ],
       {

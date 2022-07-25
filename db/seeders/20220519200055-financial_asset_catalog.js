@@ -79,7 +79,7 @@ module.exports = {
         },
         {
           name: 'Ativo 7',
-          description: 'Uma empresa multinacional e de tecnologia sediada em Santa Clara, Califórnia, no Vale do Silício.',
+          description: 'Uma grande empresa multinacional de tecnologia.',
           bvmf: 'ETLC34',
           current_price: 34.93,
           quantity: 250,

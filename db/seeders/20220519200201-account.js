@@ -25,6 +25,20 @@ module.exports = {
           balance: 11400.00,
           user_id: 4,
           branch_id: 1
+        },
+        {  
+          number: '14316134-1',
+          type: 'C/C',
+          balance: 24100.00,
+          user_id: 5,
+          branch_id: 1
+        },
+        {  
+          number: '21528231-2',
+          type: 'C/C',
+          balance: 21100.00,
+          user_id: 6,
+          branch_id: 1
         }
       ],
       {
