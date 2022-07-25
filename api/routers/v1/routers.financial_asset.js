@@ -10,7 +10,7 @@ module.exports = (router) => {
     .route('/financial')
     .get(
       authorizationMiddleware('*'),
-      financialController.listAllFinancialAssetsController
+      asyncMiddleware(financialController.listAllFinancialAssetsController)
     )
 
     .post(
@@ -44,7 +44,7 @@ module.exports = (router) => {
           allowUnknown: true
         }
       ),
-      financialController.createFinancialAssetsController
+      asyncMiddleware(financialController.createFinancialAssetsController)
     )
 
   router
@@ -115,6 +115,6 @@ module.exports = (router) => {
     .route('/financial/assets/top05')
     .get(
       authorizationMiddleware('*'),
-      financialController.listTop05FinancialAssetsController
+      asyncMiddleware(financialController.listTop05FinancialAssetsController)
     )
 }

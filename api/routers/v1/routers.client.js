@@ -10,7 +10,7 @@ module.exports = (router) => {
     .route('/client')
     .get(
       authorizationMiddleware('SEARCH_FINANCIAL'),
-      clientController.listAllClientsController
+      asyncMiddleware(clientController.listAllClientsController)
     )
 
   router
@@ -23,7 +23,7 @@ module.exports = (router) => {
           'number.empty': '"client id" can not be empty'
         })
       }),
-      clientController.listByIdClientController
+      asyncMiddleware(clientController.listByIdClientController)
     )
     .put(
       authorizationMiddleware('UPDATE_CLIENT'),
@@ -102,6 +102,6 @@ module.exports = (router) => {
         'string.empty': '"status" can not be empty'
       })
     }),
-    clientController.changeStatusClientController
+    asyncMiddleware(clientController.changeStatusClientController)
   )
 }

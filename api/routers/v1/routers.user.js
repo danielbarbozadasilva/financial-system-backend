@@ -15,8 +15,9 @@ module.exports = (router) => {
         'string.empty': `"password" can not be empty`
       })
     }),
-    userController.authController
+    asyncMiddleware(userController.authController)
   )
+
   router.route('/register').post(
     middlewareValidateDTO('body', {
       name: joi.string().required().messages({
@@ -63,7 +64,7 @@ module.exports = (router) => {
         'any.required': `"zip_code" is a required field`,
         'string.empty': `"zip_code" can not be empty`
       }),
-      complement: joi.string().allow(""),
+      complement: joi.string().allow(''),
       auth: joi.boolean().optional()
     }),
     asyncMiddleware(userController.registerController)

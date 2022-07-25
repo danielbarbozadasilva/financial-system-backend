@@ -75,7 +75,7 @@ module.exports = (router) => {
     .route('/transaction/client')
     .get(
       authorizationMiddleware('LIST_CLIENT_TRANSACTION'),
-      transactionController.listAllUserTransactionController
+      asyncMiddleware(transactionController.listAllUserTransactionController)
     )
 
   router.route('/transaction/client/:clientid').get(
@@ -86,7 +86,7 @@ module.exports = (router) => {
         'number.empty': '"client id" can not be empty'
       })
     }),
-    transactionController.listByIdUserTransactionController
+    asyncMiddleware(transactionController.listByIdUserTransactionController)
   )
 
   router.route('/transaction/deposit/client/:clientid').get(
@@ -97,6 +97,6 @@ module.exports = (router) => {
         'number.empty': '"client id" can not be empty'
       })
     }),
-    transactionController.listByIdUserDepositController
+    asyncMiddleware(transactionController.listByIdUserDepositController)
   )
 }

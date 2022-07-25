@@ -2,13 +2,15 @@ const joi = require('joi')
 const accountController = require('../../controllers/controllers.account')
 const middlewareValidateDTO = require('../../utils/middlewares/middlewares.validate_dto')
 const authorizationMiddleware = require('../../utils/middlewares/middlewares.authorization')
+const asyncMiddleware = require('../../utils/middlewares/middlewares.async')
 
 module.exports = (router) => {
-  router.route('/account').get(
-    authorizationMiddleware('LIST_ACCOUNT'),
-
-    accountController.listAllAccountController
-  )
+  router
+    .route('/account')
+    .get(
+      authorizationMiddleware('LIST_ACCOUNT'),
+      asyncMiddleware(accountController.listAllAccountController)
+    )
 
   router.route('/account/:accountid').get(
     authorizationMiddleware('LIST_ID_ACCOUNT'),
@@ -18,7 +20,7 @@ module.exports = (router) => {
         'number.empty': '"account id" can not be empty'
       })
     }),
-    accountController.listByIdAccountController
+    asyncMiddleware(accountController.listByIdAccountController)
   )
 
   router.route('/account/client/:clientid').get(
@@ -29,6 +31,6 @@ module.exports = (router) => {
         'number.empty': '"client id" can not be empty'
       })
     }),
-    accountController.checkBalanceController
+    asyncMiddleware(accountController.checkBalanceController)
   )
 }
