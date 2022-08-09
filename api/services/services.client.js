@@ -1,8 +1,6 @@
 const { QueryTypes } = require('sequelize')
 const { user, address, sequelize } = require('../models/models.index')
 const ErrorGeneric = require('../utils/errors/erros.generic_error')
-const ErrorBusinessRule = require('../utils/errors/errors.business_rule')
-
 const cryptography = require('../utils/utils.cryptography')
 const clientMapper = require('../mappers/mappers.client')
 const serviceUser = require('./services.user')
@@ -49,38 +47,10 @@ const listByIdClientService = async (id) => {
 
 const changeStatusService = async (clientId, status) => {
   try {
-    const clientDB = await user.findByPk(clientId)
-    if (!clientDB) {
-      return {
-        success: false,
-        message: 'Operação não pode ser realizada!',
-        details: ['Não existe um cliente com esse id']
-      }
-    }
-
-    const resultDB = await user.update(
-      {
-        status
-      },
-      { where: { cod_user: clientId } }
-    )
-
-    if (resultDB) {
-      return {
-        success: true,
-        message: 'Status atualizado com sucesso!',
-        data: {
-          name: clientDB.name,
-          status
-        }
-      }
-    }
-
-    if (!resultDB) {
-      return {
-        success: false,
-        message: 'Erro ao atualizar o status!'
-      }
+    await user.update({ status }, { where: { cod_user: clientId } })
+    return {
+      success: true,
+      message: 'Status atualizado com sucesso!'
     }
   } catch (err) {
     throw new ErrorGeneric(`Internal Server Error! Código: ${err.name}`)
@@ -88,31 +58,12 @@ const changeStatusService = async (clientId, status) => {
 }
 
 const updateClientService = async (clientId, body) => {
-  const resultFind = await user.findByPk(clientId)
-
-  if (!resultFind) {
-    throw new ErrorBusinessRule('Não existe um cliente com esse id!')
-  }
-
-  const resultEmail = await serviceUser.verifyEmailBodyExistService(
-    clientId,
-    body.email
-  )
-  if (resultEmail) {
-    throw new ErrorBusinessRule('Este e-mail já está em uso!')
-  }
-
-  const resultCpf = await serviceUser.verifyCpfBodyExistService(
-    clientId,
-    body.cpf
-  )
-  if (resultCpf) {
-    throw new ErrorBusinessRule('Este cpf já está em uso!')
-  }
-
   const infoTransaction = await sequelize.transaction()
-
   try {
+    await serviceUser.verifyEmailBodyExistService(clientId, body.email)
+
+    await serviceUser.verifyCpfBodyExistService(clientId, body.cpf)
+
     await address.update(
       {
         address: body.address,
@@ -122,7 +73,7 @@ const updateClientService = async (clientId, body) => {
         complement: body.complement
       },
       { where: { cod_address: body.cod_address } },
-      { transaction: infoTransaction }
+      { infoTransaction }
     )
 
     await user.update(
@@ -133,7 +84,7 @@ const updateClientService = async (clientId, body) => {
         gender: body.gender,
         kind: 'client',
         birth_date: body.birth_date,
-        password: cryptography.UtilCreateHash(body.password),
+        password: cryptography.createHash(body.password),
         phone: body.phone,
         address_id: body.cod_address
       },
@@ -141,15 +92,13 @@ const updateClientService = async (clientId, body) => {
       { transaction: infoTransaction }
     )
     await infoTransaction.commit()
+    return {
+      success: true,
+      message: 'Cliente atualizado com sucesso'
+    }
   } catch (error) {
     await infoTransaction.rollback()
     throw new ErrorGeneric('Erro ao atualizar o cliente!')
-  }
-
-  return {
-    success: true,
-    message: 'Cliente atualizado com sucesso',
-    data: { name: resultFind.name }
   }
 }
 

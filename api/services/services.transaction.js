@@ -11,37 +11,46 @@ const {
 } = require('../models/models.index')
 const transactionMapper = require('../mappers/mappers.transaction')
 const ErrorGeneric = require('../utils/errors/erros.generic_error')
+const ErrorBusinessRule = require('../utils/errors/errors.business_rule')
 
 const verifyQuantity = async (assetid, quantity) => {
   const result = await financial_asset_catalog.findByPk(assetid)
-  const checkCount = Number(result.quantity) >= Number(quantity)
-  return checkCount
+  const checkQuantity = result.quantity >= quantity
+  if (!checkQuantity) {
+    throw new ErrorBusinessRule('Quantidade indisponível no momento!')
+  }
 }
 
-const verifyBalance = async (id, total_price) => {
+const verifyBalance = async (id, totalPrice) => {
   const result = await account.findOne({
     where: { user_id: id }
   })
-  const checkCount = Number(result.balance) >= Number(total_price)
-  return checkCount
+  const checkBalance = result.balance >= totalPrice
+  if (!checkBalance) {
+    throw new ErrorBusinessRule('Saldo insuficiente para realizar a transação!')
+  }
+}
+
+const updateQuantity = async (assetid, quantity) => {
+  const result = await financial_asset_catalog.findByPk(assetid)
+  result.quantity -= quantity
+  await result.save()
+}
+
+const updateBalance = async (id, totalPrice) => {
+  const result = await account.findOne({
+    where: { user_id: id }
+  })
+  result.balance -= totalPrice
+  await result.save()
 }
 
 const createTransactionService = async (params, body) => {
-  const balance = await verifyBalance(params.clientid, body.total_price)
-  if (!balance) {
-    return {
-      success: false,
-      details: 'Saldo insuficiente para realizar a transação!'
-    }
-  }
+  await verifyQuantity(params.financialid, body.quantity)
+  await verifyBalance(params.clientid, body.total_price)
 
-  const quantity = await verifyQuantity(params.assetid, body.quantity)
-  if (!quantity) {
-    return {
-      success: false,
-      details: 'Quantidade indisponível no momento!'
-    }
-  }
+  await updateQuantity(params.financialid, body.quantity)
+  await updateBalance(params.clientid, body.total_price)
 
   const infoTransaction = await sequelize.transaction()
 
@@ -60,23 +69,11 @@ const createTransactionService = async (params, body) => {
       {
         quantity: body.quantity,
         purchase_price: body.current_price,
-        financial_asset_id: params.assetid,
+        financial_asset_id: params.financialid,
         transaction_id: transactionDB.cod_transaction
       },
       { transaction: infoTransaction }
     )
-
-    const financialResult = await financial_asset_catalog.findByPk(
-      params.assetid
-    )
-    financialResult.quantity -= Number(body.quantity)
-    await financialResult.save({ transaction: infoTransaction })
-
-    const accountDB = await account.findOne({
-      where: { user_id: params.clientid }
-    })
-    accountDB.balance -= Number(body.total_price)
-    await accountDB.save({ transaction: infoTransaction })
 
     await infoTransaction.commit()
     return {
@@ -119,7 +116,7 @@ const createDepositService = async (clientid, body) => {
 
     await account.update(
       {
-        balance: Number(accountDB.balance) + Number(body.value)
+        balance: Number(accountDB.balance) + body.value
       },
       { where: { user_id: clientid } },
       { transaction: infoTransaction }
