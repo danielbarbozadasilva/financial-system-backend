@@ -1,8 +1,10 @@
 const Joi = require('joi')
+const ErrorBusinessRule = require('../errors/errors.business_rule')
 
-const MiddlewareValidateDTO = (type, params, options = {}) => {
-  return (req, res, next) => {
+const validateDTOMiddleware = (type, params, options = {}) => {
+  return async (req, res, next) => {
     const schema = Joi.object().keys(params)
+
     const result = schema.validate(req[type], {
       allowUnknown: false,
       ...options
@@ -12,14 +14,10 @@ const MiddlewareValidateDTO = (type, params, options = {}) => {
       const message = result.error.details.reduce((acc, item) => {
         return [...acc, item.message]
       }, [])
-
-      return res.status(400).send({
-        success: false,
-        details: [...message]
-      })
+      throw new ErrorBusinessRule(message)
     }
 
     return next()
   }
 }
-module.exports = MiddlewareValidateDTO
+module.exports = validateDTOMiddleware

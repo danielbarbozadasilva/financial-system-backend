@@ -2,8 +2,6 @@ const { QueryTypes } = require('sequelize')
 const { financial_asset_catalog, sequelize } = require('../models/models.index')
 const financialAssetMapper = require('../mappers/mappers.financial_asset')
 const fileUtils = require('../utils/utils.file')
-
-const ErrorBusinessRule = require('../utils/errors/errors.business_rule')
 const ErrorGeneric = require('../utils/errors/erros.generic_error')
 
 const listFinancialAssetsService = async () => {
@@ -22,14 +20,10 @@ const listFinancialAssetsService = async () => {
 const listByIdFinancialAssetsService = async (id) => {
   try {
     const financialDB = await financial_asset_catalog.findByPk(id)
-    if (!financialDB) {
-      throw new ErrorBusinessRule('Não existe um ativo com esse Id')
-    } else {
-      return {
-        success: true,
-        message: 'Ativo listado com sucesso!',
-        data: financialAssetMapper.toDTO(financialDB)
-      }
+    return {
+      success: true,
+      message: 'Ativo listado com sucesso!',
+      data: financialAssetMapper.toDTO(financialDB)
     }
   } catch (err) {
     throw new ErrorGeneric(`Internal Server Error! Código: ${err.name}`)
@@ -37,20 +31,9 @@ const listByIdFinancialAssetsService = async (id) => {
 }
 
 const createFinancialAssetsService = async (body) => {
+  fileUtils.utilMove(body.image.old_path, body.image.new_path)
+
   try {
-    const moveFile = fileUtils.UtilMove(
-      body.image.old_path,
-      body.image.new_path
-    )
-
-    if (moveFile !== undefined) {
-      return {
-        success: false,
-        message: 'A operação não pode ser realizada',
-        details: ['Não foi possivel mover a imagem']
-      }
-    }
-
     const financialDB = await financial_asset_catalog.create({
       name: body.name,
       description: body.description,
@@ -64,12 +47,6 @@ const createFinancialAssetsService = async (body) => {
       }
     })
 
-    if (!financialDB) {
-      return {
-        success: false,
-        details: ['Erro ao cadastrar o ativo']
-      }
-    }
     return {
       success: true,
       message: 'Ativo cadastrado com sucesso!',
@@ -86,10 +63,6 @@ const updateFinancialAssetsService = async (body, id) => {
       where: { cod_fin_asset: id }
     })
 
-    if (!financialDB) {
-      throw new ErrorBusinessRule('Não existe um ativo com esse Id!')
-    }
-
     financialDB.name = body.name
     financialDB.description = body.description
     financialDB.bvmf = body.bvmf
@@ -104,17 +77,12 @@ const updateFinancialAssetsService = async (body, id) => {
         type: body.image.type
       }
 
-      fileUtils.UtilRemove('financial', financialDB.image.name)
-      fileUtils.UtilMove(body.image.old_path, body.image.new_path)
+      fileUtils.utilRemove('financial', financialDB.image.name)
+      fileUtils.utilMove(body.image.old_path, body.image.new_path)
     }
-    const resultDB = await financialDB.save()
 
-    if (!resultDB) {
-      return {
-        success: false,
-        details: ['Erro ao atualizar o ativo']
-      }
-    }
+    await financialDB.save()
+
     return {
       success: true,
       message: 'Ativo atualizado com sucesso!',
@@ -131,22 +99,11 @@ const deleteFinancialAssetsService = async (id) => {
       where: { cod_fin_asset: id }
     })
 
-    if (!result) {
-      throw new ErrorBusinessRule('Não existe um ativo com esse Id!')
-    }
+    fileUtils.utilRemove('financial', result.image.name)
 
-    const financialDB = await financial_asset_catalog.destroy({
+    await financial_asset_catalog.destroy({
       where: { cod_fin_asset: id }
     })
-
-    if (!financialDB) {
-      return {
-        success: false,
-        details: ['Erro ao excluir o ativo']
-      }
-    }
-
-    fileUtils.UtilRemove('financial', result.image.name)
 
     return {
       success: true,
