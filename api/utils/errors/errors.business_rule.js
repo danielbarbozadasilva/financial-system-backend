@@ -8,6 +8,6 @@ module.exports = class ErrorBusinessRule extends ErrorGeneric {
     super(message)
     Error.captureStackTrace(this, ErrorBusinessRule)
     this.statusCode = status.BAD_REQUEST
-    this.message = { details: [message || defaultMessage] }
+    this.message = message || defaultMessage
   }
 }
