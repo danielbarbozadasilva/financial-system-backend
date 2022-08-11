@@ -3,12 +3,11 @@ const { user, address, sequelize } = require('../models/models.index')
 const ErrorGeneric = require('../utils/errors/erros.generic_error')
 const cryptography = require('../utils/utils.cryptography')
 const clientMapper = require('../mappers/mappers.client')
-const serviceUser = require('./services.user')
 
 const listAllClientsService = async () => {
   try {
     const userDB = await sequelize.query(
-      'SELECT *, u.name as user_name FROM user u INNER JOIN address d ON u.address_id = d.cod_address LEFT JOIN transaction t on t.user_id=u.cod_user LEFT JOIN transaction_details td ON t.cod_transaction=td.transaction_id LEFT JOIN financial_asset_catalog f ON td.financial_asset_id = f.cod_fin_asset WHERE u.kind="client" GROUP BY u.cod_user ORDER BY u.name;',
+      'SELECT *, u.name as user_name FROM user u INNER JOIN address d ON u.address_id = d.cod_address LEFT JOIN transaction t on t.user_id=u.cod_user LEFT JOIN transactiondetails td ON t.cod_transaction=td.transaction_id LEFT JOIN assets f ON td.financial_asset_id = f.cod_fin_asset WHERE u.kind="client" GROUP BY u.cod_user ORDER BY u.name;',
       { type: QueryTypes.SELECT }
     )
     return {
@@ -60,10 +59,6 @@ const changeStatusService = async (clientId, status) => {
 const updateClientService = async (clientId, body) => {
   const infoTransaction = await sequelize.transaction()
   try {
-    await serviceUser.verifyEmailBodyExistService(clientId, body.email)
-
-    await serviceUser.verifyCpfBodyExistService(clientId, body.cpf)
-
     await address.update(
       {
         address: body.address,
