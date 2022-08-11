@@ -36,9 +36,9 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'user_id',
       as: 'user'
     })
-    transaction.hasMany(models.transaction_details, {
+    transaction.hasMany(models.transactiondetails, {
       foreignKey: 'transaction_id',
-      as: 'transaction_details'
+      as: 'transactiondetails'
     })
   }
 
