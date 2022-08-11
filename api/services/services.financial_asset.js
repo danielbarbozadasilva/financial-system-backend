@@ -1,12 +1,12 @@
 const { QueryTypes } = require('sequelize')
-const { financial_asset_catalog, sequelize } = require('../models/models.index')
+const { assets, sequelize } = require('../models/models.index')
 const financialAssetMapper = require('../mappers/mappers.financial_asset')
 const fileUtils = require('../utils/utils.file')
 const ErrorGeneric = require('../utils/errors/erros.generic_error')
 
 const listFinancialAssetsService = async () => {
   try {
-    const financialDB = await financial_asset_catalog.findAll({})
+    const financialDB = await assets.findAll({})
     return {
       success: true,
       message: 'Ativos listados com sucesso!',
@@ -19,7 +19,7 @@ const listFinancialAssetsService = async () => {
 
 const listByIdFinancialAssetsService = async (id) => {
   try {
-    const financialDB = await financial_asset_catalog.findByPk(id)
+    const financialDB = await assets.findByPk(id)
     return {
       success: true,
       message: 'Ativo listado com sucesso!',
@@ -34,7 +34,7 @@ const createFinancialAssetsService = async (body) => {
   fileUtils.utilMove(body.image.old_path, body.image.new_path)
 
   try {
-    const financialDB = await financial_asset_catalog.create({
+    const financialDB = await assets.create({
       name: body.name,
       description: body.description,
       bvmf: body.bvmf,
@@ -59,7 +59,7 @@ const createFinancialAssetsService = async (body) => {
 
 const updateFinancialAssetsService = async (body, id) => {
   try {
-    const financialDB = await financial_asset_catalog.findOne({
+    const financialDB = await assets.findOne({
       where: { cod_fin_asset: id }
     })
 
@@ -95,13 +95,13 @@ const updateFinancialAssetsService = async (body, id) => {
 
 const deleteFinancialAssetsService = async (id) => {
   try {
-    const result = await financial_asset_catalog.findOne({
+    const result = await assets.findOne({
       where: { cod_fin_asset: id }
     })
 
     fileUtils.utilRemove('financial', result.image.name)
 
-    await financial_asset_catalog.destroy({
+    await assets.destroy({
       where: { cod_fin_asset: id }
     })
 
@@ -117,7 +117,7 @@ const deleteFinancialAssetsService = async (id) => {
 const listTop05FinancialAssetsService = async () => {
   try {
     const financialDB = await sequelize.query(
-      'SELECT f.name, f.cod_fin_asset, f.name, f.description, f.bvmf, f.current_price, f.quantity, f.image, td.financial_asset_id, COUNT(*) as qtd FROM transaction_details td INNER JOIN financial_asset_catalog f ON f.cod_fin_asset=td.financial_asset_id INNER JOIN transaction t ON t.cod_transaction = td.transaction_id GROUP BY f.cod_fin_asset ORDER BY qtd DESC LIMIT 5;',
+      'SELECT f.name, f.cod_fin_asset, f.name, f.description, f.bvmf, f.current_price, f.quantity, f.image, td.financial_asset_id, COUNT(*) as qtd FROM transactiondetails td INNER JOIN assets f ON f.cod_fin_asset=td.financial_asset_id INNER JOIN transaction t ON t.cod_transaction = td.transaction_id GROUP BY f.cod_fin_asset ORDER BY qtd DESC LIMIT 5;',
       { type: QueryTypes.SELECT }
     )
     return {

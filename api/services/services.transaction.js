@@ -1,10 +1,10 @@
 const { Op } = require('sequelize')
 const {
   transaction,
-  transaction_details,
+  transactiondetails,
   account,
   user,
-  financial_asset_catalog,
+  assets,
   transfer,
   bank,
   sequelize
@@ -14,7 +14,7 @@ const ErrorGeneric = require('../utils/errors/erros.generic_error')
 const ErrorBusinessRule = require('../utils/errors/errors.business_rule')
 
 const verifyQuantity = async (assetid, quantity) => {
-  const result = await financial_asset_catalog.findByPk(assetid)
+  const result = await assets.findByPk(assetid)
   const checkQuantity = result.quantity >= quantity
   if (!checkQuantity) {
     throw new ErrorBusinessRule('Quantidade indisponível no momento!')
@@ -32,7 +32,7 @@ const verifyBalance = async (id, totalPrice) => {
 }
 
 const updateQuantity = async (assetid, quantity) => {
-  const result = await financial_asset_catalog.findByPk(assetid)
+  const result = await assets.findByPk(assetid)
   result.quantity -= quantity
   await result.save()
 }
@@ -65,7 +65,7 @@ const createTransactionService = async (params, body) => {
       { transaction: infoTransaction }
     )
 
-    const transactionDetailsDB = await transaction_details.create(
+    const transactionDetailsDB = await transactiondetails.create(
       {
         quantity: body.quantity,
         purchase_price: body.current_price,
@@ -92,8 +92,8 @@ const createDepositService = async (clientid, body) => {
   try {
     const transactionDB = await transaction.create(
       {
-        sub_total: body.value,
-        total_price: body.value,
+        sub_total: body.total,
+        total_price: body.total,
         user_id: clientid
       },
       { transaction: infoTransaction }
@@ -102,7 +102,7 @@ const createDepositService = async (clientid, body) => {
     const transferDB = await transfer.create(
       {
         origin_cpf: body.origin_cpf,
-        deposit_value: body.value,
+        deposit_value: body.total,
         transaction_id: transactionDB.cod_transaction,
         bank_id: body.bank_id
       },
@@ -116,7 +116,7 @@ const createDepositService = async (clientid, body) => {
 
     await account.update(
       {
-        balance: Number(accountDB.balance) + body.value
+        balance: Number(accountDB.balance) + body.total
       },
       { where: { user_id: clientid } },
       { transaction: infoTransaction }
@@ -143,14 +143,14 @@ const listAllUserTransactionService = async () => {
           as: 'user'
         },
         {
-          model: transaction_details,
-          as: 'transaction_details',
+          model: transactiondetails,
+          as: 'transactiondetails',
           where: {
             cod_trans_details: { [Op.ne]: null }
           },
           include: {
-            model: financial_asset_catalog,
-            as: 'financial_asset_catalog'
+            model: assets,
+            as: 'assets'
           }
         }
       ],
@@ -178,14 +178,14 @@ const listByIdUserTransactionService = async (id) => {
           where: { cod_user: id }
         },
         {
-          model: transaction_details,
-          as: 'transaction_details',
+          model: transactiondetails,
+          as: 'transactiondetails',
           where: {
             cod_trans_details: { [Op.ne]: null }
           },
           include: {
-            model: financial_asset_catalog,
-            as: 'financial_asset_catalog'
+            model: assets,
+            as: 'assets'
           }
         }
       ],
