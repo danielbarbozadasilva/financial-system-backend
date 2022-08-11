@@ -2,8 +2,10 @@
   "openapi": "3.0.0",
   "info": {
     "title": "Api de gestão financeira",
-    "description": "Management API in NodeJs using Express, Mysql, swagger and Design Pattern (MVC)",
-    "contact": { "email": "daniel80barboza@gmail.com" },
+    "description": "API de Gestão financeira desenvolvida utilizando o NodeJs, ExpressJs e o ORM Sequelize com Banco de dados MySql.",
+    "contact": {
+      "email": "daniel80barboza@gmail.com"
+    },
     "version": "1.0.0"
   },
   "servers": [
@@ -17,7 +19,9 @@
       "post": {
         "summary": "Logar usuário",
         "description": "Essa rota é responsável por autenticar o usuário",
-        "tags": ["Autenticar Usuário"],
+        "tags": [
+          "Autenticar Usuário"
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -36,8 +40,11 @@
           }
         },
         "responses": {
-          "400": {
-            "description": "Cpf ou senha inválidos!\n\nFoi foi possivel criar uma credencial! \n\n Sua conta foi desativada pelo Administrador!"
+          "500": {
+            "description": "Internal Server Error!"
+          },
+          "401": {
+            "description": "Cpf ou senha inválidos!\n\nNão foi possivel criar a credencial! \n\n Sua conta foi desativada pelo Administrador!"
           },
           "200": {
             "description": "Usuário autenticado com sucesso!",
@@ -55,12 +62,13 @@
         }
       }
     },
-
     "/register": {
       "post": {
         "summary": "Cadastrar usuário",
         "description": "Essa rota será responsável por realizar o cadastro do usuário",
-        "tags": ["Registrar Usuário"],
+        "tags": [
+          "Registrar Usuário"
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -89,6 +97,9 @@
           }
         },
         "responses": {
+          "500": {
+            "description": "Não foi possivel realizar o cadastro!"
+          },
           "400": {
             "description": "Este e-mail já está em uso! \n\n Este cpf já está em uso! \n\n Não foi possivel realizar o cadastro!"
           },
@@ -112,8 +123,13 @@
       "get": {
         "summary": "Listar os ativos",
         "description": "Essa rota lista todos os ativos",
-        "tags": ["Ativos Financeiros"],
+        "tags": [
+          "Ativos Financeiros"
+        ],
         "responses": {
+          "500": {
+            "description": "Internal Server Error!"
+          },
           "200": {
             "description": "Ativos listados com sucesso!",
             "content": {
@@ -139,7 +155,9 @@
         ],
         "summary": "Cadastrar ativo",
         "description": "Essa rota cadastra o ativo",
-        "tags": ["Ativos Financeiros"],
+        "tags": [
+          "Ativos Financeiros"
+        ],
         "requestBody": {
           "content": {
             "multipart/form-data": {
@@ -151,6 +169,9 @@
           }
         },
         "responses": {
+          "500": {
+            "description": "Internal Server Error!"
+          },
           "401": {
             "description": "Usuário não autenticado!"
           },
@@ -159,7 +180,7 @@
           },
           "400": {
             "description": [
-              "Erro ao cadastrar o ativo! \n\n Não foi possivel mover a imagem!"
+              "Erro ao cadastrar o ativo!"
             ]
           },
           "200": {
@@ -198,8 +219,13 @@
         ],
         "summary": "Listar o ativo pelo Id",
         "description": "Essa rota lista o ativo pelo Id",
-        "tags": ["Ativos Financeiros"],
+        "tags": [
+          "Ativos Financeiros"
+        ],
         "responses": {
+          "500": {
+            "description": "Internal Server Error!"
+          },
           "401": {
             "description": "Usuário não autenticado!"
           },
@@ -238,7 +264,9 @@
         ],
         "summary": "Atualizar Ativo",
         "description": "Essa rota atualiza um ativo",
-        "tags": ["Ativos Financeiros"],
+        "tags": [
+          "Ativos Financeiros"
+        ],
         "requestBody": {
           "content": {
             "multipart/form-data": {
@@ -249,6 +277,9 @@
           }
         },
         "responses": {
+          "500": {
+            "description": "Internal Server Error!"
+          },
           "401": {
             "description": "Usuário não autenticado!"
           },
@@ -256,7 +287,7 @@
             "description": "Usuário não autorizado!"
           },
           "400": {
-            "description": "Não existe um ativo com esse Id!\n\nErro ao atualizar o ativo"
+            "description": "Não existe um ativo com esse Id!"
           },
           "200": {
             "description": "Ativo atualizado com sucesso!",
@@ -290,8 +321,13 @@
         ],
         "summary": "Excluir ativo",
         "description": "Essa rota apaga um ativo",
-        "tags": ["Ativos Financeiros"],
+        "tags": [
+          "Ativos Financeiros"
+        ],
         "responses": {
+          "500": {
+            "description": "Internal Server Error!"
+          },
           "401": {
             "description": "Usuário não autenticado!"
           },
@@ -299,7 +335,7 @@
             "description": "Usuário não autorizado!"
           },
           "400": {
-            "description": "Erro ao excluir o ativo\n\nNão existe um ativo com esse Id"
+            "description": "Não existe um ativo com esse Id"
           },
           "200": {
             "description": "Ativo atualizado com sucesso!"
@@ -311,8 +347,13 @@
       "get": {
         "summary": "Listar os 5 ativos mais adquiridos",
         "description": "Essa rota lista os 5 ativos mais adquiridos",
-        "tags": ["Ativos Financeiros"],
+        "tags": [
+          "Ativos Financeiros"
+        ],
         "responses": {
+          "500": {
+            "description": "Internal Server Error!"
+          },
           "200": {
             "description": "Top 05 listado com sucesso!",
             "content": {
@@ -340,8 +381,13 @@
       "get": {
         "summary": "Listar os Clientes",
         "description": "Essa rota lista todos os clientes",
-        "tags": ["Clientes"],
+        "tags": [
+          "Clientes"
+        ],
         "responses": {
+          "500": {
+            "description": "Internal Server Error!"
+          },
           "401": {
             "description": "Usuário não autenticado!"
           },
@@ -382,8 +428,13 @@
         ],
         "summary": "Listar o cliente pelo Id",
         "description": "Essa rota lista o cliente pelo Id",
-        "tags": ["Clientes"],
+        "tags": [
+          "Clientes"
+        ],
         "responses": {
+          "500": {
+            "description": "Internal Server Error!"
+          },
           "401": {
             "description": "Usuário não autenticado!"
           },
@@ -422,7 +473,9 @@
         ],
         "summary": "Atualizar Cliente",
         "description": "Essa rota atualiza um cliente",
-        "tags": ["Clientes"],
+        "tags": [
+          "Clientes"
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -433,6 +486,9 @@
           }
         },
         "responses": {
+          "500": {
+            "description": "Internal Server Error!"
+          },
           "401": {
             "description": "Usuário não autenticado!"
           },
@@ -477,14 +533,19 @@
             "name": "status",
             "in": "path",
             "type": "string",
-            "description": "status",
+            "description": "\n\n( 0 ) - Desativar \n\n ( 1 ) - Ativar",
             "required": true
           }
         ],
         "summary": "Alterar status do cliente",
         "description": "Essa rota altera o status do cliente",
-        "tags": ["Clientes"],
+        "tags": [
+          "Clientes"
+        ],
         "responses": {
+          "500": {
+            "description": "Internal Server Error!"
+          },
           "401": {
             "description": "Usuário não autenticado!"
           },
@@ -508,7 +569,6 @@
         }
       }
     },
-
     "/transaction/client": {
       "get": {
         "parameters": [
@@ -522,8 +582,13 @@
         ],
         "summary": "Listar as transações realizadas pelos clientes",
         "description": "Essa rota lista as transações realizadas pelos clientes",
-        "tags": ["Transações"],
+        "tags": [
+          "Transações"
+        ],
         "responses": {
+          "500": {
+            "description": "Internal Server Error!"
+          },
           "401": {
             "description": "Usuário não autenticado!"
           },
@@ -544,7 +609,6 @@
         }
       }
     },
-
     "/transaction/client/{clientid}": {
       "get": {
         "parameters": [
@@ -565,8 +629,13 @@
         ],
         "summary": "Listar as transações realizadas pelo cliente",
         "description": "Essa rota lista as transações realizadas pelo cliente",
-        "tags": ["Transações"],
+        "tags": [
+          "Transações"
+        ],
         "responses": {
+          "500": {
+            "description": "Internal Server Error!"
+          },
           "401": {
             "description": "Usuário não autenticado!"
           },
@@ -587,7 +656,6 @@
         }
       }
     },
-
     "/transaction/deposit/client/{clientid}": {
       "get": {
         "parameters": [
@@ -608,8 +676,13 @@
         ],
         "summary": "Listar os depósitos realizados pelo cliente",
         "description": "Essa rota lista os depósitos realizados pelo cliente",
-        "tags": ["Transações"],
+        "tags": [
+          "Transações"
+        ],
         "responses": {
+          "500": {
+            "description": "Internal Server Error!"
+          },
           "401": {
             "description": "Usuário não autenticado!"
           },
@@ -648,7 +721,9 @@
         ],
         "summary": "Realizar Depósito",
         "description": "Essa rota realiza o depósito",
-        "tags": ["Transações"],
+        "tags": [
+          "Transações"
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -659,8 +734,8 @@
           }
         },
         "responses": {
-          "400": {
-            "description": "Erro ao cadastrar a transação!\n\nErro ao realizar o depósito!\n\nErro ao registrar o valor!"
+          "500": {
+            "description": "Erro ao realizar o depósito!"
           },
           "401": {
             "description": "Usuário não autenticado!"
@@ -684,7 +759,6 @@
         }
       }
     },
-
     "/transaction/client/{clientid}/asset/{assetid}": {
       "post": {
         "parameters": [
@@ -712,7 +786,9 @@
         ],
         "summary": "Realizar uma transação",
         "description": "Essa rota permite ao cliente realizar uma transação",
-        "tags": ["Transações"],
+        "tags": [
+          "Transações"
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -723,6 +799,9 @@
           }
         },
         "responses": {
+          "500": {
+            "description": "Erro ao realizar a transação!"
+          },
           "401": {
             "description": "Usuário não autenticado!"
           },
@@ -730,7 +809,7 @@
             "description": "Usuário não autorizado!"
           },
           "400": {
-            "description": "Saldo insuficiente para realizar a transação!\n\nErro ao cadastrar a transação!\n\nErro ao atualizar o valor em conta!"
+            "description": "Saldo insuficiente para realizar a transação!\n\nQuantidade indisponível no momento!"
           },
           "200": {
             "description": "Transação realizada com sucesso!",
@@ -759,8 +838,13 @@
         ],
         "summary": "Listar as contas dos clientes",
         "description": "Essa rota lista as contas dos clientes",
-        "tags": ["Informações Bancárias"],
+        "tags": [
+          "Informações Bancárias"
+        ],
         "responses": {
+          "500": {
+            "description": "Internal Server Error!"
+          },
           "401": {
             "description": "Usuário não autenticado!"
           },
@@ -801,8 +885,13 @@
         ],
         "summary": "Listar as contas do cliente",
         "description": "Essa rota lista as contas do cliente",
-        "tags": ["Informações Bancárias"],
+        "tags": [
+          "Informações Bancárias"
+        ],
         "responses": {
+          "500": {
+            "description": "Internal Server Error!"
+          },
           "401": {
             "description": "Usuário não autenticado!"
           },
@@ -843,8 +932,13 @@
         ],
         "summary": "Listar o saldo bancário do cliente",
         "description": "Essa rota lista o saldo bancário do cliente",
-        "tags": ["Informações Bancárias"],
+        "tags": [
+          "Informações Bancárias"
+        ],
         "responses": {
+          "500": {
+            "description": "Internal Server Error!"
+          },
           "401": {
             "description": "Usuário não autenticado!"
           },
@@ -878,8 +972,13 @@
         ],
         "summary": "Listar os bancos",
         "description": "Essa rota lista os bancos cadastrados no sistema",
-        "tags": ["Lista de Bancos"],
+        "tags": [
+          "Lista de Bancos"
+        ],
         "responses": {
+          "500": {
+            "description": "Internal Server Error!"
+          },
           "401": {
             "description": "Usuário não autenticado!"
           },
@@ -916,7 +1015,6 @@
           }
         }
       },
-
       "List_Auth": {
         "type": "object",
         "properties": {
@@ -942,7 +1040,6 @@
           }
         }
       },
-      
       "Register": {
         "type": "object",
         "properties": {
@@ -1004,7 +1101,6 @@
           }
         }
       },
-
       "List_Assets": {
         "type": "object",
         "properties": {
@@ -1038,7 +1134,6 @@
           }
         }
       },
-
       "Register_Assets": {
         "type": "object",
         "properties": {
@@ -1074,7 +1169,6 @@
           }
         }
       },
-
       "List_Client": {
         "type": "object",
         "properties": {
@@ -1154,7 +1248,7 @@
               "required": false
             }
           },
-          "transaction_details": {
+          "transactiondetails": {
             "id": {
               "type": "integer",
               "required": false
@@ -1182,7 +1276,6 @@
           }
         }
       },
-
       "List_Top05_Assets": {
         "type": "object",
         "properties": {
@@ -1216,7 +1309,6 @@
           }
         }
       },
-
       "Update_Client": {
         "type": "object",
         "properties": {
@@ -1287,7 +1379,6 @@
           }
         }
       },
-
       "List_Update_Client": {
         "type": "object",
         "properties": {
@@ -1297,7 +1388,6 @@
           }
         }
       },
-
       "Status_Client": {
         "type": "object",
         "properties": {
@@ -1309,11 +1399,10 @@
           "status": {
             "type": "string",
             "required": true,
-            "example": "true ou false"
+            "example": "0 ou 1"
           }
         }
       },
-
       "List_Transactions": {
         "type": "object",
         "properties": {
@@ -1359,7 +1448,6 @@
           }
         }
       },
-
       "Created_Transactions": {
         "type": "object",
         "properties": {
@@ -1385,7 +1473,6 @@
           }
         }
       },
-
       "List_Created_Transactions": {
         "type": "object",
         "properties": {
@@ -1411,7 +1498,6 @@
           }
         }
       },
-
       "List_Deposit": {
         "type": "object",
         "properties": {
@@ -1462,14 +1548,9 @@
           "bank_name": {
             "type": "string",
             "required": true
-          },
-          "branch": {
-            "type": "string",
-            "required": true
           }
         }
       },
-
       "Create_Deposit": {
         "type": "object",
         "properties": {
@@ -1483,7 +1564,7 @@
             "required": true,
             "example": "139.345.567-90"
           },
-          "value": {
+          "total": {
             "type": "float",
             "required": true,
             "example": 200.9
@@ -1492,15 +1573,9 @@
             "type": "integer",
             "required": true,
             "example": "1"
-          },
-          "user_id": {
-            "type": "integer",
-            "required": true,
-            "example": "1"
           }
         }
       },
-
       "List_Create_Deposit": {
         "type": "object",
         "properties": {
@@ -1530,118 +1605,30 @@
           }
         }
       },
-
       "List_Bank_Client": {
         "type": "object",
         "properties": {
-        "id": {
-          "type": "integer",
-          "required": true
-        },
-        "number": {
-          "type": "string",
-          "required": true
-        },
-        "type": {
-          "type": "string",
-          "required": true
-        },
-        "balance": {
-          "type": "string",
-          "required": true
-        },
-        "open_date": {
-          "type": "string",
-          "required": true
-        },
-        "id_user": {
-          "type": "integer",
-          "required": true
-        },
-        "name": {
-          "type": "string",
-          "required": true
-        },
-        "email": {
-          "type": "string",
-          "required": true
-        },
-        "cpf": {
-          "type": "string",
-          "required": true
-        },
-        "gender": {
-          "type": "string",
-          "required": true
-        },
-        "birth_date": {
-          "type": "string",
-          "required": true
-        },
-        "phone": {
-          "type": "string",
-          "required": true
-        },
-        "status": {
-          "type": "boolean",
-          "required": true
-        },
-        "kind": {
-          "type": "string",
-          "required": true
-        },
-        "created_at": {
-          "type": "string",
-          "required": true
-        },
-        "updated_at": {
-          "type": "string",
-          "required": true
-        },
-        "name_branch": {
-          "type": "string",
-          "required": true
-        }
-      }
-    },
-
-      "Balance_Account": {
-        "type": "object",
-        "properties": {
-        "id": {
-          "type": "integer",
-          "required": true
-        },
-        "type": {
-          "type": "string",
-          "required": true
-        },
-        "balance": {
-          "type": "string",
-          "required": true
-        },
-        "open_date": {
-          "type": "string",
-          "required": true
-        },
-        "total_assets": {
-          "type": "string",
-          "required": true
-        },
-        "consolidated": {
-          "type": "string",
-          "required": true
-        },
-        "user_id": {
-          "type": "integer",
-          "required": true
-        },
-        "branch_id": {
-          "type": "integer",
-          "required": true
-        },
-        "user": {
           "id": {
+            "type": "integer",
+            "required": true
+          },
+          "number": {
+            "type": "string",
+            "required": true
+          },
+          "type": {
+            "type": "string",
+            "required": true
+          },
+          "balance": {
+            "type": "string",
+            "required": true
+          },
+          "open_date": {
+            "type": "string",
+            "required": true
+          },
+          "id_user": {
             "type": "integer",
             "required": true
           },
@@ -1665,10 +1652,6 @@
             "type": "string",
             "required": true
           },
-          "password": {
-            "type": "string",
-            "required": true
-          },
           "phone": {
             "type": "string",
             "required": true
@@ -1689,13 +1672,117 @@
             "type": "string",
             "required": true
           },
-          "address_id": {
-            "type": "integer",
+          "name_branch": {
+            "type": "string",
             "required": true
           }
-        },
-        "branch": {
+        }
+      },
+      "Balance_Account": {
+        "type": "object",
+        "properties": {
           "id": {
+            "type": "integer",
+            "required": true
+          },
+          "type": {
+            "type": "string",
+            "required": true
+          },
+          "balance": {
+            "type": "string",
+            "required": true
+          },
+          "open_date": {
+            "type": "string",
+            "required": true
+          },
+          "total_assets": {
+            "type": "string",
+            "required": true
+          },
+          "consolidated": {
+            "type": "string",
+            "required": true
+          },
+          "user_id": {
+            "type": "integer",
+            "required": true
+          },
+          "branch_id": {
+            "type": "integer",
+            "required": true
+          },
+          "user": {
+            "id": {
+              "type": "integer",
+              "required": true
+            },
+            "name": {
+              "type": "string",
+              "required": true
+            },
+            "email": {
+              "type": "string",
+              "required": true
+            },
+            "cpf": {
+              "type": "string",
+              "required": true
+            },
+            "gender": {
+              "type": "string",
+              "required": true
+            },
+            "birth_date": {
+              "type": "string",
+              "required": true
+            },
+            "password": {
+              "type": "string",
+              "required": true
+            },
+            "phone": {
+              "type": "string",
+              "required": true
+            },
+            "status": {
+              "type": "boolean",
+              "required": true
+            },
+            "kind": {
+              "type": "string",
+              "required": true
+            },
+            "created_at": {
+              "type": "string",
+              "required": true
+            },
+            "updated_at": {
+              "type": "string",
+              "required": true
+            },
+            "address_id": {
+              "type": "integer",
+              "required": true
+            }
+          },
+          "branch": {
+            "id": {
+              "type": "integer",
+              "required": true
+            },
+            "name": {
+              "type": "string",
+              "required": true
+            }
+          }
+        }
+      },
+      "List_Banks": {
+        "type": "object",
+        "properties": {
+          "cod_bank": {
             "type": "integer",
             "required": true
           },
@@ -1705,27 +1792,7 @@
           }
         }
       }
-      },
-
-      "List_Banks": {
-        "type": "object",
-        "properties": {
-        "cod_bank": {
-          "type": "integer",
-          "required": true
-        },
-        "name": {
-          "type": "string",
-          "required": true
-        },
-        "branch": {
-          "type": "string",
-          "required": true
-        }
-      }
-    }
     },
-
     "securityDefinitions": {
       "JWT": {
         "description": "JWT token",
