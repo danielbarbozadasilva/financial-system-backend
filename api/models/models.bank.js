@@ -12,11 +12,6 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: true,
         type: DataTypes.TEXT,
         defaultValue: 'Banco 01'
-      },
-      branch: {
-        allowNull: true,
-        type: DataTypes.TEXT,
-        defaultValue: '0845'
       }
     },
     {

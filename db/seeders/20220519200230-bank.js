@@ -6,20 +6,17 @@ module.exports = {
       'bank',
       [
         {
-          name: 'Banco 01',
-          branch: '0845'
+          name: 'Banco 01'
         },
         {
-          name: 'Banco 02',
-          branch: '0121'
+          name: 'Banco 02'
         },
         {
-          name: 'Banco 03',
-          branch: '0443'
+          name: 'Banco 03'
         }
       ],
       {
-        updateOnDuplicate: ['name', 'branch'],
+        updateOnDuplicate: ['name'],
         ignoreDuplicates: true
       }
     )
