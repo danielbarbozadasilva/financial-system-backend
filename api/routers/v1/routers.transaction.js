@@ -3,7 +3,7 @@ const transactionController = require('../../controllers/controllers.transaction
 const validateDTOMiddleware = require('../../utils/middlewares/middlewares.validate_dto')
 const authenticationMiddleware = require('../../utils/middlewares/middlewares.authentication')
 const authorizationMiddleware = require('../../utils/middlewares/middlewares.authorization')
-const verifyIdDbMiddleware = require('../../utils/middlewares/middlewares.verify_id_exists')
+const verifyIdDbMiddleware = require('../../utils/middlewares/middlewares.verify_exists')
 const asyncMiddleware = require('../../utils/middlewares/middlewares.async')
 
 module.exports = (router) => {
@@ -64,21 +64,13 @@ module.exports = (router) => {
           'any.required': `"bank id" is a required field`,
           'number.empty': `"bank id" can not be empty`
         }),
-        branch: joi.string().required().messages({
-          'any.required': `"branch" is a required field`,
-          'string.empty': `"branch" can not be empty`
-        }),
-        user_id: joi.number().integer().required().messages({
-          'any.required': '"client id" is a required field',
-          'number.empty': '"client id" can not be empty'
-        }),
         origin_cpf: joi.string().required().messages({
           'any.required': `"origin_cpf" is a required field`,
           'string.empty': `"origin_cpf" can not be empty`
         }),
-        value: joi.number().required().messages({
-          'any.required': `"value" is a required field`,
-          'number.empty': `"value" can not be empty`
+        total: joi.number().required().messages({
+          'any.required': `"total" is a required field`,
+          'number.empty': `"total" can not be empty`
         })
       })
     ),

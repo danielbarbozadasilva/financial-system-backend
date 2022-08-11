@@ -4,7 +4,7 @@ const validateDTOMiddleware = require('../../utils/middlewares/middlewares.valid
 const middlewareFileUploadMiddleware = require('../../utils/middlewares/middlewares.file_upload')
 const authenticationMiddleware = require('../../utils/middlewares/middlewares.authentication')
 const authorizationMiddleware = require('../../utils/middlewares/middlewares.authorization')
-const verifyIdDbMiddleware = require('../../utils/middlewares/middlewares.verify_id_exists')
+const verifyIdDbMiddleware = require('../../utils/middlewares/middlewares.verify_exists')
 const asyncMiddleware = require('../../utils/middlewares/middlewares.async')
 
 module.exports = (router) => {

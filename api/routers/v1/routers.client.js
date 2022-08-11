@@ -4,7 +4,7 @@ const clientController = require('../../controllers/controllers.client')
 const validateDTOMiddleware = require('../../utils/middlewares/middlewares.validate_dto')
 const authenticationMiddleware = require('../../utils/middlewares/middlewares.authentication')
 const authorizationMiddleware = require('../../utils/middlewares/middlewares.authorization')
-const verifyIdDbMiddleware = require('../../utils/middlewares/middlewares.verify_id_exists')
+const verifyMiddleware = require('../../utils/middlewares/middlewares.verify_exists')
 const asyncMiddleware = require('../../utils/middlewares/middlewares.async')
 
 module.exports = (router) => {
@@ -29,7 +29,7 @@ module.exports = (router) => {
           })
         })
       ),
-      asyncMiddleware(verifyIdDbMiddleware.verifyIdClientDbMiddleware),
+      asyncMiddleware(verifyMiddleware.verifyIdClientDbMiddleware),
       asyncMiddleware(clientController.listByIdClientController)
     )
     .put(
@@ -99,7 +99,9 @@ module.exports = (router) => {
           })
         })
       ),
-      asyncMiddleware(verifyIdDbMiddleware.verifyIdClientDbMiddleware),
+      asyncMiddleware(verifyMiddleware.verifyIdClientDbMiddleware),
+      asyncMiddleware(verifyMiddleware.verifyCpfBodyExist),
+      asyncMiddleware(verifyMiddleware.verifyEmailBodyExist),
       asyncMiddleware(clientController.updateClientController)
     )
 
@@ -118,7 +120,7 @@ module.exports = (router) => {
         })
       })
     ),
-    asyncMiddleware(verifyIdDbMiddleware.verifyIdClientDbMiddleware),
+    asyncMiddleware(verifyMiddleware.verifyIdClientDbMiddleware),
     asyncMiddleware(clientController.changeStatusClientController)
   )
 }
