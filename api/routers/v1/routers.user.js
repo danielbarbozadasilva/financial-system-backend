@@ -1,6 +1,7 @@
 const joi = require('joi')
 const userController = require('../../controllers/controllers.user')
 const validateDTOMiddleware = require('../../utils/middlewares/middlewares.validate_dto')
+const verifyMiddleware = require('../../utils/middlewares/middlewares.verify_exists')
 const asyncMiddleware = require('../../utils/middlewares/middlewares.async')
 
 module.exports = (router) => {
@@ -71,6 +72,8 @@ module.exports = (router) => {
         auth: joi.boolean().optional()
       })
     ),
+    asyncMiddleware(verifyMiddleware.verifyCpfExists),
+    asyncMiddleware(verifyMiddleware.verifyEmailExists),
     asyncMiddleware(userController.registerController)
   )
 }
