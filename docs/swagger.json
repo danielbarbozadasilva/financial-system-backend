@@ -41,10 +41,13 @@
         },
         "responses": {
           "500": {
-            "description": "Internal Server Error!"
+            "description": "Erro ao realizar a operação!"
+          },
+          "403": {
+            "description": "Sua conta foi desativada pelo Administrador!"
           },
           "401": {
-            "description": "Cpf ou senha inválidos!\n\nNão foi possivel criar a credencial! \n\n Sua conta foi desativada pelo Administrador!"
+            "description": "Cpf ou senha inválidos!\n\nNão foi possivel criar a credencial!"
           },
           "200": {
             "description": "Usuário autenticado com sucesso!",
@@ -101,7 +104,7 @@
             "description": "Não foi possivel realizar o cadastro!"
           },
           "400": {
-            "description": "Este e-mail já está em uso! \n\n Este cpf já está em uso! \n\n Não foi possivel realizar o cadastro!"
+            "description": "Este e-mail já está em uso! \n\n Este cpf já está em uso!"
           },
           "200": {
             "description": "Cadastro realizado com sucesso!",
@@ -128,7 +131,7 @@
         ],
         "responses": {
           "500": {
-            "description": "Internal Server Error!"
+            "description": "Erro ao listar os ativos!"
           },
           "200": {
             "description": "Ativos listados com sucesso!",
@@ -170,18 +173,13 @@
         },
         "responses": {
           "500": {
-            "description": "Internal Server Error!"
+            "description": "Erro ao cadastrar o ativo!"
           },
           "401": {
             "description": "Usuário não autenticado!"
           },
           "403": {
             "description": "Usuário não autorizado!"
-          },
-          "400": {
-            "description": [
-              "Erro ao cadastrar o ativo!"
-            ]
           },
           "200": {
             "description": "Ativo cadastrado com sucesso!",
@@ -224,13 +222,16 @@
         ],
         "responses": {
           "500": {
-            "description": "Internal Server Error!"
+            "description": "Erro ao listar o ativo!"
           },
           "401": {
             "description": "Usuário não autenticado!"
           },
           "403": {
             "description": "Usuário não autorizado!"
+          },
+          "422": {
+            "description": "Não existe um ativo com esse id!"
           },
           "200": {
             "description": "Ativo listado com sucesso!",
@@ -278,7 +279,7 @@
         },
         "responses": {
           "500": {
-            "description": "Internal Server Error!"
+            "description": "Erro ao atualizar o ativo!"
           },
           "401": {
             "description": "Usuário não autenticado!"
@@ -286,8 +287,8 @@
           "403": {
             "description": "Usuário não autorizado!"
           },
-          "400": {
-            "description": "Não existe um ativo com esse Id!"
+          "422": {
+            "description": "Não existe um ativo com esse id!"
           },
           "200": {
             "description": "Ativo atualizado com sucesso!",
@@ -326,7 +327,7 @@
         ],
         "responses": {
           "500": {
-            "description": "Internal Server Error!"
+            "description": "Erro ao excluir o ativo!"
           },
           "401": {
             "description": "Usuário não autenticado!"
@@ -334,11 +335,11 @@
           "403": {
             "description": "Usuário não autorizado!"
           },
-          "400": {
-            "description": "Não existe um ativo com esse Id"
+          "422": {
+            "description": "Não existe um ativo com esse id!"
           },
           "200": {
-            "description": "Ativo atualizado com sucesso!"
+            "description": "Ativo excluido com sucesso!"
           }
         }
       }
@@ -352,7 +353,7 @@
         ],
         "responses": {
           "500": {
-            "description": "Internal Server Error!"
+            "description": "Erro ao listar os ativos!"
           },
           "200": {
             "description": "Top 05 listado com sucesso!",
@@ -386,7 +387,7 @@
         ],
         "responses": {
           "500": {
-            "description": "Internal Server Error!"
+            "description": "Erro ao listar os clientes!"
           },
           "401": {
             "description": "Usuário não autenticado!"
@@ -433,13 +434,16 @@
         ],
         "responses": {
           "500": {
-            "description": "Internal Server Error!"
+            "description": "Erro ao listar o cliente!"
           },
           "401": {
             "description": "Usuário não autenticado!"
           },
           "403": {
             "description": "Usuário não autorizado!"
+          },
+          "422": {
+            "description": "Não existe um cliente com esse id!"
           },
           "200": {
             "description": "Cliente listado com sucesso!",
@@ -487,7 +491,7 @@
         },
         "responses": {
           "500": {
-            "description": "Internal Server Error!"
+            "description": "Erro ao atualizar o cliente!"
           },
           "401": {
             "description": "Usuário não autenticado!"
@@ -496,7 +500,10 @@
             "description": "Usuário não autorizado!"
           },
           "400": {
-            "description": "Não existe um cliente com esse id!\n\nEste e-mail já está em uso!\n\nEste cpf já está em uso!\n\nErro ao atualizar o cliente!"
+            "description": "Este e-mail já está em uso!\n\nEste cpf já está em uso!"
+          },
+          "422": {
+            "description": "Não existe um cliente com esse id!"
           },
           "200": {
             "description": "Cliente atualizado com sucesso!",
@@ -544,7 +551,7 @@
         ],
         "responses": {
           "500": {
-            "description": "Internal Server Error!"
+            "description": "Erro ao alterar o status do cliente!"
           },
           "401": {
             "description": "Usuário não autenticado!"
@@ -552,8 +559,8 @@
           "403": {
             "description": "Usuário não autorizado!"
           },
-          "400": {
-            "description": "Não existe um cliente com esse id!\n\nErro ao atualizar o status!"
+          "422": {
+            "description": "Não existe um cliente com esse id!"
           },
           "200": {
             "description": "Status atualizado com sucesso!",
@@ -587,7 +594,7 @@
         ],
         "responses": {
           "500": {
-            "description": "Internal Server Error!"
+            "description": "Erro ao realizar a operação!"
           },
           "401": {
             "description": "Usuário não autenticado!"
@@ -634,13 +641,16 @@
         ],
         "responses": {
           "500": {
-            "description": "Internal Server Error!"
+            "description": "Erro ao realizar a operação!"
           },
           "401": {
             "description": "Usuário não autenticado!"
           },
           "403": {
             "description": "Usuário não autorizado!"
+          },
+          "422": {
+            "description": "Não existe um cliente com esse id!"
           },
           "200": {
             "description": "Transações listadas com sucesso!",
@@ -681,13 +691,16 @@
         ],
         "responses": {
           "500": {
-            "description": "Internal Server Error!"
+            "description": "Erro ao realizar a operação!"
           },
           "401": {
             "description": "Usuário não autenticado!"
           },
           "403": {
             "description": "Usuário não autorizado!"
+          },
+          "422": {
+            "description": "Não existe um cliente com esse id!"
           },
           "200": {
             "description": "Depósito(s) listado(s) com sucesso!",
@@ -742,6 +755,9 @@
           },
           "403": {
             "description": "Usuário não autorizado!"
+          },
+          "422": {
+            "description": "Não existe um cliente com esse id!"
           },
           "200": {
             "description": "Transação cadastrada com sucesso!",
@@ -811,6 +827,9 @@
           "400": {
             "description": "Saldo insuficiente para realizar a transação!\n\nQuantidade indisponível no momento!"
           },
+          "422": {
+            "description": "Não existe um cliente com esse id!\n\nNão existe um ativo com esse id!"
+          },
           "200": {
             "description": "Transação realizada com sucesso!",
             "content": {
@@ -843,7 +862,7 @@
         ],
         "responses": {
           "500": {
-            "description": "Internal Server Error!"
+            "description": "Erro ao realizar a operação!"
           },
           "401": {
             "description": "Usuário não autenticado!"
@@ -890,13 +909,16 @@
         ],
         "responses": {
           "500": {
-            "description": "Internal Server Error!"
+            "description": "Erro ao realizar a operação!"
           },
           "401": {
             "description": "Usuário não autenticado!"
           },
           "403": {
             "description": "Usuário não autorizado!"
+          },
+          "422": {
+            "description": "Não existe uma conta com esse id!"
           },
           "200": {
             "description": "Informações bancárias listadas com sucesso!",
@@ -937,13 +959,16 @@
         ],
         "responses": {
           "500": {
-            "description": "Internal Server Error!"
+            "description": "Erro ao realizar a operação!"
           },
           "401": {
             "description": "Usuário não autenticado!"
           },
           "403": {
             "description": "Usuário não autorizado!"
+          },
+          "422": {
+            "description": "Não existe um cliente com esse id!"
           },
           "200": {
             "description": "Saldo listado com sucesso!",
@@ -977,7 +1002,7 @@
         ],
         "responses": {
           "500": {
-            "description": "Internal Server Error!"
+            "description": "Operação realizada com sucesso!"
           },
           "401": {
             "description": "Usuário não autenticado!"
