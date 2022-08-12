@@ -12,7 +12,7 @@ const listAllBanksService = async () => {
       data: bankDB.map((item) => bankMapper.toDTO(item))
     }
   } catch (err) {
-    throw new ErrorGeneric(`Internal Server Error! Código: ${err.name}`)
+    throw new ErrorGeneric('Operação realizada com sucesso!')
   }
 }
 module.exports = {

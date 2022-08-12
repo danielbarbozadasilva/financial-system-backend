@@ -111,7 +111,7 @@ const authService = async (cpf, password) => {
       data: resultCredentials
     }
   } catch (err) {
-    throw new ErrorGeneric(`Internal Server Error! Código: ${err.name}`)
+    throw new ErrorGeneric('Erro ao realizar a operação!')
   }
 }
 

@@ -12,11 +12,11 @@ const listAllClientsService = async () => {
     )
     return {
       success: true,
-      message: 'Cliente(s) listado(s) com sucesso!',
+      message: 'Clientes listados com sucesso!',
       data: userDB.map((item) => clientMapper.toDTO(item))
     }
   } catch (err) {
-    throw new ErrorGeneric(`Internal Server Error! Código: ${err.name}`)
+    throw new ErrorGeneric('Erro ao listar os clientes!')
   }
 }
 
@@ -40,7 +40,7 @@ const listByIdClientService = async (id) => {
       data: clientMapper.toDTOList(...userDB)
     }
   } catch (err) {
-    throw new ErrorGeneric(`Internal Server Error! Código: ${err.name}`)
+    throw new ErrorGeneric('Erro ao listar o cliente!')
   }
 }
 
@@ -52,7 +52,7 @@ const changeStatusService = async (clientId, status) => {
       message: 'Status atualizado com sucesso!'
     }
   } catch (err) {
-    throw new ErrorGeneric(`Internal Server Error! Código: ${err.name}`)
+    throw new ErrorGeneric('Erro ao alterar o status do cliente!')
   }
 }
 

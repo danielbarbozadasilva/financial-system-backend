@@ -164,7 +164,7 @@ const listAllUserTransactionService = async () => {
       data: userDB.map((item) => transactionMapper.toDTOUserIdAssets(item))
     }
   } catch (err) {
-    throw new ErrorGeneric(`Internal Server Error! Código: ${err.name}`)
+    throw new ErrorGeneric('Erro ao realizar a operação!')
   }
 }
 
@@ -199,7 +199,7 @@ const listByIdUserTransactionService = async (id) => {
       data: userDB.map((item) => transactionMapper.toDTOUserIdAssets(item))
     }
   } catch (err) {
-    throw new ErrorGeneric(`Internal Server Error! Código: ${err.name}`)
+    throw new ErrorGeneric('Erro ao realizar a operação!')
   }
 }
 
@@ -227,7 +227,7 @@ const listByIdUserDepositService = async (id) => {
       data: userDB.map((item) => transactionMapper.toDTOListDeposit(item))
     }
   } catch (err) {
-    throw new ErrorGeneric(`Internal Server Error! Código: ${err.name}`)
+    throw new ErrorGeneric('Erro ao realizar a operação!')
   }
 }
 

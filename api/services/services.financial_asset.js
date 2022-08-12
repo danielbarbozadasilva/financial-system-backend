@@ -13,7 +13,7 @@ const listFinancialAssetsService = async () => {
       data: financialDB.map((item) => financialAssetMapper.toDTO(item))
     }
   } catch (err) {
-    throw new ErrorGeneric(`Internal Server Error! Código: ${err.name}`)
+    throw new ErrorGeneric('Erro ao listar os ativos!')
   }
 }
 
@@ -26,7 +26,7 @@ const listByIdFinancialAssetsService = async (id) => {
       data: financialAssetMapper.toDTO(financialDB)
     }
   } catch (err) {
-    throw new ErrorGeneric(`Internal Server Error! Código: ${err.name}`)
+    throw new ErrorGeneric('Erro ao listar o ativo!')
   }
 }
 
@@ -53,7 +53,7 @@ const createFinancialAssetsService = async (body) => {
       data: financialAssetMapper.toDTO(financialDB)
     }
   } catch (err) {
-    throw new ErrorGeneric(`Internal Server Error! Código: ${err.name}`)
+    throw new ErrorGeneric('Erro ao cadastrar o ativo!')
   }
 }
 
@@ -89,7 +89,7 @@ const updateFinancialAssetsService = async (body, id) => {
       data: financialAssetMapper.toDTO(financialDB)
     }
   } catch (err) {
-    throw new ErrorGeneric(`Internal Server Error! Código: ${err.name}`)
+    throw new ErrorGeneric('Erro ao atualizar o ativo!')
   }
 }
 
@@ -107,10 +107,10 @@ const deleteFinancialAssetsService = async (id) => {
 
     return {
       success: true,
-      message: 'Excluido com sucesso!'
+      message: 'Ativo excluido com sucesso!'
     }
   } catch (err) {
-    throw new ErrorGeneric(`Internal Server Error! Código: ${err.name}`)
+    throw new ErrorGeneric('Erro ao excluir o ativo!')
   }
 }
 
@@ -126,7 +126,7 @@ const listTop05FinancialAssetsService = async () => {
       data: financialDB.map((item) => financialAssetMapper.toDTO(item))
     }
   } catch (err) {
-    throw new ErrorGeneric(`Internal Server Error! Código: ${err.name}`)
+    throw new ErrorGeneric('Erro ao listar os ativos!')
   }
 }
 
