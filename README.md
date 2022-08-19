@@ -228,6 +228,7 @@ RF010 – O sistema deve listar os dados bancários do cliente.
 * Conventional commits
 * MVC
 * GitFlow
+* Error handler
 
 <br/>
 <br/>
