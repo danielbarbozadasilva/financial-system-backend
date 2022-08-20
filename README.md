@@ -80,10 +80,13 @@ Com o projeto rodando, abra a documentação do Postman na pasta do projeto:
 docs -> PROJETO-INVESTIMENTOS.postman_collection.json
 ```
 <br/>
+<br/>
 
 ## **Modelo lógico de dados**
 <br/>
 <img src="./docs/Logical_Schema.jpg" alt="Modelo lógico de dados"/>
+<br/>
+<br/>
 <br/>
 <br/>
 
@@ -92,10 +95,14 @@ docs -> PROJETO-INVESTIMENTOS.postman_collection.json
 <img src="./docs/Conceptual_Schema.jpg" alt="Modelo conceitual de dados"/>
 <br/>
 <br/>
+<br/>
+<br/>
 
 ## **Diagrama de componentes**
 <br/>
 <img src="./docs/Components.png" alt="Diagrama de componentes"/>
+<br/>
+<br/>
 <br/>
 <br/>
 
@@ -215,7 +222,8 @@ RF010 – O sistema deve listar os dados bancários do cliente.
 ## **Diagrama de Casos de uso**
 <br/>
 <img src="./docs/diagrama_de_casos_de_uso.png" alt="Diagrama de Casos de uso"/>
-
+<br/>
+<br/>
 <br/>
 <br/>
 
