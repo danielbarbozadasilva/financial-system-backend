@@ -34,13 +34,10 @@ const decodeToken = (token) => {
 
 const tokenIsValid = (token) => {
   try {
-    if (token) {
-      const verify = jwt.verify(token, jwtHashSecret)
-      if (!verify) {
-        throw new ErrorAllowedUser('Usuário não autenticado!')
-      }
-    }
-  } catch (err) {}
+    jwt?.verify(token, jwtHashSecret)
+  } catch (err) {
+    throw new ErrorAllowedUser('Usuário não autenticado!')
+  }
 }
 
 module.exports = {
