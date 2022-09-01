@@ -2,7 +2,7 @@ const { QueryTypes } = require('sequelize')
 const { assets, sequelize } = require('../models/models.index')
 const financialAssetMapper = require('../mappers/mappers.financial_asset')
 const fileUtils = require('../utils/utils.file')
-const ErrorGeneric = require('../utils/errors/erros.generic_error')
+const ErrorGeneric = require('../utils/errors/erros.generic-error')
 
 const listFinancialAssetsService = async () => {
   try {

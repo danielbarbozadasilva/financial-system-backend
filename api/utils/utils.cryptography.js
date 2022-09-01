@@ -1,6 +1,6 @@
 const md5 = require('md5')
 const jwt = require('jsonwebtoken')
-const ErrorAllowedUser = require('./errors/errors.user_not_allowed')
+const ErrorNotAuthenticated = require('./errors/errors.user-not-authenticated')
 
 const md5HashSecret = process.env.MD5_SECRET
 const jwtHashSecret = process.env.JWT_SECRET
@@ -36,7 +36,7 @@ const tokenIsValid = (token) => {
   try {
     jwt?.verify(token, jwtHashSecret)
   } catch (err) {
-    throw new ErrorAllowedUser('Usuário não autenticado!')
+    throw new ErrorNotAuthenticated('Usuário não autenticado!')
   }
 }
 

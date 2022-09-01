@@ -7,9 +7,9 @@ const {
 } = require('../models/models.index')
 const cryptography = require('../utils/utils.cryptography')
 const userMapper = require('../mappers/mappers.user')
-const ErrorGeneric = require('../utils/errors/erros.generic_error')
-const ErrorAllowedUser = require('../utils/errors/errors.user_not_allowed')
-const ErrorUnauthorizedUser = require('../utils/errors/errors.user_not_authenticated')
+const ErrorGeneric = require('../utils/errors/erros.generic-error')
+const ErrorNotAuthorized = require('../utils/errors/errors.user-not-authorized')
+const ErrorNotAuthenticated = require('../utils/errors/errors.user-not-authenticated')
 
 const profile = [
   {
@@ -53,8 +53,9 @@ const userIsValidService = async (cpf, password) => {
     }
   })
   if (!userDB) {
-    throw new ErrorUnauthorizedUser('Cpf ou senha inválidos!')
+    throw new ErrorNotAuthenticated('Cpf ou senha inválidos!')
   }
+  return !!userDB
 }
 
 const userIsActiveService = async (cpf) => {
@@ -65,16 +66,19 @@ const userIsActiveService = async (cpf) => {
     }
   })
   if (!resultDB) {
-    throw new ErrorAllowedUser('Sua conta foi desativada pelo Administrador!')
+    throw new ErrorNotAuthorized('Sua conta foi desativada pelo Administrador!')
   }
+  return !!resultDB
 }
 
 const checkPermissionService = (type, permission) => {
-  const result = profile.find((item) => item.type === type)
+  const result = profile.find((item) => item.type == type)
   const check = result?.permission?.includes(permission)
+
   if (!check) {
-    throw new ErrorAllowedUser('Usuário não autorizado!')
+    throw new ErrorNotAuthorized('Usuário não autorizado!')
   }
+  return !!check
 }
 
 const createCredentialService = async (cpf) => {
@@ -180,7 +184,10 @@ const registerService = async (body) => {
 }
 
 module.exports = {
+  userIsValidService,
+  userIsActiveService,
+  checkPermissionService,
+  createCredentialService,
   authService,
-  registerService,
-  checkPermissionService
+  registerService
 }
