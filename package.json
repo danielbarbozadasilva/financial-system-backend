@@ -4,14 +4,22 @@
   "license": "GPLv3 License",
   "version": "1.0.0",
   "description": "backend - Sistema de gestão financeira",
-  "main": "index.js",
+  "main": "./api/server.js",
   "private": true,
   "scripts": {
-    "start": "node ./index.js",
-    "dev": "nodemon ./index.js",
+    "start": "nodemon ./server.js",
+    "dev": "nodemon ./server.js --ignore __tests__",
     "add-migrations": "yarn sequelize db:migrate",
     "add-seeders": "yarn sequelize db:seed:all",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    
+    "test-create-db": "cross-env NODE_ENV=test npx sequelize db:create",
+    "test-add-migrations": "cross-env NODE_ENV=test npx sequelize db:migrate",
+    "test-add-seeders": "cross-env NODE_ENV=test npx sequelize db:seed:all",
+    
+    "test": "cross-env NODE_ENV=test jest --passWithNoTests --runInBand",
+    "test:unit": "npm test -- --watch -c jest-unit-config.js",
+    "test:integration": "npm test -- --watch -c jest-integration-config.js",
+    "test:staged": "npm test -- --findRelatedTests"
   },
   "repository": {
     "type": "git",
@@ -23,10 +31,14 @@
   "homepage": "https://github.com/danielbarbozadasilva/financial-system-backend#readme",
   "dependencies": {
     "@joi/date": "^2.1.0",
+    "@types/jest": "^28.1.8",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
+    "cpf-cnpj-validator": "^1.0.3",
+    "cross-env": "^7.0.3",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "express-async-errors": "^3.1.1",
     "formidable": "^1.2.2",
     "fs": "^0.0.1-security",
     "http-status": "^1.5.2",
@@ -49,7 +61,9 @@
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-prettier": "^4.2.1",
+    "jest": "^29.0.1",
     "prettier": "^2.7.1",
-    "sequelize-cli": "^6.2.0"
+    "sequelize-cli": "^6.2.0",
+    "supertest": "^6.2.4"
   }
 }
