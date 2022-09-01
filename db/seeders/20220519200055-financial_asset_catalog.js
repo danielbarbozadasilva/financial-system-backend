@@ -4,7 +4,7 @@ module.exports = {
       'assets',
       [
         {
-          name: 'Ativo 1',
+          name: 'Empresa-a',
           description:
             'Uma empresa dos Estados Unidos que desenvolve, fabrica, licencia, apoia e vende softwares de computador.',
           bvmf: 'SSFT34',
@@ -17,7 +17,7 @@ module.exports = {
           })
         },
         {
-          name: 'Ativo 2',
+          name: 'Empresa-b',
           description:
             'Uma fabricante de automóveis multinacional estadunidense sediada em Dearborn, Michigan.',
           bvmf: 'WDMO34',
@@ -30,7 +30,7 @@ module.exports = {
           })
         },
         {
-          name: 'Ativo 3',
+          name: 'Empresa-c',
           description:
             'Uma empresa argentina de tecnologia que oferece soluções de comércio eletrônico. ',
           bvmf: 'MWLI14',
@@ -43,7 +43,7 @@ module.exports = {
           })
         },
         {
-          name: 'Ativo 4',
+          name: 'Empresa-d',
           description: 'O maior fabricante de automóveis do mundo.',
           bvmf: 'SFNB12',
           current_price: 32.12,
@@ -55,7 +55,7 @@ module.exports = {
           })
         },
         {
-          name: 'Ativo 5',
+          name: 'Empresa-e',
           description:
             'O maior banco brasileiro, com sede na cidade de São Paulo, no estado homônimo.',
           bvmf: 'IGUB4',
@@ -68,7 +68,7 @@ module.exports = {
           })
         },
         {
-          name: 'Ativo 6',
+          name: 'Empresa-f',
           description:
             'Uma empresa multinacional de tecnologia que fabrica softwares e hardwares.',
           bvmf: 'CVDC34',
@@ -81,7 +81,7 @@ module.exports = {
           })
         },
         {
-          name: 'Ativo 7',
+          name: 'Empresa-g',
           description: 'Uma grande empresa multinacional de tecnologia.',
           bvmf: 'ETLC34',
           current_price: 34.93,
@@ -93,7 +93,7 @@ module.exports = {
           })
         },
         {
-          name: 'Ativo 8',
+          name: 'Empresa-h',
           description:
             'Uma empresa Estado-unidense fabricante de circuitos integrados, especialmente processadores e placas de vídeo.',
           bvmf: 'WMD34',
