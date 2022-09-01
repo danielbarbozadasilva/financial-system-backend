@@ -22,17 +22,9 @@ if (config.use_env_variable) {
   })
 }
 
-try {
-  sequelize
-    .authenticate()
-    .then(() => {
-      console.log('<<< Database connection successfully established! >>>')
-    })
-    .catch((err) => {
-      console.log(`<<< Error connecting to the database! \n Error: ${err} >>>`)
-    })
-    .done()
-} catch (error) {}
+sequelize.authenticate().catch((err) => {
+  console.log(`<<< Error connecting to the database! \n Error: ${err} >>>`)
+})
 
 fs.readdirSync(__dirname)
   .filter(
