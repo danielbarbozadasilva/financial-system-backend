@@ -10,7 +10,7 @@ module.exports = {
           uf: 'RJ',
           city: 'CARAPEBUS',
           zip_code: '23200-200',
-          complement: 'casa',
+          complement: 'casa'
         },
         {
           address: 'Rua abc 123',
