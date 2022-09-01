@@ -1,6 +1,6 @@
 const { account, user, branch, transaction } = require('../models/models.index')
 const accountMapper = require('../mappers/mappers.account')
-const ErrorGeneric = require('../utils/errors/erros.generic_error')
+const ErrorGeneric = require('../utils/errors/erros.generic-error')
 
 const listAllAccountService = async () => {
   try {
@@ -23,7 +23,7 @@ const listAllAccountService = async () => {
       data: accountDB.map((item) => accountMapper.toDTO(item))
     }
   } catch (err) {
-    throw new ErrorGeneric(`Internal Server Error! Código: ${err.name}`)
+    throw new ErrorGeneric('Erro ao realizar a operação!')
   }
 }
 
@@ -49,7 +49,7 @@ const listByIdAccountService = async (accountid) => {
       data: accountMapper.toDTO(accountDB)
     }
   } catch (err) {
-    throw new ErrorGeneric(`Internal Server Error! Código: ${err.name}`)
+    throw new ErrorGeneric('Erro ao realizar a operação!')
   }
 }
 
@@ -86,7 +86,7 @@ const checkBalanceService = async (id) => {
       data: accountMapper.toDTOUserAssets(accountDB, transactionDB)
     }
   } catch (err) {
-    throw new ErrorGeneric(`Internal Server Error! Código: ${err.name}`)
+    throw new ErrorGeneric('Erro ao realizar a operação!')
   }
 }
 

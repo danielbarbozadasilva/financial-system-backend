@@ -1,11 +1,11 @@
 const joi = require('joi')
 const userController = require('../../controllers/controllers.user')
-const middlewareValidateDTO = require('../../utils/middlewares/middlewares.validate_dto')
-const asyncMiddleware = require('../../utils/middlewares/middlewares.async')
+const validateDTOMiddleware = require('../../utils/middlewares/middlewares.validate-dto')
+const verifyMiddleware = require('../../utils/middlewares/middlewares.verify-exists')
 
 module.exports = (router) => {
   router.route('/auth').post(
-    middlewareValidateDTO('body', {
+    validateDTOMiddleware('body', {
       cpf: joi.string().required().messages({
         'any.required': `"cpf" is a required field`,
         'string.empty': `"cpf" can not be empty`
@@ -15,11 +15,11 @@ module.exports = (router) => {
         'string.empty': `"password" can not be empty`
       })
     }),
-    asyncMiddleware(userController.authController)
+    userController.authController
   )
 
   router.route('/register').post(
-    middlewareValidateDTO('body', {
+    validateDTOMiddleware('body', {
       name: joi.string().required().messages({
         'any.required': `"name" is a required field`,
         'string.empty': `"name" can not be empty`
@@ -67,6 +67,8 @@ module.exports = (router) => {
       complement: joi.string().allow(''),
       auth: joi.boolean().optional()
     }),
-    asyncMiddleware(userController.registerController)
+    verifyMiddleware.verifyCpfExists,
+    verifyMiddleware.verifyEmailExists,
+    userController.registerController
   )
 }

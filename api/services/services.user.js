@@ -1,4 +1,3 @@
-const { Op } = require('sequelize')
 const {
   user,
   address,
@@ -8,13 +7,14 @@ const {
 } = require('../models/models.index')
 const cryptography = require('../utils/utils.cryptography')
 const userMapper = require('../mappers/mappers.user')
-const ErrorGeneric = require('../utils/errors/erros.generic_error')
-const ErrorBusinessRule = require('../utils/errors/errors.business_rule')
+const ErrorGeneric = require('../utils/errors/erros.generic-error')
+const ErrorNotAuthorized = require('../utils/errors/errors.user-not-authorized')
+const ErrorNotAuthenticated = require('../utils/errors/errors.user-not-authenticated')
 
 const profile = [
   {
-    id: 1,
-    functionality: [
+    type: 1,
+    permission: [
       'SEARCH_FINANCIAL',
       'CREATE_FINANCIAL',
       'DELETE_FINANCIAL',
@@ -34,8 +34,8 @@ const profile = [
     ]
   },
   {
-    id: 2,
-    functionality: [
+    type: 2,
+    permission: [
       'SEARCH_FINANCIAL',
       'CREATE_TRANSACTION',
       'LIST_CLIENT_BALANCE',
@@ -49,9 +49,12 @@ const userIsValidService = async (cpf, password) => {
   const userDB = await user.findOne({
     where: {
       cpf,
-      password: cryptography.UtilCreateHash(password)
+      password: cryptography.createHash(password)
     }
   })
+  if (!userDB) {
+    throw new ErrorNotAuthenticated('Cpf ou senha inválidos!')
+  }
   return !!userDB
 }
 
@@ -62,18 +65,20 @@ const userIsActiveService = async (cpf) => {
       status: 1
     }
   })
+  if (!resultDB) {
+    throw new ErrorNotAuthorized('Sua conta foi desativada pelo Administrador!')
+  }
   return !!resultDB
 }
 
-const searchTypeUserByIdService = (type) =>
-  profile.find((item) => item.id === type)
+const checkPermissionService = (type, permission) => {
+  const result = profile.find((item) => item.type == type)
+  const check = result?.permission?.includes(permission)
 
-const verifyFunctionalityProfileService = async (typeUser, test) => {
-  const profile = searchTypeUserByIdService(typeUser)
-  if (profile?.functionality?.includes(test) == true && profile.id) {
-    return false
+  if (!check) {
+    throw new ErrorNotAuthorized('Usuário não autorizado!')
   }
-  return true
+  return !!check
 }
 
 const createCredentialService = async (cpf) => {
@@ -82,7 +87,7 @@ const createCredentialService = async (cpf) => {
   })
 
   const userDTO = userMapper.toUserDTO(userDB)
-  const userToken = cryptography.UtilCreateToken(userDTO)
+  const userToken = cryptography.createToken(userDTO)
 
   if (userDTO && userToken) {
     return {
@@ -94,23 +99,9 @@ const createCredentialService = async (cpf) => {
 }
 
 const authService = async (cpf, password) => {
+  await userIsValidService(cpf, password)
+  await userIsActiveService(cpf)
   try {
-    const resultDB = await userIsValidService(cpf, password)
-    if (!resultDB) {
-      return {
-        success: false,
-        message: 'Não foi possivel autenticar o usuário',
-        details: ['Cpf ou senha inválidos!']
-      }
-    }
-    const resultActive = await userIsActiveService(cpf)
-    if (!resultActive) {
-      return {
-        success: false,
-        message: 'Não fo possivel efetuar o login',
-        details: ['Sua conta foi desativada pelo Administrador!']
-      }
-    }
     const resultCredentials = await createCredentialService(cpf)
     if (!resultCredentials) {
       return {
@@ -124,59 +115,12 @@ const authService = async (cpf, password) => {
       data: resultCredentials
     }
   } catch (err) {
-    throw new ErrorGeneric(`Internal Server Error! Código: ${err.name}`)
+    throw new ErrorGeneric('Erro ao realizar a operação!')
   }
-}
-
-const verifyEmailExists = async (email) => {
-  const resultEmail = await user.findOne({
-    where: {
-      email
-    }
-  })
-  return resultEmail
-}
-
-const verifyCpfExists = async (cpf) => {
-  const resulCpf = await user.findOne({
-    where: {
-      cpf
-    }
-  })
-  return !!resulCpf
-}
-
-const verifyEmailBodyExistService = async (id, email) => {
-  const users = await user.findOne({
-    where: {
-      email,
-      cod_user: { [Op.notIn]: [id] }
-    }
-  })
-  return users !== null
-}
-
-const verifyCpfBodyExistService = async (id, cpf) => {
-  const users = await user.findOne({
-    where: {
-      cpf,
-      cod_user: { [Op.notIn]: [id] }
-    }
-  })
-  return users !== null
 }
 
 const registerService = async (body) => {
   let data = {}
-  const resultEmail = await verifyEmailExists(body.email)
-  if (resultEmail) {
-    throw new ErrorBusinessRule('Este e-mail já está em uso!')
-  }
-
-  const resultCpf = await verifyCpfExists(body.cpf)
-  if (resultCpf) {
-    throw new ErrorBusinessRule('Este cpf já está em uso!')
-  }
 
   const infoTransaction = await sequelize.transaction()
   try {
@@ -198,7 +142,7 @@ const registerService = async (body) => {
         cpf: body.cpf,
         gender: body.gender,
         birth_date: body.birth_date,
-        password: cryptography.UtilCreateHash(body.password),
+        password: cryptography.createHash(body.password),
         phone: body.phone,
         kind: 'client',
         status: 'true',
@@ -231,7 +175,7 @@ const registerService = async (body) => {
     return {
       success: true,
       message: 'Cadastro realizado com sucesso!',
-      data: data || userMapper.toUserRegister(userDB, addressDB)
+      data: data?.token ? data : userMapper.toUserRegister(userDB, addressDB)
     }
   } catch (error) {
     await infoTransaction.rollback()
@@ -240,11 +184,10 @@ const registerService = async (body) => {
 }
 
 module.exports = {
+  userIsValidService,
+  userIsActiveService,
+  checkPermissionService,
+  createCredentialService,
   authService,
-  registerService,
-  verifyEmailExists,
-  verifyCpfExists,
-  verifyEmailBodyExistService,
-  verifyCpfBodyExistService,
-  verifyFunctionalityProfileService
+  registerService
 }

@@ -1,8 +1,6 @@
-'use strict'
-
 module.exports = {
   async up(queryInterface, Sequelize) {
-    return queryInterface.createTable('financial_asset_catalog', {
+    return queryInterface.createTable('assets', {
       cod_fin_asset: {
         primaryKey: true,
         autoIncrement: true,
@@ -37,6 +35,6 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-    return queryInterface.dropTable('financial_asset_catalog')
+    return queryInterface.dropTable('assets')
   }
 }

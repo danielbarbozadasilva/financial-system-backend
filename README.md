@@ -1,30 +1,29 @@
-# **API Awesome Invest**
-O Projeto AWESOME INVEST é um sistema de gestão financeira criado para fins de estudo. O Sistema tem o objetivo de listar os ativos e efetuar o gerenciamento destes, possibilitando a consulta e compra por parte dos clientes. Além de garantir que o Administrador realize depósitos em conta de clientes e a consulta das transações realizadas.
+# **API Sistema Awesome Invest**
+## **Introdução**
+O Projeto AWESOME INVEST é um sistema de gestão financeira criado para fins de estudo. O Sistema tem o objetivo de listar os ativos e efetuar o gerenciamento destes, possibilitando a consulta e compra por parte do cliente. Além de garantir que o Administrador realize depósitos em contas de clientes e a consulta das transações realizadas.
 A API foi desenvolvida utilizando o NodeJs, ExpressJs e o ORM Sequelize com Banco de dados MySql.
 <br/>
 <br/>
-
 O Front-End foi desenvolvido utilizando o ReactJs. E está disponível para consulta no link abaixo:
 ```
-https://github.com/danielbarbozadasilva/financial-system-frontend
+git clone https://github.com/danielbarbozadasilva/financial-system-frontend
 ```
 <br/>
 <br/>
 
 ## **Escopo do produto**
-O AWESOME INVEST é um Sistema web que vem com o intuito de facilitar ao cliente investir em ativos. Todas as suas funcionalidades foram pensadas e elaboradas para proporcionar facilidade e comodidade aos usuários da plataforma.
+O AWESOME INVEST é um Sistema web que tem o intuito de facilitar o cliente a começar a investir em ativos. Todas as suas funcionalidades foram pensadas e elaboradas para proporcionar facilidade e comodidade aos usuários da plataforma.
 
 O Sistema tem como objetivo gerenciar os ativos cadastrados, disponibilizando ao cliente a opção de adquiri-los. O administrador do sistema possui o controle dos ativos cadastrados, assim como dos clientes, com a possibilidade de realizar depósitos em conta de clientes e obter informações de transações realizadas.
 
-Os usuários do sistema são os Clientes e o Administrador. Todos possuem acesso ao sistema e a seu respectivo espaço. Além disso o Sistema conta com uma tela inicial que permite ao público navegar de modo simples entre os ativos, os ativos mais adquiridos e informações da plataforma.
-
+Os usuários do sistema são o Cliente e o Administrador. Todos possuem acesso ao sistema e a seu respectivo espaço. Além disso o Sistema conta com uma tela inicial que permite ao público navegar de modo simples entre os ativos, os ativos mais adquiridos e informações da plataforma.
 <br/>
 <br/>
 
 ## **Instalação com Docker**
 Clone o repositório na pasta de sua preferência.
 ```
-https://github.com/danielbarbozadasilva/financial-system-backend.git
+git clone https://github.com/danielbarbozadasilva/financial-system-backend.git
 ```
 
 Abra a pasta do repositório clonado, e crie um arquivo ".env", exemplo:
@@ -40,7 +39,7 @@ PORT = 3011
 
 MD5_SECRET=teste_secret_password
 JWT_SECRET=dsfsfdsfdsdsdsfdsfs
-JWT_VALID_TIME=999999999999999999
+JWT_VALID_TIME=9000000000
 
 URL=http://localhost:3000
 IMAGE_PATH=http://localhost:3011/static/
@@ -55,7 +54,7 @@ Logo após o término da instalação. Instale o Docker e o docker compose atrav
 ```
 https://docs.docker.com/desktop/windows/install/
 ```
-Com o Docker instalado, execute o seguinte comando:
+Com o Docker instalado, abra o terminal na pasta do projeto e execute o seguinte comando:
 ```
 docker-compose up
 ``` 
@@ -81,53 +80,150 @@ Com o projeto rodando, abra a documentação do Postman na pasta do projeto:
 docs -> PROJETO-INVESTIMENTOS.postman_collection.json
 ```
 <br/>
-
+<br/>
 
 ## **Modelo lógico de dados**
 <br/>
-<img src="./docs/Logical_Schema.jpg" alt="My cool logo"/>
+<img src="./docs/Logical_Schema.jpg" alt="Modelo lógico de dados"/>
 <br/>
 <br/>
-
-## **Diagrama de componentes**
-<br/>
-<img src="./docs/Components.png" alt="My cool logo"/>
 <br/>
 <br/>
 
 ## **Modelo conceitual de dados**
 <br/>
-<img src="./docs/Conceptual_Schema.jpg" alt="My cool logo"/>
+<img src="./docs/Conceptual_Schema.jpg" alt="Modelo conceitual de dados"/>
+<br/>
+<br/>
+<br/>
+<br/>
+
+## **Diagrama de componentes**
+<br/>
+<img src="./docs/Components.png" alt="Diagrama de componentes"/>
+<br/>
+<br/>
 <br/>
 <br/>
 
 ## **Requisitos funcionais**
 <br/>
 
-[RF01] É necessário lidar com a autenticação do usuário administrador. Explicação: O Sistema deve permitir o acesso do administrador com base em suas credenciais. Bloqueando qualquer tentativa de acesso por outros tipos de usuários.
+RF001 – O sistema deve controlar a autenticação dos usuários.
 
-[RF02] É necessário lidar com a autenticação do usuário cliente. Explicação: O Sistema deve permitir o acesso aos clientes com base em suas credenciais. Bloqueando qualquer tentativa de acesso por outros usuários.
+RF002 – O sistema deve manter cadastro de clientes.
 
-[RF03] O Sistema deve manter ativos. Explicação: O Sistema permitirá que o usuário administrador consulte ativos, cadastre novos ativos, edite os dados do ativo e exclua um ativo.
+RF003 – O sistema deve manter ativos.
 
-[RF04] O usuário cliente deve se cadastrar. Explicação: O Sistema permitirá o cadastro do cliente.
+RF004 – O sistema deve controlar a venda de ativos.
 
-[RF05] O usuário administrador deve autorizar o acesso do cliente ao sistema. Explicação: O administrador pode autorizar ou não o acesso de clientes ao sistema.
+RF005 – O sistema deve manter clientes.
 
-[RF06] O usuário administrador deve conseguir visualizar os dados do cliente no sistema. Explicação: O administrador pode consultar os dados do cliente no sistema.
+RF006 – O sistema deve aprovar ou bloquear o acesso do cliente.
 
-[RF07] O usuário administrador deve conseguir atualizar os dados do cliente no sistema. Explicação: O administrador pode atualizar os dados do cliente no sistema.
+RF007 – O sistema deve listar as transações efetuadas.
 
-[RF08] O usuário administrador deve conseguir visualizar todas as transações realizados pelos clientes. Explicação: O Sistema permite que o administrador visualize as transações realizados pelo cliente.
+RF008 – O sistema deve realizar depósitos.
 
-[RF09] O usuário cliente deve poder visualizar as transações que realizou. Explicação: O Sistema permite que o cliente visualize as suas transações.
+RF009 – O sistema deve listar os depósitos efetuadas.
 
-[RF10] O cliente deve visualizar os seus dados bancários. Explicação: O Sistema deve exibir o saldo em conta e seu respectivo patrimônio.
+RF010 – O sistema deve listar os dados bancários do cliente.
 
-[RF11] O usuário administrador deve poder efetuar depósitos na conta do cliente. Explicação: O Sistema deve permitir ao administrador depositar um determinado valor na conta do cliente.
+<br/>
+<br/>
 
-[RF12] O Sistema deve exibir uma barra de pesquisa para facilitar a busca por contas. Explicação: Ao consultar os dados da conta do cliente o usuário administrador deve poder filtrar as informações do cliente.
+## **Requisitos não funcionais**
+<br/>
 
+| Identificação | Classificação | Descrição |
+| --- | --- | --- |
+|RNF001   |Implementação     |O back-end do sistema deve ser desenvolvido em NodeJs e ExpressJs.    |
+|RNF002   |Implementação     | O front-end do sistema deve ser desenvolvido em ReactJs.    |
+|RNF003   |Implementação     |O banco de dados a ser utilizado é o MySql.     |
+|RNF004   |Implementação     | O sistema deve funcionar em Sistemas Operacionais Windows, Mac e Linux.    |
+|  |  |  |
+
+<br/>
+<br/>
+
+## **Regras de negócio**
+<br/>
+
+| Controle de acesso (RN001) |  |
+| --- | --- |
+|`Descrição:` Os acessos permitidos ao sistema serão: Administrador e Cliente. O usuário anonimo terá acesso apenas ao portal do site.    |
+|  |
+
+| Aplicar imposto (RN002) |  |
+| --- | --- |
+|`Descrição:` Em todas as vendas serão acrescidos 5% (cinco por cento) referente a impostos.    |
+|  |
+
+| Controle de veracidade (RN003) |  |
+| --- | --- |
+|`Descrição:` Apenas clientes autorizados pelo administrador poderão ter acesso ao sistema.    |
+|  |
+
+| Limite de ação (RN004) |  |
+| --- | --- |
+|`Descrição:` Apenas o Administrador poderá incluir, editar e excluir ativos no sistema.  |
+|  |
+
+| Limite de ação (RN005) |  |
+| --- | --- |
+|`Descrição:` Apenas o Administrador poderá editar os dados do cliente.  |
+|  |
+
+| Limite de ação (RN006) |  |
+| --- | --- |
+|`Descrição:` O Cliente poderá visualizar apenas os dados da sua conta. Tais como: patrimônio, histórico de transações e depósitos.  |
+|  |
+
+| Limite de ação (RN007) |  |
+| --- | --- |
+|`Descrição:` Apenas o Administrador poderá visualizar informações de todos os clientes, suas respectivas contas, patrimônio e transações efetuadas.  |
+|  |
+
+<br/>
+<br/>
+
+## **Lista de atores e casos de uso**
+<br/>
+
+## Lista de atores que interagem com o sistema:
+* Administrador
+* Cliente
+* Anônimo
+<br/>
+<br/>
+
+## Lista de Casos de Uso:
+<br/>
+
+1 - Fechar compra
+
+2 - Registrar movimentação
+
+3 - Realizar Login
+
+4 - Manter ativos
+
+5 - Manter clientes
+
+6 - Aprovar cadastro de clientes
+
+7 - Realizar depósitos
+
+8 - Pesquisar ativos
+
+<br/>
+<br/>
+
+## **Diagrama de Casos de uso**
+<br/>
+<img src="./docs/diagrama_de_casos_de_uso.png" alt="Diagrama de Casos de uso"/>
+<br/>
+<br/>
 <br/>
 <br/>
 
@@ -137,18 +233,28 @@ docs -> PROJETO-INVESTIMENTOS.postman_collection.json
 <br/>
 
 > ## Metodologias e Padrões
-* MVC
 * Conventional commits
+* MVC
 * GitFlow
-* Casos de uso
+* Error handler
+
 <br/>
 <br/>
 
 > ## Bibliotecas e Ferramentas
-* Swagger
-* Sequelize
 * Docker
-* NPM
+* Sequelize
+* MySql
+* Formidable
+* Md5
+* Uuid
+* Path
+* Joi
+* Http-status
+* Nodemon
 * Git
 * JsonWebToken
 * Express
+* Eslint
+* Prettier
+* FileSystem

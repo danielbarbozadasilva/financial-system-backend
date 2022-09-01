@@ -12,10 +12,6 @@ module.exports = {
       name: {
         allowNull: false,
         type: Sequelize.TEXT
-      },
-      branch: {
-        allowNull: false,
-        type: Sequelize.TEXT
       }
     })
   },
