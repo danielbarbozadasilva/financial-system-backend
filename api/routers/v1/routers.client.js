@@ -1,39 +1,43 @@
 const joi = require('joi')
-
 const clientController = require('../../controllers/controllers.client')
-const middlewareValidateDTO = require('../../utils/middlewares/middlewares.validate_dto')
+const validateDTOMiddleware = require('../../utils/middlewares/middlewares.validate-dto')
+const authenticationMiddleware = require('../../utils/middlewares/middlewares.authentication')
 const authorizationMiddleware = require('../../utils/middlewares/middlewares.authorization')
-const asyncMiddleware = require('../../utils/middlewares/middlewares.async')
+const verifyMiddleware = require('../../utils/middlewares/middlewares.verify-exists')
 
 module.exports = (router) => {
   router
     .route('/client')
     .get(
+      authenticationMiddleware(),
       authorizationMiddleware('SEARCH_FINANCIAL'),
-      asyncMiddleware(clientController.listAllClientsController)
+      clientController.listAllClientsController
     )
 
   router
     .route('/client/:clientid')
     .get(
+      authenticationMiddleware(),
       authorizationMiddleware('LIST_CLIENT_ID'),
-      middlewareValidateDTO('params', {
+      validateDTOMiddleware('params', {
         clientid: joi.number().integer().required().messages({
           'any.required': '"client id" is a required field',
           'number.empty': '"client id" can not be empty'
         })
       }),
-      asyncMiddleware(clientController.listByIdClientController)
+      verifyMiddleware.verifyIdClientDbMiddleware,
+      clientController.listByIdClientController
     )
     .put(
+      authenticationMiddleware(),
       authorizationMiddleware('UPDATE_CLIENT'),
-      middlewareValidateDTO('params', {
+      validateDTOMiddleware('params', {
         clientid: joi.number().integer().required().messages({
           'any.required': '"client id" is a required field',
           'number.empty': '"client id" can not be empty'
         })
       }),
-      middlewareValidateDTO('body', {
+      validateDTOMiddleware('body', {
         name: joi.string().required().messages({
           'any.required': `"name" is a required field`,
           'string.empty': `"name" can not be empty`
@@ -87,21 +91,26 @@ module.exports = (router) => {
           'string.empty': `"complement" can not be empty`
         })
       }),
-      asyncMiddleware(clientController.updateClientController)
+      verifyMiddleware.verifyIdClientDbMiddleware,
+      verifyMiddleware.verifyCpfBodyExist,
+      verifyMiddleware.verifyEmailBodyExist,
+      clientController.updateClientController
     )
 
   router.route('/client/:clientid/status/:status').put(
+    authenticationMiddleware(),
     authorizationMiddleware('UPDATE_STATUS_CLIENT'),
-    middlewareValidateDTO('params', {
+    validateDTOMiddleware('params', {
       clientid: joi.number().integer().required().messages({
         'any.required': '"client id" is a required field',
         'number.empty': '"client id" can not be empty'
       }),
-      status: joi.string().required().messages({
+      status: joi.number().integer().min(0).max(1).required().messages({
         'any.required': '"status" is a required field',
         'string.empty': '"status" can not be empty'
       })
     }),
-    asyncMiddleware(clientController.changeStatusClientController)
+    verifyMiddleware.verifyIdClientDbMiddleware,
+    clientController.changeStatusClientController
   )
 }

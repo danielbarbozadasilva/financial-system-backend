@@ -1,47 +1,56 @@
 const { Op } = require('sequelize')
 const {
   transaction,
-  transaction_details,
+  transactiondetails,
   account,
   user,
-  financial_asset_catalog,
+  assets,
   transfer,
   bank,
   sequelize
 } = require('../models/models.index')
 const transactionMapper = require('../mappers/mappers.transaction')
-const ErrorGeneric = require('../utils/errors/erros.generic_error')
+const ErrorGeneric = require('../utils/errors/erros.generic-error')
+const ErrorBusinessRule = require('../utils/errors/errors.business-rule')
 
 const verifyQuantity = async (assetid, quantity) => {
-  const result = await financial_asset_catalog.findByPk(assetid)
-  const checkCount = Number(result.quantity) >= Number(quantity)
-  return checkCount
+  const result = await assets.findByPk(assetid)
+  const checkQuantity = result.quantity >= quantity
+  if (!checkQuantity) {
+    throw new ErrorBusinessRule('Quantidade indisponível no momento!')
+  }
 }
 
-const verifyBalance = async (id, total_price) => {
+const verifyBalance = async (id, totalPrice) => {
   const result = await account.findOne({
     where: { user_id: id }
   })
-  const checkCount = Number(result.balance) >= Number(total_price)
-  return checkCount
+  const checkBalance = result.balance >= totalPrice
+  if (!checkBalance) {
+    throw new ErrorBusinessRule('Saldo insuficiente para realizar a transação!')
+  }
+}
+
+const updateQuantity = async (assetid, quantity) => {
+  const result = await assets.findByPk(assetid)
+  result.quantity -= quantity
+  await result.save()
+}
+
+const updateBalance = async (id, totalPrice) => {
+  const result = await account.findOne({
+    where: { user_id: id }
+  })
+  result.balance -= totalPrice
+  await result.save()
 }
 
 const createTransactionService = async (params, body) => {
-  const balance = await verifyBalance(params.clientid, body.total_price)
-  if (!balance) {
-    return {
-      success: false,
-      details: 'Saldo insuficiente para realizar a transação!'
-    }
-  }
+  await verifyQuantity(params.financialid, body.quantity)
+  await verifyBalance(params.clientid, body.total_price)
 
-  const quantity = await verifyQuantity(params.assetid, body.quantity)
-  if (!quantity) {
-    return {
-      success: false,
-      details: 'Quantidade indisponível no momento!'
-    }
-  }
+  await updateQuantity(params.financialid, body.quantity)
+  await updateBalance(params.clientid, body.total_price)
 
   const infoTransaction = await sequelize.transaction()
 
@@ -56,27 +65,15 @@ const createTransactionService = async (params, body) => {
       { transaction: infoTransaction }
     )
 
-    const transactionDetailsDB = await transaction_details.create(
+    const transactionDetailsDB = await transactiondetails.create(
       {
         quantity: body.quantity,
         purchase_price: body.current_price,
-        financial_asset_id: params.assetid,
+        financial_asset_id: params.financialid,
         transaction_id: transactionDB.cod_transaction
       },
       { transaction: infoTransaction }
     )
-
-    const financialResult = await financial_asset_catalog.findByPk(
-      params.assetid
-    )
-    financialResult.quantity -= Number(body.quantity)
-    await financialResult.save({ transaction: infoTransaction })
-
-    const accountDB = await account.findOne({
-      where: { user_id: params.clientid }
-    })
-    accountDB.balance -= Number(body.total_price)
-    await accountDB.save({ transaction: infoTransaction })
 
     await infoTransaction.commit()
     return {
@@ -95,8 +92,8 @@ const createDepositService = async (clientid, body) => {
   try {
     const transactionDB = await transaction.create(
       {
-        sub_total: body.value,
-        total_price: body.value,
+        sub_total: body.total,
+        total_price: body.total,
         user_id: clientid
       },
       { transaction: infoTransaction }
@@ -105,7 +102,7 @@ const createDepositService = async (clientid, body) => {
     const transferDB = await transfer.create(
       {
         origin_cpf: body.origin_cpf,
-        deposit_value: body.value,
+        deposit_value: body.total,
         transaction_id: transactionDB.cod_transaction,
         bank_id: body.bank_id
       },
@@ -119,7 +116,7 @@ const createDepositService = async (clientid, body) => {
 
     await account.update(
       {
-        balance: Number(accountDB.balance) + Number(body.value)
+        balance: Number(accountDB.balance) + body.total
       },
       { where: { user_id: clientid } },
       { transaction: infoTransaction }
@@ -146,14 +143,14 @@ const listAllUserTransactionService = async () => {
           as: 'user'
         },
         {
-          model: transaction_details,
-          as: 'transaction_details',
+          model: transactiondetails,
+          as: 'transactiondetails',
           where: {
             cod_trans_details: { [Op.ne]: null }
           },
           include: {
-            model: financial_asset_catalog,
-            as: 'financial_asset_catalog'
+            model: assets,
+            as: 'assets'
           }
         }
       ],
@@ -167,7 +164,7 @@ const listAllUserTransactionService = async () => {
       data: userDB.map((item) => transactionMapper.toDTOUserIdAssets(item))
     }
   } catch (err) {
-    throw new ErrorGeneric(`Internal Server Error! Código: ${err.name}`)
+    throw new ErrorGeneric('Erro ao realizar a operação!')
   }
 }
 
@@ -181,14 +178,14 @@ const listByIdUserTransactionService = async (id) => {
           where: { cod_user: id }
         },
         {
-          model: transaction_details,
-          as: 'transaction_details',
+          model: transactiondetails,
+          as: 'transactiondetails',
           where: {
             cod_trans_details: { [Op.ne]: null }
           },
           include: {
-            model: financial_asset_catalog,
-            as: 'financial_asset_catalog'
+            model: assets,
+            as: 'assets'
           }
         }
       ],
@@ -202,7 +199,7 @@ const listByIdUserTransactionService = async (id) => {
       data: userDB.map((item) => transactionMapper.toDTOUserIdAssets(item))
     }
   } catch (err) {
-    throw new ErrorGeneric(`Internal Server Error! Código: ${err.name}`)
+    throw new ErrorGeneric('Erro ao realizar a operação!')
   }
 }
 
@@ -230,7 +227,7 @@ const listByIdUserDepositService = async (id) => {
       data: userDB.map((item) => transactionMapper.toDTOListDeposit(item))
     }
   } catch (err) {
-    throw new ErrorGeneric(`Internal Server Error! Código: ${err.name}`)
+    throw new ErrorGeneric('Erro ao realizar a operação!')
   }
 }
 

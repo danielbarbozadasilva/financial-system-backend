@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
-  const transaction_details = sequelize.define(
-    'transaction_details',
+  const transactiondetails = sequelize.define(
+    'transactiondetails',
     {
       cod_trans_details: {
         primaryKey: true,
@@ -27,20 +27,20 @@ module.exports = (sequelize, DataTypes) => {
       paranoid: true,
       timestamps: false,
       freezeTableName: true,
-      tableName: 'transaction_details'
+      tableName: 'transactiondetails'
     }
   )
 
-  transaction_details.associate = function (models) {
-    transaction_details.belongsTo(models.transaction, {
+  transactiondetails.associate = function (models) {
+    transactiondetails.belongsTo(models.transaction, {
       foreignKey: 'transaction_id',
       as: 'transaction'
     })
 
-    transaction_details.belongsTo(models.financial_asset_catalog, {
+    transactiondetails.belongsTo(models.assets, {
       foreignKey: 'financial_asset_id',
-      as: 'financial_asset_catalog'
+      as: 'assets'
     })
   }
-  return transaction_details
+  return transactiondetails
 }

@@ -1,36 +1,42 @@
 const joi = require('joi')
 const accountController = require('../../controllers/controllers.account')
-const middlewareValidateDTO = require('../../utils/middlewares/middlewares.validate_dto')
+const validateDTOMiddleware = require('../../utils/middlewares/middlewares.validate-dto')
+const authenticationMiddleware = require('../../utils/middlewares/middlewares.authentication')
 const authorizationMiddleware = require('../../utils/middlewares/middlewares.authorization')
-const asyncMiddleware = require('../../utils/middlewares/middlewares.async')
+const verifyIdDbMiddleware = require('../../utils/middlewares/middlewares.verify-exists')
 
 module.exports = (router) => {
   router
     .route('/account')
     .get(
+      authenticationMiddleware(),
       authorizationMiddleware('LIST_ACCOUNT'),
-      asyncMiddleware(accountController.listAllAccountController)
+      accountController.listAllAccountController
     )
 
   router.route('/account/:accountid').get(
+    authenticationMiddleware(),
     authorizationMiddleware('LIST_ID_ACCOUNT'),
-    middlewareValidateDTO('params', {
+    validateDTOMiddleware('params', {
       accountid: joi.number().integer().required().messages({
         'any.required': '"account id" is a required field',
         'number.empty': '"account id" can not be empty'
       })
     }),
-    asyncMiddleware(accountController.listByIdAccountController)
+    verifyIdDbMiddleware.verifyIdAccountDbMiddleware,
+    accountController.listByIdAccountController
   )
 
   router.route('/account/client/:clientid').get(
+    authenticationMiddleware(),
     authorizationMiddleware('LIST_CLIENT_BALANCE'),
-    middlewareValidateDTO('params', {
+    validateDTOMiddleware('params', {
       clientid: joi.number().integer().required().messages({
         'any.required': '"client id" is a required field',
         'number.empty': '"client id" can not be empty'
       })
     }),
-    asyncMiddleware(accountController.checkBalanceController)
+    verifyIdDbMiddleware.verifyIdClientDbMiddleware,
+    accountController.checkBalanceController
   )
 }

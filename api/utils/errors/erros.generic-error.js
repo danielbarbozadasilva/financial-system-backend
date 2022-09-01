@@ -7,7 +7,7 @@ class ErrorGeneric extends Error {
     super(message)
     Error.captureStackTrace(this, ErrorGeneric)
     this.statusCode = status.INTERNAL_SERVER_ERROR
-    this.message = { details: [message || defaultMessage] } 
+    this.message = message || defaultMessage
   }
 }
 

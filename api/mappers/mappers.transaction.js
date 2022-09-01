@@ -1,30 +1,28 @@
-const toDTO = (transactionDB, transactionDetailsDB) => {
-  return {
-    subtotal_price: parseFloat(transactionDB.sub_total)?.toLocaleString('pt-br', {
-      style: 'currency',
-      currency: 'BRL'
-    }),
-    total_price: parseFloat(transactionDB.total_price)?.toLocaleString('pt-br', {
-      style: 'currency',
-      currency: 'BRL'
-    }),
-    quantity: transactionDetailsDB.quantity,
-    current_price: parseFloat(transactionDetailsDB.purchase_price)?.toLocaleString('pt-br', {
-      style: 'currency',
-      currency: 'BRL'
-    })
-  }
-}
+const toDTO = (transactionDB, transactionDetailsDB) => ({
+  subtotal_price: parseFloat(transactionDB.sub_total)?.toLocaleString('pt-br', {
+    style: 'currency',
+    currency: 'BRL'
+  }),
+  total_price: parseFloat(transactionDB.total_price)?.toLocaleString('pt-br', {
+    style: 'currency',
+    currency: 'BRL'
+  }),
+  quantity: transactionDetailsDB.quantity,
+  current_price: parseFloat(
+    transactionDetailsDB.purchase_price
+  )?.toLocaleString('pt-br', {
+    style: 'currency',
+    currency: 'BRL'
+  })
+})
 
-const toDTODeposit = (model) => {
-  return {
-    id: model.cod_transfer,
-    origin_cpf: model.origin_cpf,
-    deposit_value: model.deposit_value,
-    transaction_id: model.transaction_id,
-    bank_id: model.bank_id
-  }
-}
+const toDTODeposit = (model) => ({
+  id: model.cod_transfer,
+  origin_cpf: model.origin_cpf,
+  deposit_value: model.deposit_value,
+  transaction_id: model.transaction_id,
+  bank_id: model.bank_id
+})
 
 const toDTOListDeposit = (model) => {
   const date = new Date()
@@ -36,10 +34,9 @@ const toDTOListDeposit = (model) => {
       currency: 'BRL'
     }),
     origin_cpf: model.origin_cpf,
-    current_date:
-      date?.toLocaleDateString(model?.current_date) +
-      ' ' +
-      model?.current_date?.toLocaleTimeString('pt-BR'),
+    current_date: `${date?.toLocaleDateString(
+      model?.current_date
+    )} ${model?.current_date?.toLocaleTimeString('pt-BR')}`,
     transaction_id: model.transaction_id,
     bank_id: model.bank_id,
     cod_transaction: model.transaction.cod_transfer,
@@ -60,8 +57,7 @@ const toDTOListDeposit = (model) => {
     ),
     user_id: model.transaction.user_id,
     cod_bank: model.bank.cod_bank,
-    bank_name: model.bank.name,
-    branch: model.bank.branch
+    bank_name: model.bank.name
   }
 }
 
@@ -75,28 +71,25 @@ const toDTOUserIdAssets = (model) => {
       style: 'currency',
       currency: 'BRL'
     }),
-    id_asset:
-      model?.transaction_details?.financial_asset_catalog?.cod_fin_asset,
-    name: model?.transaction_details?.financial_asset_catalog?.name,
-    description:
-      model?.transaction_details?.financial_asset_catalog?.description,
-    bvmf: model?.transaction_details?.financial_asset_catalog?.bvmf,
+    id_asset: model?.transactiondetails?.assets?.cod_fin_asset,
+    name: model?.transactiondetails?.assets?.name,
+    description: model?.transactiondetails?.assets?.description,
+    bvmf: model?.transactiondetails?.assets?.bvmf,
     current_price: parseFloat(
-      model?.transaction_details?.financial_asset_catalog?.current_price
+      model?.transactiondetails?.assets?.current_price
     )?.toLocaleString('pt-br', {
       style: 'currency',
       currency: 'BRL'
     }),
     purchase_price: parseFloat(
-      model?.transaction_details?.purchase_price
+      model?.transactiondetails?.purchase_price
     )?.toLocaleString('pt-br', {
       style: 'currency',
       currency: 'BRL'
     }),
-    current_date:
-      date?.toLocaleDateString(model?.transaction_details?.current_date) +
-      ' ' +
-      model?.transaction_details?.current_date?.toLocaleTimeString('pt-BR')
+    current_date: `${date?.toLocaleDateString(
+      model?.transactiondetails?.current_date
+    )} ${model?.transactiondetails?.current_date?.toLocaleTimeString('pt-BR')}`
   }
 }
 

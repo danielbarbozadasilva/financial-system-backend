@@ -1,8 +1,6 @@
-'use strict'
-
 module.exports = {
   async up(queryInterface, Sequelize) {
-    return queryInterface.createTable('transaction_details', {
+    return queryInterface.createTable('transactiondetails', {
       cod_trans_details: {
         primaryKey: true,
         autoIncrement: true,
@@ -24,7 +22,7 @@ module.exports = {
       },
       financial_asset_id: {
         type: Sequelize.INTEGER,
-        references: { model: 'financial_asset_catalog', key: 'cod_fin_asset' },
+        references: { model: 'assets', key: 'cod_fin_asset' },
         onDelete: 'CASCADE'
       },
       transaction_id: {
@@ -36,6 +34,6 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-    return queryInterface.dropTable('transaction_details')
+    return queryInterface.dropTable('transactiondetails')
   }
 }

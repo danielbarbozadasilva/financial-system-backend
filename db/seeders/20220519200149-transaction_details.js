@@ -1,9 +1,7 @@
-'use strict'
-
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.bulkInsert(
-      'transaction_details',
+      'transactiondetails',
       [
         {
           quantity: 1,
@@ -46,7 +44,7 @@ module.exports = {
           purchase_price: 34.93,
           financial_asset_id: 8,
           transaction_id: 7
-        },
+        }
       ],
       {
         updateOnDuplicate: [
@@ -61,6 +59,6 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.bulkDelete('transaction_details', null, {})
+    await queryInterface.bulkDelete('transactiondetails', null, {})
   }
 }

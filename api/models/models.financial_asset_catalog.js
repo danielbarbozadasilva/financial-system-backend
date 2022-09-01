@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
-  const financial_asset_catalog = sequelize.define(
-    'financial_asset_catalog',
+  const assets = sequelize.define(
+    'assets',
     {
       cod_fin_asset: {
         primaryKey: true,
@@ -38,15 +38,15 @@ module.exports = (sequelize, DataTypes) => {
       paranoid: true,
       timestamps: false,
       freezeTableName: true,
-      tableName: 'financial_asset_catalog'
+      tableName: 'assets'
     }
   )
 
-  financial_asset_catalog.associate = function (models) {
-    financial_asset_catalog.hasMany(models.transaction_details, {
+  assets.associate = function (models) {
+    assets.hasMany(models.transactiondetails, {
       foreignKey: 'financial_asset_id',
-      as: 'transaction_details'
+      as: 'transactiondetails'
     })
   }
-  return financial_asset_catalog
+  return assets
 }

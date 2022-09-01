@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       balance: {
         allowNull: true,
-        type: DataTypes.FLOAT,
+        type: DataTypes.DECIMAL(15, 2),
         defaultValue: 0
       },
       open_date: {

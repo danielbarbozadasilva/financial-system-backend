@@ -1,10 +1,7 @@
-const toDTO = (model) => {
-  return {
-    cod_bank: model.cod_bank,
-    name: model.name,
-    branch: model.branch
-  }
-}
+const toDTO = (model) => ({
+  cod_bank: model.cod_bank,
+  name: model.name
+})
 module.exports = {
   toDTO
 }
