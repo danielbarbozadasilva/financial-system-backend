@@ -1,7 +1,7 @@
 const status = require('http-status')
 
 const defaultMessage = 'A business mistake happened'
-const ErrorGeneric = require('./erros.generic_error')
+const ErrorGeneric = require('./erros.generic-error')
 
 module.exports = class ErrorBusinessRule extends ErrorGeneric {
   constructor(message) {
