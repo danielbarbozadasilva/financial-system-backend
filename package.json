@@ -17,8 +17,8 @@
     "test-add-seeders": "cross-env NODE_ENV=test npx sequelize db:seed:all",
     
     "test": "cross-env NODE_ENV=test jest --passWithNoTests --runInBand",
-    "test:unit": "npm test -- --watch -c jest-unit-config.js",
-    "test:integration": "npm test -- --watch -c jest-integration-config.js",
+    "test:unit": "npm test -- --c jest-unit-config.js",
+    "test:integration": "npm test -- --c jest-integration-config.js",
     "test:staged": "npm test -- --findRelatedTests"
   },
   "repository": {
