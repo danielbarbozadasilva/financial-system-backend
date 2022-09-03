@@ -149,40 +149,16 @@ RF010 – O sistema deve listar os dados bancários do cliente.
 ## **Regras de negócio**
 <br/>
 
-| Controle de acesso (RN001) |  |
-| --- | --- |
-|`Descrição:` Os acessos permitidos ao sistema serão: Administrador e Cliente. O usuário anonimo terá acesso apenas ao portal do site.    |
-|  |
-
-| Aplicar imposto (RN002) |  |
-| --- | --- |
-|`Descrição:` Em todas as vendas serão acrescidos 5% (cinco por cento) referente a impostos.    |
-|  |
-
-| Controle de veracidade (RN003) |  |
-| --- | --- |
-|`Descrição:` Apenas clientes autorizados pelo administrador poderão ter acesso ao sistema.    |
-|  |
-
-| Limite de ação (RN004) |  |
-| --- | --- |
-|`Descrição:` Apenas o Administrador poderá incluir, editar e excluir ativos no sistema.  |
-|  |
-
-| Limite de ação (RN005) |  |
-| --- | --- |
-|`Descrição:` Apenas o Administrador poderá editar os dados do cliente.  |
-|  |
-
-| Limite de ação (RN006) |  |
-| --- | --- |
-|`Descrição:` O Cliente poderá visualizar apenas os dados da sua conta. Tais como: patrimônio, histórico de transações e depósitos.  |
-|  |
-
-| Limite de ação (RN007) |  |
-| --- | --- |
-|`Descrição:` Apenas o Administrador poderá visualizar informações de todos os clientes, suas respectivas contas, patrimônio e transações efetuadas.  |
-|  |
+| Identificação | Classificação | Descrição |
+| --- | --- | --- |
+|RN001   |Controle de acesso     |Os acessos permitidos ao sistema serão: Administrador e Cliente. O usuário anonimo terá acesso apenas ao portal do site.    |
+|RN002   |Aplicar imposto     | Em todas as vendas serão acrescidos 5% (cinco por cento) referente a impostos.    |
+|RN003   |Controle de veracidade     |Apenas clientes autorizados pelo administrador poderão ter acesso ao sistema.     |
+|RN004   |Limite de ação     | Apenas o Administrador poderá incluir, editar e excluir ativos no sistema.    |
+|RN005   |Limite de ação     | Apenas o Administrador poderá editar os dados do cliente.     |
+|RN006   |Limite de ação     | O Cliente poderá visualizar apenas os dados da sua conta. Tais como: patrimônio, histórico de transações e depósitos.     |
+|RN007   |Limite de ação     | Apenas o Administrador poderá visualizar informações de todos os clientes, suas respectivas contas, patrimônio e transações efetuadas.    |
+|  |  |  |
 
 <br/>
 <br/>
