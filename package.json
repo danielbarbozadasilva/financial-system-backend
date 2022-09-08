@@ -11,11 +11,9 @@
     "dev": "nodemon ./server.js --ignore __tests__",
     "add-migrations": "yarn sequelize db:migrate",
     "add-seeders": "yarn sequelize db:seed:all",
-    
     "test-create-db": "cross-env NODE_ENV=test npx sequelize db:create",
     "test-add-migrations": "cross-env NODE_ENV=test npx sequelize db:migrate",
     "test-add-seeders": "cross-env NODE_ENV=test npx sequelize db:seed:all",
-    
     "test": "cross-env NODE_ENV=test jest --passWithNoTests --runInBand",
     "test:unit": "npm test -- --c jest-unit-config.js",
     "test:integration": "npm test -- --c jest-integration-config.js",
@@ -39,6 +37,7 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-async-errors": "^3.1.1",
+    "faker-br": "^0.4.1",
     "formidable": "^1.2.2",
     "fs": "^0.0.1-security",
     "http-status": "^1.5.2",
