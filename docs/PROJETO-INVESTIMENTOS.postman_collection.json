@@ -75,7 +75,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"name\": \"Daniel\",\r\n  \"email\": \"d22@gmail.com\",\r\n  \"cpf\": \"222.123.123.90\",\r\n  \"gender\": \"M\",\r\n  \"birth_date\": \"1990/09/08\",\r\n  \"password\": \"daniel\",\r\n  \"phone\": \"(21)2321-2345\",\r\n  \"address\": \"Rua abc, 123\",\r\n  \"uf\": \"RJ\",\r\n  \"city\": \"Rio de janeiro\",\r\n  \"zip_code\": \"23454-234\",\r\n  \"complement\": \"casa\"\r\n}",
+							"raw": "{\r\n  \"name\": \"Daniel\",\r\n  \"email\": \"danielbarboza@gmail.com\",\r\n  \"cpf\": \"221.123.123.90\",\r\n  \"gender\": \"M\",\r\n  \"birth_date\": \"1990/09/08\",\r\n  \"password\": \"daniel\",\r\n  \"phone\": \"(21)2321-2345\",\r\n  \"address\": \"Rua abc, 123\",\r\n  \"uf\": \"RJ\",\r\n  \"city\": \"Rio de janeiro\",\r\n  \"zip_code\": \"23454-234\",\r\n  \"complement\": \"casa\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -392,39 +392,8 @@
 							}
 						],
 						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "name",
-									"value": "dddd",
-									"type": "text"
-								},
-								{
-									"key": "description",
-									"value": "desc0111",
-									"type": "text"
-								},
-								{
-									"key": "current_price",
-									"value": "31.99",
-									"type": "text"
-								},
-								{
-									"key": "bvmf",
-									"value": "MELI34",
-									"type": "text"
-								},
-								{
-									"key": "quantity",
-									"value": "100",
-									"type": "text"
-								},
-								{
-									"key": "image",
-									"type": "file",
-									"src": "/C:/Users/pc01/Pictures/maxresdefault.jpg"
-								}
-							]
+							"mode": "urlencoded",
+							"urlencoded": []
 						},
 						"url": {
 							"raw": "http://localhost:3011/v1/financial/2",
