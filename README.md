@@ -152,7 +152,7 @@ RF010 – O sistema deve listar os dados bancários do cliente.
 | Identificação | Classificação | Descrição |
 | --- | --- | --- |
 |RN001   |Controle de acesso     |Os acessos permitidos ao sistema serão: Administrador e Cliente. O usuário anonimo terá acesso apenas ao portal do site.    |
-|RN002   |Aplicar imposto     | Em todas as vendas serão acrescidos 5% (cinco por cento) referente a impostos.    |
+|RN002   |Aplicar imposto     | Em todas as vendas de ativos serão acrescidos 5% (cinco por cento) referente a impostos.    |
 |RN003   |Controle de veracidade     |Apenas clientes autorizados pelo administrador poderão ter acesso ao sistema.     |
 |RN004   |Limite de ação     | Apenas o Administrador poderá incluir, editar e excluir ativos no sistema.    |
 |RN005   |Limite de ação     | Apenas o Administrador poderá editar os dados do cliente.     |
