@@ -15,7 +15,7 @@ const verifyIdClientDbMiddleware = async (req, res, next) => {
   const clientDB = await user.findByPk(req.params.clientid)
   if (!clientDB) {
     throw new ErrorUnprocessableEntity(`Não existe um cliente com esse id!`)
-  }
+  }  
   next()
 }
 
