@@ -38,6 +38,7 @@ const profile = [
     permission: [
       'SEARCH_FINANCIAL',
       'CREATE_TRANSACTION',
+      'LIST_CLIENT_ID',
       'LIST_CLIENT_BALANCE',
       'LIST_CLIENT_ID_TRANSACTION',
       'LIST_BANKS'
@@ -79,6 +80,19 @@ const checkPermissionService = (type, permission) => {
     throw new ErrorNotAuthorized('Usuário não autorizado!')
   }
   return !!check
+}
+
+const checkIdAuthorizationService = (idToken, clientid, type) => {
+  let authorized = false
+
+  if (clientid && type === 2) {
+    authorized = clientid != idToken
+
+    if (authorized) {
+      throw new ErrorNotAuthorized('Usuário não autorizado!')
+    }
+  }
+  return authorized
 }
 
 const createCredentialService = async (cpf) => {
@@ -187,6 +201,7 @@ module.exports = {
   userIsValidService,
   userIsActiveService,
   checkPermissionService,
+  checkIdAuthorizationService,
   createCredentialService,
   authService,
   registerService
