@@ -1,35 +1,36 @@
 const md5 = require('md5')
 const jwt = require('jsonwebtoken')
 const ErrorNotAuthenticated = require('./errors/errors.user-not-authenticated')
+const ErrorGeneric = require('./errors/erros.generic-error')
 
 const md5HashSecret = process.env.MD5_SECRET
 const jwtHashSecret = process.env.JWT_SECRET
 const jwtTimeLimit = process.env.JWT_VALID_TIME
 
 const createHash = (password) => {
-  const verifyHash = md5(password + md5HashSecret)
-  if (verifyHash) {
-    return verifyHash
+  try {
+    return md5(password + md5HashSecret)
+  } catch (error) {
+    throw new ErrorGeneric(`Error creating hash! ${error}`)
   }
-  return false
 }
 
 const createToken = (model) => {
-  const verifyData = jwt.sign({ ...model }, jwtHashSecret, {
-    expiresIn: `${jwtTimeLimit}`
-  })
-  if (verifyData) {
-    return verifyData
+  try {
+    return jwt.sign({ ...model }, jwtHashSecret, {
+      expiresIn: `${jwtTimeLimit}`
+    })
+  } catch (error) {
+    throw new ErrorGeneric(`Error generating token! ${error}`)
   }
-  return false
 }
 
 const decodeToken = (token) => {
-  const verifyDecode = jwt.decode(token)
-  if (verifyDecode) {
-    return verifyDecode
+  try {
+    return jwt.decode(token)
+  } catch (error) {
+    throw new ErrorGeneric(`Error decoding token! ${error}`)
   }
-  return false
 }
 
 const tokenIsValid = (token) => {

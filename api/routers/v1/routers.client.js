@@ -92,8 +92,8 @@ module.exports = (router) => {
         })
       }),
       verifyMiddleware.verifyIdClientDbMiddleware,
-      verifyMiddleware.verifyCpfBodyExist,
-      verifyMiddleware.verifyEmailBodyExist,
+      verifyMiddleware.verifyCpfExists,
+      verifyMiddleware.verifyEmailExists,
       clientController.updateClientController
     )
 

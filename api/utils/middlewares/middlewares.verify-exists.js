@@ -30,7 +30,8 @@ const verifyIdFinancialDbMiddleware = async (req, res, next) => {
 const verifyEmailExists = async (req, res, next) => {
   const resultEmail = await user.findOne({
     where: {
-      email: req.body.email
+      email: req.body.email,
+      cod_user: { [Op.ne]: [req.params.clientid] }
     }
   })
   if (resultEmail !== null) {
@@ -40,35 +41,10 @@ const verifyEmailExists = async (req, res, next) => {
 }
 
 const verifyCpfExists = async (req, res, next) => {
-  const resulCpf = await user.findOne({
-    where: {
-      cpf: req.body.cpf
-    }
-  })
-  if (resulCpf !== null) {
-    throw new ErrorBusinessRule('Este cpf já está em uso!')
-  }
-  next()
-}
-
-const verifyEmailBodyExist = async (req, res, next) => {
-  const resultEmail = await user.findOne({
-    where: {
-      email: req.body.email,
-      cod_user: { [Op.notIn]: [req.params.id] }
-    }
-  })
-  if (resultEmail !== null) {
-    throw new ErrorBusinessRule('Este e-mail já está em uso!')
-  }
-  next()
-}
-
-const verifyCpfBodyExist = async (req, res, next) => {
   const resultCpf = await user.findOne({
     where: {
       cpf: req.body.cpf,
-      cod_user: { [Op.notIn]: [req.params.id] }
+      cod_user: { [Op.ne]: [req.params.clientid] }
     }
   })
   if (resultCpf !== null) {
@@ -82,7 +58,5 @@ module.exports = {
   verifyIdClientDbMiddleware,
   verifyIdFinancialDbMiddleware,
   verifyEmailExists,
-  verifyCpfExists,
-  verifyEmailBodyExist,
-  verifyCpfBodyExist
+  verifyCpfExists
 }
