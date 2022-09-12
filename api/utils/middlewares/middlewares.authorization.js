@@ -1,12 +1,14 @@
 const { decodeToken } = require('../utils.cryptography')
-const { checkPermissionService } = require('../../services/services.user')
+const services = require('../../services/services.user')
 
 const authorizationMiddleware = (permission) => async (req, res, next) => {
-  if (permission !== '*') {
-    const { token } = req.headers
-    const { type } = decodeToken(token)
+  const { token } = req.headers
+  const { id, type } = decodeToken(token)
+  const { clientid } = req.params
 
-    checkPermissionService(type, permission)
+  if (permission !== '*') {
+    services.checkIdAuthorizationService(id, clientid, type)
+    services.checkPermissionService(type, permission)
   }
   next()
 }
