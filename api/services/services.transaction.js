@@ -25,7 +25,8 @@ const verifyBalance = async (id, totalPrice) => {
   const result = await account.findOne({
     where: { user_id: id }
   })
-  const checkBalance = result.balance >= totalPrice
+
+  const checkBalance = Number(result.balance) >= totalPrice
   if (!checkBalance) {
     throw new ErrorBusinessRule('Saldo insuficiente para realizar a transação!')
   }

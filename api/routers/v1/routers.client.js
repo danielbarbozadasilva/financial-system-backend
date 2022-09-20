@@ -18,25 +18,25 @@ module.exports = (router) => {
     .route('/client/:clientid')
     .get(
       authenticationMiddleware(),
-      authorizationMiddleware('LIST_CLIENT_ID'),
       validateDTOMiddleware('params', {
         clientid: joi.number().integer().required().messages({
           'any.required': '"client id" is a required field',
           'number.empty': '"client id" can not be empty'
         })
       }),
+      authorizationMiddleware('LIST_CLIENT_ID'),
       verifyMiddleware.verifyIdClientDbMiddleware,
       clientController.listByIdClientController
     )
     .put(
       authenticationMiddleware(),
-      authorizationMiddleware('UPDATE_CLIENT'),
       validateDTOMiddleware('params', {
         clientid: joi.number().integer().required().messages({
           'any.required': '"client id" is a required field',
           'number.empty': '"client id" can not be empty'
         })
       }),
+      authorizationMiddleware('UPDATE_CLIENT'),
       validateDTOMiddleware('body', {
         name: joi.string().required().messages({
           'any.required': `"name" is a required field`,
@@ -99,7 +99,6 @@ module.exports = (router) => {
 
   router.route('/client/:clientid/status/:status').put(
     authenticationMiddleware(),
-    authorizationMiddleware('UPDATE_STATUS_CLIENT'),
     validateDTOMiddleware('params', {
       clientid: joi.number().integer().required().messages({
         'any.required': '"client id" is a required field',
@@ -110,6 +109,7 @@ module.exports = (router) => {
         'string.empty': '"status" can not be empty'
       })
     }),
+    authorizationMiddleware('UPDATE_STATUS_CLIENT'),
     verifyMiddleware.verifyIdClientDbMiddleware,
     clientController.changeStatusClientController
   )

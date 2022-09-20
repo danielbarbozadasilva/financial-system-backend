@@ -9,10 +9,7 @@ const verifyIdDbMiddleware = require('../../utils/middlewares/middlewares.verify
 module.exports = (router) => {
   router
     .route('/financial')
-    .get(
-      authorizationMiddleware('*'),
-      financialController.listAllFinancialAssetsController
-    )
+    .get(financialController.listAllFinancialAssetsController)
 
     .post(
       authenticationMiddleware(),
@@ -53,20 +50,19 @@ module.exports = (router) => {
     .route('/financial/:financialid')
     .get(
       authenticationMiddleware(),
-      authorizationMiddleware('SEARCH_FINANCIAL'),
       validateDTOMiddleware('params', {
         financialid: joi.number().integer().required().messages({
           'any.required': '"financial id" is a required field',
           'number.empty': '"financial id" can not be empty'
         })
       }),
+      authorizationMiddleware('SEARCH_FINANCIAL'),
       verifyIdDbMiddleware.verifyIdFinancialDbMiddleware,
       financialController.listByIdFinancialAssetsController
     )
 
     .put(
       authenticationMiddleware(),
-      authorizationMiddleware('UPDATE_FINANCIAL'),
       middlewareFileUploadMiddleware('financial'),
       validateDTOMiddleware('params', {
         financialid: joi.number().integer().required().messages({
@@ -74,6 +70,7 @@ module.exports = (router) => {
           'number.empty': '"financial id" can not be empty'
         })
       }),
+      authorizationMiddleware('UPDATE_FINANCIAL'),
       validateDTOMiddleware(
         'body',
         {
@@ -108,21 +105,18 @@ module.exports = (router) => {
 
     .delete(
       authenticationMiddleware(),
-      authorizationMiddleware('DELETE_FINANCIAL'),
       validateDTOMiddleware('params', {
         financialid: joi.number().integer().required().messages({
           'any.required': '"financial id" is a required field',
           'number.empty': '"financial id" can not be empty'
         })
       }),
+      authorizationMiddleware('DELETE_FINANCIAL'),
       verifyIdDbMiddleware.verifyIdFinancialDbMiddleware,
       financialController.deleteFinancialAssetsController
     )
 
   router
     .route('/financial/assets/top05')
-    .get(
-      authorizationMiddleware('*'),
-      financialController.listTop05FinancialAssetsController
-    )
+    .get(financialController.listTop05FinancialAssetsController)
 }

@@ -8,7 +8,6 @@ const verifyIdDbMiddleware = require('../../utils/middlewares/middlewares.verify
 module.exports = (router) => {
   router.route('/transaction/client/:clientid/asset/:financialid').post(
     authenticationMiddleware(),
-    authorizationMiddleware('CREATE_TRANSACTION'),
     validateDTOMiddleware('params', {
       clientid: joi.number().integer().required().messages({
         'any.required': '"client id" is a required field',
@@ -19,6 +18,7 @@ module.exports = (router) => {
         'number.empty': '"asset id" can not be empty'
       })
     }),
+    authorizationMiddleware('CREATE_TRANSACTION'),
     validateDTOMiddleware('body', {
       current_price: joi.number().required().messages({
         'any.required': `"current_price" is a required field`,
@@ -44,13 +44,13 @@ module.exports = (router) => {
 
   router.route('/transaction/deposit/client/:clientid').post(
     authenticationMiddleware(),
-    authorizationMiddleware('CREATE_DEPOSIT'),
     validateDTOMiddleware('params', {
       clientid: joi.number().integer().required().messages({
         'any.required': '"client id" is a required field',
         'number.empty': '"client id" can not be empty'
       })
     }),
+    authorizationMiddleware('CREATE_DEPOSIT'),
     validateDTOMiddleware('body', {
       bank_id: joi.number().integer().required().messages({
         'any.required': `"bank id" is a required field`,
@@ -79,26 +79,26 @@ module.exports = (router) => {
 
   router.route('/transaction/client/:clientid').get(
     authenticationMiddleware(),
-    authorizationMiddleware('LIST_CLIENT_ID_TRANSACTION'),
     validateDTOMiddleware('params', {
       clientid: joi.number().integer().required().messages({
         'any.required': '"client id" is a required field',
         'number.empty': '"client id" can not be empty'
       })
     }),
+    authorizationMiddleware('LIST_CLIENT_ID_TRANSACTION'),
     verifyIdDbMiddleware.verifyIdClientDbMiddleware,
     transactionController.listByIdUserTransactionController
   )
 
   router.route('/transaction/deposit/client/:clientid').get(
     authenticationMiddleware(),
-    authorizationMiddleware('LIST_CLIENT_ID_DEPOSIT'),
     validateDTOMiddleware('params', {
       clientid: joi.number().integer().required().messages({
         'any.required': '"client id" is a required field',
         'number.empty': '"client id" can not be empty'
       })
     }),
+    authorizationMiddleware('LIST_CLIENT_ID_DEPOSIT'),
     verifyIdDbMiddleware.verifyIdClientDbMiddleware,
     transactionController.listByIdUserDepositController
   )

@@ -7,9 +7,10 @@ const authorizationMiddleware = (permission) => async (req, res, next) => {
   const { clientid } = req.params
 
   if (permission !== '*') {
-    services.checkIdAuthorizationService(id, clientid, type)
     services.checkPermissionService(type, permission)
   }
+  services.checkIdAuthorizationService(id, clientid, type)
+  
   next()
 }
 
