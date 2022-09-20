@@ -46,7 +46,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"cpf\": \"413.423.614-41\",\n    \"password\": \"daniel\"\n}",
+							"raw": "{\n    \"cpf\": \"423.423.423-45\",\n    \"password\": \"fatima\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -75,7 +75,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"name\": \"Daniel\",\r\n  \"email\": \"danielbarboza@gmail.com\",\r\n  \"cpf\": \"221.123.123.90\",\r\n  \"gender\": \"M\",\r\n  \"birth_date\": \"1990/09/08\",\r\n  \"password\": \"daniel\",\r\n  \"phone\": \"(21)2321-2345\",\r\n  \"address\": \"Rua abc, 123\",\r\n  \"uf\": \"RJ\",\r\n  \"city\": \"Rio de janeiro\",\r\n  \"zip_code\": \"23454-234\",\r\n  \"complement\": \"casa\"\r\n}",
+							"raw": "{\r\n    \"name\": \"dddd\",\r\n    \"email\": \"fatimdda@gmail.com\",\r\n    \"cpf\": \"231.113.223-35\",\r\n    \"gender\": \"M\",\r\n    \"birth_date\": \"1999/09/02\",\r\n    \"password\": \"gabriel\",\r\n    \"phone\": \"(21) 2345-0987\",\r\n    \"address\": \"Rua gabriel\",\r\n    \"uf\": \"xx\",\r\n    \"city\": \"São Paulo\",\r\n    \"zip_code\": \"235558-200\",\r\n    \"complement\": \"casa\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -237,7 +237,7 @@
 							"formdata": []
 						},
 						"url": {
-							"raw": "http://localhost:3011/v1/financial/2",
+							"raw": "http://localhost:3011/v1/financial/3",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -246,7 +246,7 @@
 							"path": [
 								"v1",
 								"financial",
-								"2"
+								"3"
 							],
 							"query": [
 								{
@@ -341,7 +341,7 @@
 								{
 									"key": "image",
 									"type": "file",
-									"src": "/C:/Users/pc01/Pictures/Yoda2.jpg"
+									"src": "/C:/Users/pc01/Pictures/maxresdefault.jpg"
 								}
 							]
 						},
@@ -383,6 +383,26 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "in",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "value",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImRhbmllbEBnbWFpbC5jb20iLCJuYW1lIjoiRGFuaWVsIEJhcmJvemEiLCJ0eXBlIjoxLCJpYXQiOjE2NTUwMzI4OTMsImV4cCI6MTY2NDAzMjg5M30.TzObGL-SoEj_960JGGpDVjfaAUpasR7SI764QXY4dh8",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImRhbmllbEBnbWFpbC5jb20iLCJuYW1lIjoiRGFuaWVsIEJhcmJvemEiLCJ0eXBlIjoxLCJpYXQiOjE2NTUwMzI4OTMsImV4cCI6MTY2NDAzMjg5M30.TzObGL-SoEj_960JGGpDVjfaAUpasR7SI764QXY4dh8",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
 						"header": [
 							{
@@ -392,11 +412,42 @@
 							}
 						],
 						"body": {
-							"mode": "urlencoded",
-							"urlencoded": []
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "dadsdsdsd",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "desc0111122",
+									"type": "text"
+								},
+								{
+									"key": "current_price",
+									"value": "31.99",
+									"type": "text"
+								},
+								{
+									"key": "bvmf",
+									"value": "MELI34",
+									"type": "text"
+								},
+								{
+									"key": "quantity",
+									"value": "100",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/C:/Users/pc01/Pictures/Yoda.png"
+								}
+							]
 						},
 						"url": {
-							"raw": "http://localhost:3011/v1/financial/2",
+							"raw": "http://localhost:3011/v1/financial/12",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -405,7 +456,7 @@
 							"path": [
 								"v1",
 								"financial",
-								"2"
+								"12"
 							]
 						}
 					},
@@ -447,7 +498,7 @@
 							"formdata": []
 						},
 						"url": {
-							"raw": "http://localhost:3011/v1/financial/1",
+							"raw": "http://localhost:3011/v1/financial/12",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -456,7 +507,7 @@
 							"path": [
 								"v1",
 								"financial",
-								"1"
+								"12"
 							]
 						}
 					},
@@ -505,7 +556,7 @@
 							}
 						],
 						"url": {
-							"raw": "http://localhost:3011/v1/client/2",
+							"raw": "http://localhost:3011/v1/client/7",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -514,7 +565,7 @@
 							"path": [
 								"v1",
 								"client",
-								"2"
+								"7"
 							]
 						}
 					},
@@ -553,7 +604,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"dddd\",\r\n    \"email\": \"fatima@gmail.com\",\r\n    \"cpf\": \"231.113.223-35\",\r\n    \"gender\": \"M\",\r\n    \"birth_date\": \"1999/09/02\",\r\n    \"password\": \"gabriel\",\r\n    \"phone\": \"(21) 2345-0987\",\r\n    \"cod_address\": \"2\",\r\n    \"address\": \"Rua gabriel\",\r\n    \"uf\": \"xx\",\r\n    \"city\": \"São Paulo\",\r\n    \"zip_code\": \"235558-200\",\r\n    \"complement\": \"casa\"\r\n}",
+							"raw": "{\r\n    \"name\": \"dddd\",\r\n    \"email\": \"fatima2121@gmail.com\",\r\n    \"cpf\": \"233.113.223-35\",\r\n    \"gender\": \"M\",\r\n    \"birth_date\": \"1999/09/02\",\r\n    \"password\": \"gabriel\",\r\n    \"phone\": \"(21) 2345-0987\",\r\n    \"cod_address\": \"2\",\r\n    \"address\": \"Rua gabriel\",\r\n    \"uf\": \"xx\",\r\n    \"city\": \"São Paulo\",\r\n    \"zip_code\": \"235558-200\",\r\n    \"complement\": \"casa\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -561,7 +612,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3011/v1/client/3",
+							"raw": "http://localhost:3011/v1/client/7",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -570,7 +621,7 @@
 							"path": [
 								"v1",
 								"client",
-								"3"
+								"7"
 							]
 						}
 					},
@@ -675,7 +726,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3011/v1/transaction/client/2/asset/1",
+							"raw": "http://localhost:3011/v1/transaction/client/2/asset/3",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -687,7 +738,7 @@
 								"client",
 								"2",
 								"asset",
-								"1"
+								"3"
 							],
 							"query": [
 								{
@@ -733,7 +784,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"origin_cpf\": \"139.345.567-90\",\r\n    \"total\": 200.90,\r\n    \"bank_id\": 1\r\n}",
+							"raw": "{\r\n    \"origin_cpf\": \"139.345.567-90\",\r\n    \"total\": 2200.90,\r\n    \"bank_id\": 1\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -741,7 +792,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3011/v1/transaction/deposit/client/3",
+							"raw": "http://localhost:3011/v1/transaction/deposit/client/2",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -752,7 +803,7 @@
 								"transaction",
 								"deposit",
 								"client",
-								"3"
+								"2"
 							],
 							"query": [
 								{
@@ -804,7 +855,7 @@
 							}
 						],
 						"url": {
-							"raw": "http://localhost:3011/v1/transaction/client/3",
+							"raw": "http://localhost:3011/v1/transaction/client/2",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -814,7 +865,7 @@
 								"v1",
 								"transaction",
 								"client",
-								"3"
+								"2"
 							]
 						}
 					},
@@ -839,7 +890,7 @@
 							"formdata": []
 						},
 						"url": {
-							"raw": "http://localhost:3011/v1/transaction/deposit/client/3",
+							"raw": "http://localhost:3011/v1/transaction/deposit/client/2",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -850,7 +901,7 @@
 								"transaction",
 								"deposit",
 								"client",
-								"3"
+								"2"
 							]
 						}
 					},
