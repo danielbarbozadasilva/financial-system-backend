@@ -69,7 +69,8 @@ const userIsActiveService = async (cpf) => {
   if (!resultDB) {
     throw new ErrorNotAuthorized('Sua conta foi desativada pelo Administrador!')
   }
-  return !!resultDB
+
+  return true
 }
 
 const checkPermissionService = (type, permission) => {
@@ -79,26 +80,18 @@ const checkPermissionService = (type, permission) => {
   if (!check) {
     throw new ErrorNotAuthorized('Usuário não autorizado!')
   }
-  return !!check
-}
 
-const checkIdAuthorizationService = (idToken, clientid, type) => {
-  let authorized = false
-
-  if (clientid && type === 2) {
-    authorized = clientid != idToken
-
-    if (authorized) {
-      throw new ErrorNotAuthorized('Usuário não autorizado!')
-    }
-  }
-  return authorized
+  return true
 }
 
 const createCredentialService = async (cpf) => {
   const userDB = await user.findOne({
     where: { cpf }
   })
+
+  if (!userDB) {
+    throw new ErrorNotAuthorized('Usuário não autorizado!')
+  }
 
   const userDTO = userMapper.toUserDTO(userDB)
   const userToken = cryptography.createToken(userDTO)
@@ -115,27 +108,16 @@ const createCredentialService = async (cpf) => {
 const authService = async (cpf, password) => {
   await userIsValidService(cpf, password)
   await userIsActiveService(cpf)
-  try {
-    const resultCredentials = await createCredentialService(cpf)
-    if (!resultCredentials) {
-      return {
-        success: false,
-        details: ['Não foi possivel criar a credencial!']
-      }
-    }
-    return {
-      success: true,
-      message: 'Usuário autenticado com sucesso!',
-      data: resultCredentials
-    }
-  } catch (err) {
-    throw new ErrorGeneric('Erro ao realizar a operação!')
+  const resultCredentials = await createCredentialService(cpf)
+
+  return {
+    success: true,
+    message: 'Usuário autenticado com sucesso!',
+    data: resultCredentials
   }
 }
 
 const registerService = async (body) => {
-  let data = {}
-
   const infoTransaction = await sequelize.transaction()
   try {
     const addressDB = await address.create(
@@ -182,14 +164,12 @@ const registerService = async (body) => {
 
     await infoTransaction.commit()
 
-    if (body.auth) {
-      data = await createCredentialService(body.cpf)
-    }
+    const data = await createCredentialService(body.cpf)
 
     return {
       success: true,
       message: 'Cadastro realizado com sucesso!',
-      data: data?.token ? data : userMapper.toUserRegister(userDB, addressDB)
+      data
     }
   } catch (error) {
     await infoTransaction.rollback()
@@ -201,7 +181,6 @@ module.exports = {
   userIsValidService,
   userIsActiveService,
   checkPermissionService,
-  checkIdAuthorizationService,
   createCredentialService,
   authService,
   registerService

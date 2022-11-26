@@ -56,10 +56,14 @@ module.exports = (router) => {
         'any.required': `"bank id" is a required field`,
         'number.empty': `"bank id" can not be empty`
       }),
-      origin_cpf: joi.string().required().messages({
-        'any.required': `"origin_cpf" is a required field`,
-        'string.empty': `"origin_cpf" can not be empty`
-      }),
+      origin_cpf: joi
+        .string()
+        .regex(/^\d{3}\.\d{3}\.\d{3}\-\d{2}$/)
+        .required()
+        .messages({
+          'any.required': '"origin cpf" is a required field',
+          'string.empty': '"origin cpf" can not be empty'
+        }),
       total: joi.number().required().messages({
         'any.required': `"total" is a required field`,
         'number.empty': `"total" can not be empty`

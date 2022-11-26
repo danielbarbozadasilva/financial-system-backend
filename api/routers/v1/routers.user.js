@@ -6,10 +6,14 @@ const verifyMiddleware = require('../../utils/middlewares/middlewares.verify-exi
 module.exports = (router) => {
   router.route('/auth').post(
     validateDTOMiddleware('body', {
-      cpf: joi.string().required().messages({
-        'any.required': `"cpf" is a required field`,
-        'string.empty': `"cpf" can not be empty`
-      }),
+      cpf: joi
+        .string()
+        .regex(/^\d{3}\.\d{3}\.\d{3}\-\d{2}$/)
+        .required()
+        .messages({
+          'any.required': '"cpf" is a required field',
+          'string.empty': '"cpf" can not be empty'
+        }),
       password: joi.string().required().messages({
         'any.required': `"password" is a required field`,
         'string.empty': `"password" can not be empty`
@@ -28,10 +32,14 @@ module.exports = (router) => {
         'any.required': `"email" is a required field`,
         'string.empty': `"email" can not be empty`
       }),
-      cpf: joi.string().required().messages({
-        'any.required': `"cpf" is a required field`,
-        'string.empty': `"cpf" can not be empty`
-      }),
+      cpf: joi
+        .string()
+        .regex(/^\d{3}\.\d{3}\.\d{3}\-\d{2}$/)
+        .required()
+        .messages({
+          'any.required': '"cpf" is a required field',
+          'string.empty': '"cpf" can not be empty'
+        }),
       gender: joi.string().required().messages({
         'any.required': `"gender" is a required field`,
         'string.empty': `"gender" can not be empty`
