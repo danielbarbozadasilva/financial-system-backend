@@ -7,10 +7,17 @@ describe('Account services', () => {
   })
 
   describe('Account services', () => {
-    test('Should call listAllAccountService with correct values', async () => {
+    test('Ensure listAllAccountService returns 200 on success', async () => {
       const result = await services.listAllAccountService()
       expect(result.success).toBe(true)
     })
-   
+    test('Should return 500 if listAllAccountService throws', async () => {
+      await sequelize.close()
+      try {
+        await services.listAllAccountService()
+      } catch (error) {
+        expect(error.statusCode).toBe(500)
+      }
+    })
   })
 })
