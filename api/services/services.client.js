@@ -57,42 +57,42 @@ const changeStatusService = async (clientId, status) => {
 }
 
 const updateClientService = async (clientId, body) => {
-  const infoTransaction = await sequelize.transaction()
   try {
-    await address.update(
-      {
-        address: body.address,
-        uf: body.uf,
-        city: body.city,
-        zip_code: body.zip_code,
-        complement: body.complement
-      },
-      { where: { cod_address: body.cod_address } },
-      { infoTransaction }
-    )
+    await sequelize.transaction(async (t) => {
+      await address.update(
+        {
+          address: body.address,
+          uf: body.uf,
+          city: body.city,
+          zip_code: body.zip_code,
+          complement: body.complement
+        },
+        { where: { cod_address: body.cod_address } },
+        { transaction: t }
+      )
 
-    await user.update(
-      {
-        name: body.name,
-        email: body.email,
-        cpf: body.cpf,
-        gender: body.gender,
-        kind: 'client',
-        birth_date: body.birth_date,
-        password: cryptography.createHash(body.password),
-        phone: body.phone,
-        address_id: body.cod_address
-      },
-      { where: { cod_user: clientId } },
-      { transaction: infoTransaction }
-    )
-    await infoTransaction.commit()
+      await user.update(
+        {
+          name: body.name,
+          email: body.email,
+          cpf: body.cpf,
+          gender: body.gender,
+          kind: 'client',
+          birth_date: body.birth_date,
+          password: cryptography.createHash(body.password),
+          phone: body.phone,
+          address_id: body.cod_address
+        },
+        { where: { cod_user: clientId } },
+        { transaction: t }
+      )
+    })
+
     return {
       success: true,
       message: 'Cliente atualizado com sucesso'
     }
   } catch (error) {
-    await infoTransaction.rollback()
     throw new ErrorGeneric('Erro ao atualizar o cliente!')
   }
 }
