@@ -70,5 +70,30 @@ describe('Client services', () => {
         expect(error.statusCode).toBe(500)
       }
     })
+    test('Make sure updateClientService returns 500 if server error', async () => {
+      await sequelize.close()
+      try {
+        const clientid = 3
+        const body = {
+          address: 'Rua abc, 123',
+          uf: 'RJ',
+          city: 'RIO DE JANEIRO',
+          zip_code: '23412-200',
+          complement: 'CASA',
+          cod_address: 1,
+          name: 'Daniel Barboza',
+          email: 'daniel@gmail.com',
+          cpf: '123.123.123-90',
+          gender: 'M',
+          kind: 'client',
+          birth_date: '09/09/2000',
+          password: 'daniel',
+          phone: '(21) 99878-9981'
+        }
+        await services.updateClientService(clientid, body)
+      } catch (error) {
+        expect(error.statusCode).toBe(500)
+      }
+    })
   })
 })
