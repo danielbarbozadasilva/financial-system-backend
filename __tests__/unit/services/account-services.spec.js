@@ -38,5 +38,14 @@ describe('Account services', () => {
         expect(error.statusCode).toBe(500)
       }
     })
+    test('Make sure checkBalanceService returns 500 if server error', async () => {
+      await sequelize.close()
+      try {
+        const id = 2
+        await services.checkBalanceService(id)
+      } catch (error) {
+        expect(error.statusCode).toBe(500)
+      }
+    })
   })
 })
