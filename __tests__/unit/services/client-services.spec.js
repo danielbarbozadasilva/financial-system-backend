@@ -33,7 +33,18 @@ describe('Client services', () => {
     test('Make sure listByIdClientService returns 500 if server error', async () => {
       await sequelize.close()
       try {
-        await services.listByIdClientService()
+        const id = 1
+        await services.listByIdClientService(id)
+      } catch (error) {
+        expect(error.statusCode).toBe(500)
+      }
+    })
+    test('Make sure changeStatusService returns 500 if server error', async () => {
+      await sequelize.close()
+      try {
+        const clientid = 3
+        const status = false
+        await services.changeStatusService(clientid, status)
       } catch (error) {
         expect(error.statusCode).toBe(500)
       }
