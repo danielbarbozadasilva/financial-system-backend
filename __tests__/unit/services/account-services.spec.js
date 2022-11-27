@@ -11,7 +11,12 @@ describe('Account services', () => {
       const result = await services.listAllAccountService()
       expect(result.success).toBe(true)
     })
-    test('Should return 500 if listAllAccountService throws', async () => {
+    test('Make sure listByIdAccountService returns 200 if ID parameter exists', async () => {
+      const id = 1
+      const result = await services.listByIdAccountService(id)
+      expect(result.success).toBe(true)
+    })
+    test('Ensure listAllAccountService returns 500 if server error', async () => {
       await sequelize.close()
       try {
         await services.listAllAccountService()
