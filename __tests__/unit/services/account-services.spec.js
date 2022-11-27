@@ -7,7 +7,7 @@ describe('Account services', () => {
   })
 
   describe('Account services', () => {
-    test('Ensure listAllAccountService returns 200 on success', async () => {
+    test('Make sure listAllAccountService returns 200 on success', async () => {
       const result = await services.listAllAccountService()
       expect(result.success).toBe(true)
     })
@@ -16,10 +16,19 @@ describe('Account services', () => {
       const result = await services.listByIdAccountService(id)
       expect(result.success).toBe(true)
     })
-    test('Ensure listAllAccountService returns 500 if server error', async () => {
+    test('Make sure listAllAccountService returns 500 if server error', async () => {
       await sequelize.close()
       try {
         await services.listAllAccountService()
+      } catch (error) {
+        expect(error.statusCode).toBe(500)
+      }
+    })
+    test('Make sure listByIdAccountService returns 500 if server error', async () => {
+      await sequelize.close()
+      try {
+        const id = 1
+        await services.listByIdAccountService(id)
       } catch (error) {
         expect(error.statusCode).toBe(500)
       }
