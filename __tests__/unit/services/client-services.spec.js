@@ -11,6 +11,13 @@ describe('Client services', () => {
       const result = await services.listAllClientsService()
       expect(result.success).toBe(true)
     })
-    
+    test('Make sure listAllClientsService returns 500 if server error', async () => {
+      await sequelize.close()
+      try {
+        await services.listAllClientsService()
+      } catch (error) {
+        expect(error.statusCode).toBe(500)
+      }
+    })
   })
 })
