@@ -14,7 +14,7 @@ describe('Transactions services', () => {
       expect(result).toBe(true)
     })
     test('Make sure verifyBalance returns 200 on success', async () => {
-      const id = 1
+      const id = 2
       const totalPrice = 50
       const result = await services.verifyBalance(id, totalPrice)
       expect(result).toBe(true)
@@ -30,8 +30,8 @@ describe('Transactions services', () => {
     })
     test('Make sure verifyBalance returns 400 if the price exceeds the account balance', async () => {
       try {
-        const id = 1
-        const totalPrice = 50
+        const id = 2
+        const totalPrice = 1000
         await services.verifyBalance(id, totalPrice)
       } catch (error) {
         expect(error.statusCode).toBe(400)
