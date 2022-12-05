@@ -26,5 +26,15 @@ describe('Financial asset services', () => {
         expect(error.statusCode).toBe(500)
       }
     })
+
+    test('Make sure listByIdFinancialAssetsService returns 500 if a server error occurs', async () => {
+      try {
+        await sequelize.close()
+        const id = 1
+        await services.listByIdFinancialAssetsService(id)
+      } catch (error) {
+        expect(error.statusCode).toBe(500)
+      }
+    })
   })
 })
