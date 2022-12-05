@@ -108,11 +108,28 @@ describe('Transactions services', () => {
       } catch (error) {}
     })
 
+    test('Make sure listByIdUserTransactionService throw an error if the parameters are incorrect', async () => {
+      try {
+        const id = 22
+        expect(await services.listByIdUserTransactionService(id).toThrow())
+      } catch (error) {}
+    })
+
     test('Make sure listAllUserTransactionService throw an error if a server error occurs', async () => {
       try {
         await sequelize.close()
         expect(await services.listAllUserTransactionService()).toThrow()
       } catch (error) {}
+    })
+
+    test('Make sure listByIdUserTransactionService returns 500 if a server error occurs', async () => {
+      try {
+        await sequelize.close()
+        const id = 2
+        await services.listByIdUserTransactionService(id)
+      } catch (error) {
+        expect(error.statusCode).toBe(500)
+      }
     })
   })
 })
