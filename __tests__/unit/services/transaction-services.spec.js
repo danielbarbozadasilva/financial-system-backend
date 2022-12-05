@@ -58,6 +58,12 @@ describe('Transactions services', () => {
       expect(result.success).toBe(true)
     })
 
+    test('Make sure listByIdUserDepositService returns 200 on success', async () => {
+      const id = 2
+      const result = await services.listByIdUserDepositService(id)
+      expect(result.success).toBe(true)
+    })
+
     test('Make sure verifyQuantity returns 400 if the quantity is exceeded', async () => {
       try {
         const assetid = 2
