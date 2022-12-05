@@ -6,7 +6,7 @@ describe('Transactions services', () => {
     await sequelize.close()
   })
 
-  describe('Account services', () => {
+  describe('Transactions services', () => {
     test('Make sure verifyQuantity returns 200 on success', async () => {
       const assetid = 2
       const quantity = 1
