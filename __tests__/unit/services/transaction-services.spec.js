@@ -101,5 +101,12 @@ describe('Transactions services', () => {
         ).toThrow()
       } catch (error) {}
     })
+
+    test('Make sure listAllUserTransactionService throw an error if a server error occurs', async () => {
+      try {
+        await sequelize.close()
+        expect(await services.listAllUserTransactionService()).toThrow()
+      } catch (error) {}
+    })
   })
 })
