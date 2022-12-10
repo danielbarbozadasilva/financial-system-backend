@@ -6,7 +6,7 @@ describe('Client services', () => {
     await sequelize.close()
   })
 
-  describe('Account services', () => {
+  describe('Client services', () => {
     test('Make sure listAllClientsService returns 200 on success', async () => {
       const result = await services.listAllClientsService()
       expect(result.success).toBe(true)

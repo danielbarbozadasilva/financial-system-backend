@@ -1,7 +1,7 @@
 const services = require('../../../api/services/services.user')
 const { sequelize } = require('../../../api/models/models.index')
 
-describe('User Service', () => {
+describe('User services', () => {
   afterAll(async () => {
     await sequelize.close()
   })
