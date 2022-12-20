@@ -131,5 +131,29 @@ describe('Client Routes', () => {
         })
         .expect(401)
     })
+    test('Make sure /v1/client/:clientid returns 422 if the userid is not valid', async () => {
+      const cpf = '413.423.614-41'
+      const clientid = 0
+      const result = await createCredentialService(cpf)
+      await request(app)
+        .put(`/v1/client/${clientid}`)
+        .send({
+          name: 'Tatiana',
+          email: 'tatiana@gmail.com',
+          cpf: '233.113.223-35',
+          gender: 'M',
+          birth_date: '1990/09/08',
+          password: 'tatiana',
+          phone: '(21)2321-2345',
+          cod_address: 3,
+          address: 'Rua abc, 123',
+          uf: 'RJ',
+          city: 'Rio de janeiro',
+          zip_code: '23454-234',
+          complement: 'casa'
+        })
+        .set(result)
+        .expect(422)
+    })
   })
 })
