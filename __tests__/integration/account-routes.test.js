@@ -64,5 +64,9 @@ describe('Account Routes', () => {
         .set(result)
         .expect(200)
     })
+    test('Make sure /v1/account/client/:id return 401 if user is not authenticated', async () => {
+      const codAccount = 1
+      await request(app).get(`/v1/account/client/${codAccount}`).expect(401)
+    })
   })
 })
