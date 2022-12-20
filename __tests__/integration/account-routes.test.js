@@ -53,5 +53,16 @@ describe('Account Routes', () => {
         .set(result)
         .expect(422)
     })
+
+
+    test('Make sure /v1/account/client/:id return 200 on account id search', async () => {
+      const cpf = '233.113.223-35'
+      const codClient = 3
+      const result = await createCredentialService(cpf)
+      await request(app)
+        .get(`/v1/account/client/${codClient}`)
+        .set(result)
+        .expect(200)
+    })
   })
 })
