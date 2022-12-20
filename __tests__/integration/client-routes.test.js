@@ -183,6 +183,23 @@ describe('Client Routes', () => {
         .set(result)
         .expect(200)
     })
+    test('Make sure /v1/client/:clientid/status/:status returns 401 if the client is not authenticated', async () => {
+      const clientid = 0
+      const status = 1
+      await request(app)
+        .put(`/v1/client/${clientid}/status/${status}`)
+        .expect(401)
+    })
+    test('Make sure /v1/client/:clientid/status/:status returns 403 if the client is not authorized', async () => {
+      const cpf = '233.113.223-35'
+      const clientid = 0
+      const status = 1
+      const result = await createCredentialService(cpf)
+      await request(app)
+        .put(`/v1/client/${clientid}/status/${status}`)
+        .set(result)
+        .expect(403)
+    })
     test('Make sure /v1/client/:clientid/status/:status returns 422 if the clientid is not valid', async () => {
       const cpf = '413.423.614-41'
       const clientid = 0
@@ -192,13 +209,6 @@ describe('Client Routes', () => {
         .put(`/v1/client/${clientid}/status/${status}`)
         .set(result)
         .expect(422)
-    })
-    test('Make sure /v1/client/:clientid/status/:status returns 401 if the client is not authenticated', async () => {
-      const clientid = 0
-      const status = 1
-      await request(app)
-        .put(`/v1/client/${clientid}/status/${status}`)
-        .expect(401)
     })
   })
 })
