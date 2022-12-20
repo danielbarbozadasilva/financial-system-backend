@@ -163,6 +163,16 @@ describe('Client Routes', () => {
     })
   })
   describe('Route PUT /v1/client/:clientid/status/:status', () => {
+    test('Make sure /v1/client/:clientid/status/:status returns 200 if the user is successfully deactivated', async () => {
+      const cpf = '413.423.614-41'
+      const clientid = 3
+      const status = 0
+      const result = await createCredentialService(cpf)
+      await request(app)
+        .put(`/v1/client/${clientid}/status/${status}`)
+        .set(result)
+        .expect(200)
+    })
     test('Make sure /v1/client/:clientid/status/:status returns 200 if the user is successfully activated', async () => {
       const cpf = '413.423.614-41'
       const clientid = 3
@@ -172,6 +182,16 @@ describe('Client Routes', () => {
         .put(`/v1/client/${clientid}/status/${status}`)
         .set(result)
         .expect(200)
+    })
+    test('Make sure /v1/client/:clientid/status/:status returns 422 if the clientid is not valid', async () => {
+      const cpf = '413.423.614-41'
+      const clientid = 0
+      const status = 1
+      const result = await createCredentialService(cpf)
+      await request(app)
+        .put(`/v1/client/${clientid}/status/${status}`)
+        .set(result)
+        .expect(422)
     })
   })
 })
