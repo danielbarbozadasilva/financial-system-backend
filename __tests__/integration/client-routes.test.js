@@ -193,5 +193,12 @@ describe('Client Routes', () => {
         .set(result)
         .expect(422)
     })
+    test('Make sure /v1/client/:clientid/status/:status returns 401 if the client is not authenticated', async () => {
+      const clientid = 0
+      const status = 1
+      await request(app)
+        .put(`/v1/client/${clientid}/status/${status}`)
+        .expect(401)
+    })
   })
 })
