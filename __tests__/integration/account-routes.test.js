@@ -8,7 +8,7 @@ describe('Account Routes', () => {
     await sequelize.close()
   })
 
-  describe('Account Routes', () => {
+  describe('Route /v1/account', () => {
     test('Make sure /v1/account return 200 on account search', async () => {
       const cpf = '413.423.614-41'
       const result = await createCredentialService(cpf)
@@ -22,6 +22,9 @@ describe('Account Routes', () => {
       const result = await createCredentialService(cpf)
       await request(app).get('/v1/account').set(result).expect(403)
     })
+  })
+
+  describe('Route /v1/account/:id', () => {
     test('Make sure /v1/account/:id return 200 on account id search', async () => {
       const cpf = '413.423.614-41'
       const codAccount = 1
@@ -53,6 +56,9 @@ describe('Account Routes', () => {
         .set(result)
         .expect(422)
     })
+  }) 
+
+  describe('Route /v1/account/client/:id', () => {
     test('Make sure /v1/account/client/:id return 200 on account id search', async () => {
       const cpf = '233.113.223-35'
       const codClient = 3
