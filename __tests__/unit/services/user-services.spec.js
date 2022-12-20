@@ -7,14 +7,14 @@ describe('User services', () => {
   })
 
   describe('User Services', () => {
-    test('Check valid user', async () => {
+    test('Make sure authService return success if the access credentials are valid', async () => {
       const cpf = '413.423.614-41'
       const password = 'daniel'
       const result = await services.authService(cpf, password)
       expect(result.success).toBe(true)
     })
 
-    test('If the cpf or password are invalid returns 401', async () => {
+    test('Make sure authService return 401 if login credentials are not valid', async () => {
       try {
         const cpf = '333.123.123.90'
         const password = 'jose'
@@ -24,7 +24,7 @@ describe('User services', () => {
       }
     })
 
-    test('Check user registration', async () => {
+    test('Make sure registerService return success', async () => {
       const data = {
         name: 'exemplo',
         email: 'exemplo@gmail.com',
@@ -43,14 +43,14 @@ describe('User services', () => {
       expect(result.success).toBe(true)
     })
 
-    test('Check if cpf and password are valid', async () => {
+    test('Make sure userIsValidService return the result if cpf and password are valid', async () => {
       const cpf = '413.423.614-41'
       const password = 'daniel'
       const result = await services.userIsValidService(cpf, password)
       expect(result).toBe(true)
     })
 
-    test('If the cpf or password are invalid returns 401', async () => {
+    test('Make sure userIsValidService return 401 if cpf and password are invalid', async () => {
       try {
         const cpf = '333.123.123.90'
         const password = 'jose'
@@ -60,13 +60,13 @@ describe('User services', () => {
       }
     })
 
-    test('Check if user is activated', async () => {
+    test('Make sure userIsActiveService return the result if user is activated', async () => {
       const cpf = '233.113.223-35'
       const result = await services.userIsActiveService(cpf)
       expect(result).toBe(true)
     })
 
-    test('If the user is not activated returns 401', async () => {
+    test('Make sure userIsActiveService return 403 if user is not activated', async () => {
       try {
         const cpf = '111.222.123.90'
         await services.userIsActiveService(cpf)
@@ -75,14 +75,14 @@ describe('User services', () => {
       }
     })
 
-    test('Check if the user has permission', () => {
+    test('Make sure checkPermissionService return the result if the user has permission', async () => {
       const type = '1'
       const permission = 'CREATE_FINANCIAL'
       const result = services.checkPermissionService(type, permission)
       expect(result).toBe(true)
     })
 
-    test('If the user does not have permission returns 403', async () => {
+    test('Make sure checkPermissionService return 403 if the user does not have permission', async () => {
       try {
         const type = '2'
         const permission = 'CREATE_FINANCIAL'
@@ -92,13 +92,13 @@ describe('User services', () => {
       }
     })
 
-    test('Check if user credentials are correct', async () => {
+    test('Make sure createCredentialService return the result if the user credentials are correct', async () => {
       const cpf = '413.423.614-41'
       const result = await services.createCredentialService(cpf)
       expect(result).not.toBe(false)
     })
 
-    test('If the user cpf is invalid it returns 403', async () => {
+    test('Make sure createCredentialService return 403 if the user cpf is invalid', async () => {
       try {
         const cpf = '333.123.123.90'
         await services.createCredentialService(cpf)
