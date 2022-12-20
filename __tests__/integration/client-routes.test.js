@@ -36,4 +36,31 @@ describe('Client Routes', () => {
       await request(app).get(`/v1/client/${clientid}`).expect(401)
     })
   })
+
+  describe('Route PUT /v1/client/:clientid', () => {
+    test('Make sure /v1/client/:clientid return 200 on update', async () => {
+      const cpf = '413.423.614-41'
+      const clientid = 1
+      const result = await createCredentialService(cpf)
+      await request(app)
+        .put(`/v1/client/${clientid}`)
+        .send({
+          name: 'Daniel',
+          email: 'danielbarbozasilva@gmail.com',
+          cpf: '331.215.121.90',
+          gender: 'M',
+          birth_date: '1990/09/08',
+          password: 'daniel',
+          phone: '(21)2321-2345',
+          cod_address: 1,
+          address: 'Rua abc, 123',
+          uf: 'RJ',
+          city: 'Rio de janeiro',
+          zip_code: '23454-234',
+          complement: 'casa'
+        })
+        .set(result)
+        .expect(200)
+    })
+  })
 })
