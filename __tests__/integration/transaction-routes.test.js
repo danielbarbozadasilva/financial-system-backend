@@ -86,7 +86,7 @@ describe('Transaction Routes', () => {
   })
 
   describe('Route POST /v1/transaction/deposit/client/:clientid', () => {
-    test('Make sure /v1/transaction/deposit/client/:clientid return 200 on transaction create', async () => {
+    test('Make sure /v1/transaction/deposit/client/:clientid return 200 on deposit create', async () => {
       const cpf = '413.423.614-41'
       const clientid = 2
       const result = await createCredentialService(cpf)
@@ -138,6 +138,25 @@ describe('Transaction Routes', () => {
         })
         .set(result)
         .expect(422)
+    })
+  })
+
+  describe('Route POST /v1/transaction/client/:clientid/asset/:financialid', () => {
+    test('Make sure /v1/transaction/client/:clientid/asset/:financialid return 200 on transaction create', async () => {
+      const cpf = '233.113.223-35'
+      const clientid = 3
+      const financialid = 2
+      const result = await createCredentialService(cpf)
+      await request(app)
+        .post(`/v1/transaction/client/${clientid}/asset/${financialid}`)
+        .send({
+          current_price: '68.90',
+          subtotal_price: '68.90',
+          total_price: '70.90',
+          quantity: 1
+        })
+        .set(result)
+        .expect(200)
     })
   })
 })
