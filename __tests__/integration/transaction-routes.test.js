@@ -158,5 +158,66 @@ describe('Transaction Routes', () => {
         .set(result)
         .expect(200)
     })
+    test('Make sure /v1/transaction/client/:clientid/asset/:financialid return 401 if user is not authenticated', async () => {
+      const clientid = 3
+      const financialid = 2
+      await request(app)
+        .post(`/v1/transaction/client/${clientid}/asset/${financialid}`)
+        .send({
+          current_price: '68.90',
+          subtotal_price: '68.90',
+          total_price: '70.90',
+          quantity: 1
+        })
+        .expect(401)
+    })
+    test('Make sure /v1/transaction/client/:clientid/asset/:financialid return 403 if user is not authorized', async () => {
+      const cpf = '413.423.614-41'
+      const clientid = 3
+      const financialid = 2
+      const result = await createCredentialService(cpf)
+      await request(app)
+        .post(`/v1/transaction/client/${clientid}/asset/${financialid}`)
+        .send({
+          current_price: '68.90',
+          subtotal_price: '68.90',
+          total_price: '70.90',
+          quantity: 1
+        })
+        .set(result)
+        .expect(403)
+    })
+    test('Make sure /v1/transaction/client/:clientid/asset/:financialid return 422 if client id is not valid', async () => {
+      const cpf = '233.113.223-35'
+      const clientid = 0
+      const financialid = 2
+      const result = await createCredentialService(cpf)
+      await request(app)
+        .post(`/v1/transaction/client/${clientid}/asset/${financialid}`)
+        .send({
+          current_price: '68.90',
+          subtotal_price: '68.90',
+          total_price: '70.90',
+          quantity: 1
+        })
+        .set(result)
+        .expect(422)
+    })
+    test('Make sure /v1/transaction/client/:clientid/asset/:financialid return 422 if financial id is not valid', async () => {
+      const cpf = '233.113.223-35'
+      const clientid = 2
+      const financialid = 0
+      const result = await createCredentialService(cpf)
+      await request(app)
+        .post(`/v1/transaction/client/${clientid}/asset/${financialid}`)
+        .send({
+          current_price: '68.90',
+          subtotal_price: '68.90',
+          total_price: '70.90',
+          quantity: 1
+        })
+        .set(result)
+        .expect(422)
+    })
   })
 })
