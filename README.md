@@ -1,7 +1,7 @@
 # **API RESTful Awesome Invest**
 ## **Introdução**
 O Projeto AWESOME INVEST é um sistema de gestão financeira criado para fins de estudo. O Sistema tem o objetivo de listar os ativos e efetuar o gerenciamento destes, possibilitando a consulta e compra por parte do cliente. Além de garantir que o Administrador realize depósitos em contas de clientes e a consulta das transações realizadas.
-A API foi desenvolvida utilizando o NodeJs, ExpressJs e o ORM Sequelize com Banco de dados MySql.
+A API foi desenvolvida utilizando o NodeJs, ExpressJs e o ORM Sequelize com Banco de dados MySql. A documentação foi feita utilizando o Swagger. Nos Testes Unitários e de Integração foi utilizado o Jest.
 <br/>
 <br/>
 O Front-End foi desenvolvido utilizando o ReactJs. E está disponível para consulta no link abaixo:
@@ -79,12 +79,12 @@ npm run test-add-seeders
 
 Execute o comando para rodar os testes de integração:
 ```
-test:integration
+npm run test:integration
 ```
 
 Execute o comando para rodar os testes unitários:
 ```
-test:unit
+npm run test:unit
 ```
 
 Com o projeto rodando, abra a documentação do Swagger:
@@ -235,6 +235,8 @@ RF010 – O sistema deve listar os dados bancários do cliente.
 <br/>
 
 > ## Bibliotecas e Ferramentas
+* Jest
+* Swagger
 * Docker
 * Sequelize
 * MySql
