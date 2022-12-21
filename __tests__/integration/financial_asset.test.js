@@ -210,4 +210,29 @@ describe('Financial Routes', () => {
         .expect(422)
     })
   })
+
+  describe('Route DELETE /v1/financial/:financialid', () => {
+    test('Make sure /v1/financial/:financialid returns 200 when deleting financial asset', async () => {
+      const cpf = '413.423.614-41'
+      const financialid = 1
+      const result = await createCredentialService(cpf)
+      await request(app)
+        .delete(`/v1/financial/${financialid}`)
+        .set(result)
+        .expect(200)
+    })
+    test('Make sure /v1/financial/:financialid return 401 if user is not authenticated', async () => {
+      const financialid = 1
+      await request(app).delete(`/v1/financial/${financialid}`).expect(401)
+    })
+    test('Make sure /v1/financial/:financialid returns 422 if the financialid is not valid', async () => {
+      const cpf = '413.423.614-41'
+      const financialid = 0
+      const result = await createCredentialService(cpf)
+      await request(app)
+        .delete(`/v1/financial/${financialid}`)
+        .set(result)
+        .expect(422)
+    })
+  })
 })
