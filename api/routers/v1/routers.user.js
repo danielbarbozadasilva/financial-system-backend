@@ -32,14 +32,10 @@ module.exports = (router) => {
         'any.required': `"email" is a required field`,
         'string.empty': `"email" can not be empty`
       }),
-      cpf: joi
-        .string()
-        .regex(/^\d{3}\.\d{3}\.\d{3}\-\d{2}$/)
-        .required()
-        .messages({
-          'any.required': '"cpf" is a required field',
-          'string.empty': '"cpf" can not be empty'
-        }),
+      cpf: joi.string().required().messages({
+        'any.required': '"cpf" is a required field',
+        'string.empty': '"cpf" can not be empty'
+      }),
       gender: joi.string().required().messages({
         'any.required': `"gender" is a required field`,
         'string.empty': `"gender" can not be empty`
@@ -72,8 +68,7 @@ module.exports = (router) => {
         'any.required': `"zip_code" is a required field`,
         'string.empty': `"zip_code" can not be empty`
       }),
-      complement: joi.string().allow(''),
-      auth: joi.boolean().optional()
+      complement: joi.string().allow('')
     }),
     verifyMiddleware.verifyCpfExists,
     verifyMiddleware.verifyEmailExists,
