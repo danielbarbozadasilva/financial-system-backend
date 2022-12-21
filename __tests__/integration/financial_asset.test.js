@@ -39,6 +39,78 @@ describe('Financial Routes', () => {
     })
   })
 
+  describe('Route POST /v1/financial', () => {
+    test('Make sure /v1/financial return 200 on create financial asset', () => {
+      const cpf = '413.423.614-41'
+      const result = createCredentialService(cpf)
+      request(app)
+        .post(`/v1/financial`)
+        .send({
+          name: 'example',
+          description: 'description',
+          current_price: 31.99,
+          bvmf: 'MELI34',
+          quantity: 100,
+          image: {
+            type: 'image/jpeg',
+            origin: 'img01.jpg',
+            old_path:
+              'C:\\Users\\pc01\\Desktop\\financial-system-backend\\api\\utils\\file\\financial\\img01.jpg',
+            newName: 'img01.jpg',
+            new_path:
+              'C:\\Users\\pc01\\Desktop\\financial-system-backend\\api\\utils\\file\\financial\\img01.jpg'
+          }
+        })
+        .set(result)
+        .expect(200)
+    })
+    test('Make sure /v1/financial returns 401 if the user is not authenticated', () => {
+      request(app)
+        .post(`/v1/financial`)
+        .send({
+          name: 'example',
+          description: 'description',
+          current_price: '31.99',
+          bvmf: 'MELI34',
+          quantity: '100',
+          image: {
+            type: 'image/jpeg',
+            origin: 'img01.jpg',
+            old_path:
+              'C:\\Users\\pc01\\Desktop\\financial-system-backend\\api\\utils\\file\\financial\\img01.jpg',
+            newName: 'img01.jpg',
+            new_path:
+              'C:\\Users\\pc01\\Desktop\\financial-system-backend\\api\\utils\\file\\financial\\img01.jpg'
+          }
+        })
+        .expect(401)
+    })
+    test('Make sure /v1/financial returns 403 if the user is not authorized', () => {
+      const cpf = '233.113.223-35'
+      const result = createCredentialService(cpf)
+      request(app)
+        .post(`/v1/financial`)
+        .send({
+          name: 'example',
+          description: 'description',
+          current_price: 31.99,
+          bvmf: 'MELI34',
+          quantity: 100,
+          image: {
+            type: 'image/jpeg',
+            origin: 'img01.jpg',
+            old_path:
+              'C:\\Users\\pc01\\Desktop\\financial-system-backend\\api\\utils\\file\\financial\\img01.jpg',
+            newName: 'img01.jpg',
+            new_path:
+              'C:\\Users\\pc01\\Desktop\\financial-system-backend\\api\\utils\\file\\financial\\img01.jpg'
+          }
+        })
+        .set(result)
+        .expect(200)
+    })
+  })
+
   describe('Route PUT /v1/financial/:financialid', () => {
     test('Make sure /v1/financial/:financialid return 200 on update', () => {
       const cpf = '413.423.614-41'
