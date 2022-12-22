@@ -7,36 +7,36 @@ describe('Transactions services', () => {
   })
 
   describe('Transactions services', () => {
-    test('Make sure verifyQuantity returns 200 on success', async () => {
+    test('Make sure verifyQuantity returns the data', async () => {
       const assetid = 2
       const quantity = 1
       const result = await services.verifyQuantity(assetid, quantity)
       expect(result).toBe(true)
     })
 
-    test('Make sure verifyBalance returns 200 on success', async () => {
+    test('Make sure verifyBalance returns the data', async () => {
       const id = 2
       const totalPrice = 50
       const result = await services.verifyBalance(id, totalPrice)
       expect(result).toBe(true)
     })
 
-    test('Make sure createTransactionService returns 200 on success', async () => {
+    test('Make sure createTransactionService return success', async () => {
       const params = {
-        financialid: '3',
-        clientid: '2'
+        financialid: 3,
+        clientid: 2
       }
       const body = {
-        current_price: '68.90',
-        subtotal_price: '68.90',
-        total_price: '70.90',
+        current_price: 68.9,
+        subtotal_price: 68.9,
+        total_price: 70.9,
         quantity: 1
       }
       const result = await services.createTransactionService(params, body)
       expect(result.success).toBe(true)
     })
 
-    test('Make sure createDepositService returns 200 on success', async () => {
+    test('Make sure createDepositService return success', async () => {
       const clientid = 2
       const body = {
         origin_cpf: '139.345.567-90',
@@ -47,18 +47,18 @@ describe('Transactions services', () => {
       expect(result.success).toBe(true)
     })
 
-    test('Make sure listAllUserTransactionService returns 200 on success', async () => {
+    test('Make sure listAllUserTransactionService return success', async () => {
       const result = await services.listAllUserTransactionService()
       expect(result.success).toBe(true)
     })
 
-    test('Make sure listByIdUserTransactionService returns 200 on success', async () => {
+    test('Make sure listByIdUserTransactionService return success', async () => {
       const id = 2
       const result = await services.listByIdUserTransactionService(id)
       expect(result.success).toBe(true)
     })
 
-    test('Make sure listByIdUserDepositService returns 200 on success', async () => {
+    test('Make sure listByIdUserDepositService return success', async () => {
       const id = 2
       const result = await services.listByIdUserDepositService(id)
       expect(result.success).toBe(true)
@@ -87,13 +87,13 @@ describe('Transactions services', () => {
     test('Make sure createTransactionService throw an error if the parameters are incorrect', async () => {
       try {
         const params = {
-          financialid: '31',
-          clientid: '21'
+          financialid: 31,
+          clientid: 21
         }
         const body = {
-          current_price: '68.90',
-          subtotal_price: '68.90',
-          total_price: '70.90',
+          current_price: 68.9,
+          subtotal_price: 68.9,
+          total_price: 70.9,
           quantity: 1
         }
         expect(await services.createTransactionService(params, body)).toThrow()

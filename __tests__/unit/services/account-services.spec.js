@@ -7,16 +7,16 @@ describe('Account services', () => {
   })
 
   describe('Account services', () => {
-    test('Make sure listAllAccountService returns 200 on success', async () => {
+    test('Make sure listAllAccountService return success', async () => {
       const result = await services.listAllAccountService()
       expect(result.success).toBe(true)
     })
-    test('Make sure listByIdAccountService returns 200 on success', async () => {
+    test('Make sure listByIdAccountService return success', async () => {
       const id = 1
       const result = await services.listByIdAccountService(id)
       expect(result.success).toBe(true)
     })
-    test('Make sure checkBalanceService returns 200 on success', async () => {
+    test('Make sure checkBalanceService return success', async () => {
       const id = 2
       const result = await services.checkBalanceService(id)
       expect(result.success).toBe(true)

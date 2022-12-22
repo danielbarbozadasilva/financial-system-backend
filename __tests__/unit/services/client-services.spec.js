@@ -7,23 +7,23 @@ describe('Client services', () => {
   })
 
   describe('Client services', () => {
-    test('Make sure listAllClientsService returns 200 on success', async () => {
+    test('Make sure listAllClientsService return success', async () => {
       const result = await services.listAllClientsService()
       expect(result.success).toBe(true)
     })
-    test('Make sure listByIdClientService returns 200 on success', async () => {
+    test('Make sure listByIdClientService return success', async () => {
       const id = 1
       const result = await services.listByIdClientService(id)
       expect(result.success).toBe(true)
     })
-    test('Make sure changeStatusService returns 200 on success', async () => {
+    test('Make sure changeStatusService return success', async () => {
       const clientid = 3
       const status = false
       const result = await services.changeStatusService(clientid, status)
       expect(result.success).toBe(true)
     })
-    test('Make sure updateClientService returns 200 on success', async () => {
-      const clientid = 3
+    test('Make sure updateClientService return success', async () => {
+      const clientid = 2
       const body = {
         address: 'Rua abc, 123',
         uf: 'RJ',
@@ -63,7 +63,7 @@ describe('Client services', () => {
     test('Make sure changeStatusService returns 500 if server error', async () => {
       await sequelize.close()
       try {
-        const clientid = 3
+        const clientid = 2
         const status = false
         await services.changeStatusService(clientid, status)
       } catch (error) {
@@ -73,7 +73,7 @@ describe('Client services', () => {
     test('Make sure updateClientService returns 500 if server error', async () => {
       await sequelize.close()
       try {
-        const clientid = 3
+        const clientid = 2
         const body = {
           address: 'Rua abc, 123',
           uf: 'RJ',

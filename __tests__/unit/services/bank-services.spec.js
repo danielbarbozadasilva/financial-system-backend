@@ -7,7 +7,7 @@ describe('Bank services', () => {
   })
 
   describe('Bank services', () => {
-    test('Make sure listAllBanksService returns 200 on success', async () => {
+    test('Make sure listAllBanksService return success', async () => {
       const result = await services.listAllBanksService()
       expect(result.success).toBe(true)
     })

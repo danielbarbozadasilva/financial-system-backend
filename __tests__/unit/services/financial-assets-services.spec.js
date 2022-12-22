@@ -7,23 +7,23 @@ describe('Financial asset services', () => {
   })
 
   describe('Financial asset services', () => {
-    test('Make sure listFinancialAssetsService returns 200 on success', async () => {
+    test('Make sure listFinancialAssetsService return success', async () => {
       const result = await services.listFinancialAssetsService()
       expect(result.success).toBe(true)
     })
 
-    test('Make sure listByIdFinancialAssetsService returns 200 on success', async () => {
+    test('Make sure listByIdFinancialAssetsService return success', async () => {
       const id = 1
       const result = await services.listByIdFinancialAssetsService(id)
       expect(result.success).toBe(true)
     })
 
-    test('Make sure listTop05FinancialAssetsService returns 200 on success', async () => {
+    test('Make sure listTop05FinancialAssetsService return success', async () => {
       const result = await services.listTop05FinancialAssetsService()
       expect(result.success).toBe(true)
     })
 
-    test('Make sure createFinancialAssetsService returns 200 on success', async () => {
+    test('Make sure createFinancialAssetsService return success', async () => {
       const body = {
         name: 'example',
         description: 'description',
@@ -34,17 +34,17 @@ describe('Financial asset services', () => {
           type: 'image/jpeg',
           origin: 'img01.jpg',
           old_path:
-            'C:\\Users\\pc01\\Desktop\\financial-system-backend\\api\\utils\\file\\financial\\img01.jpg',
+            'C:\\Users\\pc01\\Desktop\\financial-system-backend\\api\\utils\\file\\financial\\img04.jpg',
           newName: 'img01.jpg',
           new_path:
-            'C:\\Users\\pc01\\Desktop\\financial-system-backend\\api\\utils\\file\\financial\\img01.jpg'
+            'C:\\Users\\pc01\\Desktop\\financial-system-backend\\api\\utils\\file\\financial\\img04.jpg'
         }
       }
       const result = await services.createFinancialAssetsService(body)
       expect(result.success).toBe(true)
     })
 
-    test('Make sure updateFinancialAssetsService returns 200 on success', async () => {
+    test('Make sure updateFinancialAssetsService return success', async () => {
       const id = 1
       const body = {
         name: 'example',
@@ -66,7 +66,7 @@ describe('Financial asset services', () => {
       expect(result.success).toBe(true)
     })
 
-    test('Make sure deleteFinancialAssetsService returns 200 on success', async () => {
+    test('Make sure deleteFinancialAssetsService return success', async () => {
       const id = 1
       const result = await services.deleteFinancialAssetsService(id)
       expect(result.success).toBe(true)
@@ -151,7 +151,7 @@ describe('Financial asset services', () => {
         expect(error.statusCode).toBe(500)
       }
     })
-    
+
     test('Make sure listTop05FinancialAssetsService returns 500 if a server error occurs', async () => {
       try {
         await sequelize.close()
