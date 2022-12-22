@@ -17,7 +17,7 @@ describe('Financial Routes', () => {
   describe('Route GET /v1/financial/:financialid', () => {
     test('Make sure /v1/financial/:financialid return 200 on financial id search', async () => {
       const cpf = '413.423.614-41'
-      const financialid = 1
+      const financialid = 5
       const result = await createCredentialService(cpf)
       await request(app)
         .get(`/v1/financial/${financialid}`)
@@ -182,7 +182,7 @@ describe('Financial Routes', () => {
           }
         })
         .set(result)
-        .expect(200)
+        .expect(403)
     })
     test('Make sure /v1/financial/:financialid returns 422 if the financialid is not valid', () => {
       const cpf = '413.423.614-41'
@@ -214,7 +214,7 @@ describe('Financial Routes', () => {
   describe('Route DELETE /v1/financial/:financialid', () => {
     test('Make sure /v1/financial/:financialid returns 200 when deleting financial asset', async () => {
       const cpf = '413.423.614-41'
-      const financialid = 1
+      const financialid = 5
       const result = await createCredentialService(cpf)
       await request(app)
         .delete(`/v1/financial/${financialid}`)

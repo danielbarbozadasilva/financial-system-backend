@@ -150,9 +150,9 @@ describe('Transaction Routes', () => {
       await request(app)
         .post(`/v1/transaction/client/${clientid}/asset/${financialid}`)
         .send({
-          current_price: '68.90',
-          subtotal_price: '68.90',
-          total_price: '70.90',
+          current_price: 68.90,
+          subtotal_price: 68.90,
+          total_price: 70.90,
           quantity: 1
         })
         .set(result)
@@ -164,9 +164,9 @@ describe('Transaction Routes', () => {
       await request(app)
         .post(`/v1/transaction/client/${clientid}/asset/${financialid}`)
         .send({
-          current_price: '68.90',
-          subtotal_price: '68.90',
-          total_price: '70.90',
+          current_price: 68.90,
+          subtotal_price: 68.90,
+          total_price: 70.90,
           quantity: 1
         })
         .expect(401)
@@ -179,9 +179,9 @@ describe('Transaction Routes', () => {
       await request(app)
         .post(`/v1/transaction/client/${clientid}/asset/${financialid}`)
         .send({
-          current_price: '68.90',
-          subtotal_price: '68.90',
-          total_price: '70.90',
+          current_price: 68.90,
+          subtotal_price: 68.90,
+          total_price: 70.90,
           quantity: 1
         })
         .set(result)
@@ -195,9 +195,9 @@ describe('Transaction Routes', () => {
       await request(app)
         .post(`/v1/transaction/client/${clientid}/asset/${financialid}`)
         .send({
-          current_price: '68.90',
-          subtotal_price: '68.90',
-          total_price: '70.90',
+          current_price: 68.90,
+          subtotal_price: 68.90,
+          total_price: 70.90,
           quantity: 1
         })
         .set(result)
@@ -211,9 +211,9 @@ describe('Transaction Routes', () => {
       await request(app)
         .post(`/v1/transaction/client/${clientid}/asset/${financialid}`)
         .send({
-          current_price: '68.90',
-          subtotal_price: '68.90',
-          total_price: '70.90',
+          current_price: 68.90,
+          subtotal_price: 68.90,
+          total_price: 70.90,
           quantity: 1
         })
         .set(result)

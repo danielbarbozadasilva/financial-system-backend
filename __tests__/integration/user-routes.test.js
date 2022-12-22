@@ -13,8 +13,8 @@ describe('Auth Routes', () => {
         .post('/v1/register')
         .send({
           name: 'Daniel',
-          email: 'danielsilva@gmail.com',
-          cpf: '333.121.121.90',
+          email: 'danielbarsilva@gmail.com',
+          cpf: '131.222.333.10',
           gender: 'M',
           birth_date: '1990/09/08',
           password: 'daniel',
@@ -33,7 +33,7 @@ describe('Auth Routes', () => {
         .post('/v1/register')
         .send({
           name: 'Daniel',
-          email: 'danielsilva@gmail.com',
+          email: 'danielbarsilva@gmail.com',
           cpf: '123.432.121.90',
           gender: 'M',
           birth_date: '1990/09/08',
@@ -53,8 +53,8 @@ describe('Auth Routes', () => {
         .post('/v1/register')
         .send({
           name: 'Daniel',
-          email: 'danielbarboza.silva@gmail.com',
-          cpf: '333.121.121.90',
+          email: 'danielbarbozad.silva@gmail.com',
+          cpf: '131.222.333.10',
           gender: 'M',
           birth_date: '1990/09/08',
           password: 'daniel',
