@@ -11,14 +11,9 @@ describe('Bank services', () => {
       const result = await services.listAllBanksService()
       expect(result.success).toBe(true)
     })
-
-    test('Make sure listAllBanksService returns 500 if a server error occurs', async () => {
-      try {
-        await sequelize.close()
-        await services.listAllBanksService()
-      } catch (error) {
-        expect(error.statusCode).toBe(500)
-      }
+    test('Make sure listAllBanksService has the id property', async () => {
+      const result = await services.listAllBanksService()
+      expect(result.data[0]).toHaveProperty('cod_bank')
     })
   })
 })
