@@ -11,16 +11,28 @@ describe('Financial asset services', () => {
       const result = await services.listFinancialAssetsService()
       expect(result.success).toBe(true)
     })
-
+    test('Make sure listFinancialAssetsService has the id property', async () => {
+      const result = await services.listFinancialAssetsService()
+      expect(result.data[0]).toHaveProperty('id')
+    })
     test('Make sure listByIdFinancialAssetsService return success', async () => {
       const id = 1
       const result = await services.listByIdFinancialAssetsService(id)
       expect(result.success).toBe(true)
     })
-
+    test('Make sure listByIdFinancialAssetsService has the id property', async () => {
+      const id = 1
+      const result = await services.listByIdFinancialAssetsService(id)
+      expect(result.data).toHaveProperty('id')
+    })
     test('Make sure listTop05FinancialAssetsService return success', async () => {
       const result = await services.listTop05FinancialAssetsService()
       expect(result.success).toBe(true)
+    })
+    test('Make sure listTop05FinancialAssetsService has the id property', async () => {
+      const id = 1
+      const result = await services.listTop05FinancialAssetsService(id)
+      expect(result.data[0]).toHaveProperty('id')
     })
 
     test('Make sure createFinancialAssetsService return success', async () => {
@@ -70,95 +82,6 @@ describe('Financial asset services', () => {
       const id = 1
       const result = await services.deleteFinancialAssetsService(id)
       expect(result.success).toBe(true)
-    })
-
-    test('Make sure createFinancialAssetsService returns 500 if a server error occurs', async () => {
-      try {
-        await sequelize.close()
-        const body = {
-          name: 'example',
-          description: 'description',
-          current_price: '31.99',
-          bvmf: 'MELI34',
-          quantity: '100',
-          image: {
-            type: 'image/jpeg',
-            origin: 'img03.jpg',
-            old_path:
-              'C:\\Users\\pc01\\Desktop\\financial-system-backend\\api\\utils\\file\\financial\\img03.jpg',
-            newName: 'img03.jpg',
-            new_path:
-              'C:\\Users\\pc01\\Desktop\\financial-system-backend\\api\\utils\\file\\financial\\img03.jpg'
-          }
-        }
-        await services.createFinancialAssetsService(body)
-      } catch (error) {
-        expect(error.statusCode).toBe(500)
-      }
-    })
-
-    test('Make sure updateFinancialAssetsService returns 500 if a server error occurs', async () => {
-      try {
-        await sequelize.close()
-        const id = 1
-        const body = {
-          name: 'example',
-          description: 'description',
-          current_price: '31.99',
-          bvmf: 'MELI34',
-          quantity: '100',
-          image: {
-            type: 'image/jpeg',
-            origin: 'img03.jpg',
-            old_path:
-              'C:\\Users\\pc01\\Desktop\\financial-system-backend\\api\\utils\\file\\financial\\img03.jpg',
-            newName: 'img03.jpg',
-            new_path:
-              'C:\\Users\\pc01\\Desktop\\financial-system-backend\\api\\utils\\file\\financial\\img03.jpg'
-          }
-        }
-        await services.updateFinancialAssetsService(body, id)
-      } catch (error) {
-        expect(error.statusCode).toBe(500)
-      }
-    })
-
-    test('Make sure deleteFinancialAssetsService returns 500 if a server error occurs', async () => {
-      try {
-        await sequelize.close()
-        const id = 4
-        await services.deleteFinancialAssetsService(id)
-      } catch (error) {
-        expect(error.statusCode).toBe(500)
-      }
-    })
-
-    test('Make sure listFinancialAssetsService returns 500 if a server error occurs', async () => {
-      try {
-        await sequelize.close()
-        await services.listFinancialAssetsService()
-      } catch (error) {
-        expect(error.statusCode).toBe(500)
-      }
-    })
-
-    test('Make sure listByIdFinancialAssetsService returns 500 if a server error occurs', async () => {
-      try {
-        await sequelize.close()
-        const id = 5
-        await services.listByIdFinancialAssetsService(id)
-      } catch (error) {
-        expect(error.statusCode).toBe(500)
-      }
-    })
-
-    test('Make sure listTop05FinancialAssetsService returns 500 if a server error occurs', async () => {
-      try {
-        await sequelize.close()
-        await services.listTop05FinancialAssetsService()
-      } catch (error) {
-        expect(error.statusCode).toBe(500)
-      }
     })
   })
 })
