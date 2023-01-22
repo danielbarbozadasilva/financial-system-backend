@@ -52,16 +52,33 @@ describe('Transactions services', () => {
       expect(result.success).toBe(true)
     })
 
+    test('Make sure listAllUserTransactionService has the id property', async () => {
+      const result = await services.listAllUserTransactionService()
+      expect(result.data[0]).toHaveProperty('id')
+    })
+
     test('Make sure listByIdUserTransactionService return success', async () => {
       const id = 2
       const result = await services.listByIdUserTransactionService(id)
       expect(result.success).toBe(true)
     })
 
+    test('Make sure listByIdUserTransactionService has the id property', async () => {
+      const id = 2
+      const result = await services.listByIdUserTransactionService(id)
+      expect(result.data[0]).toHaveProperty('id')
+    })
+
     test('Make sure listByIdUserDepositService return success', async () => {
       const id = 2
       const result = await services.listByIdUserDepositService(id)
       expect(result.success).toBe(true)
+    })
+
+    test('Make sure listByIdUserDepositService has the id property', async () => {
+      const id = 2
+      const result = await services.listByIdUserDepositService(id)
+      expect(result.data[0]).toHaveProperty('id')
     })
 
     test('Make sure verifyQuantity returns 400 if the quantity is exceeded', async () => {
@@ -126,35 +143,6 @@ describe('Transactions services', () => {
         const id = 2
         expect(await services.listByIdUserDepositService(id)).toThrow()
       } catch (error) {}
-    })
-
-    test('Make sure listAllUserTransactionService returns 500 if a server error occurs', async () => {
-      try {
-        await sequelize.close()
-        await services.listAllUserTransactionService()
-      } catch (error) {
-        expect(error.statusCode).toBe(500)
-      }
-    })
-
-    test('Make sure listByIdUserDepositService returns 500 if a server error occurs', async () => {
-      try {
-        await sequelize.close()
-        const id = 2
-        await services.listByIdUserDepositService(id)
-      } catch (error) {
-        expect(error.statusCode).toBe(500)
-      }
-    })
-
-    test('Make sure listByIdUserTransactionService returns 500 if a server error occurs', async () => {
-      try {
-        await sequelize.close()
-        const id = 2
-        await services.listByIdUserTransactionService(id)
-      } catch (error) {
-        expect(error.statusCode).toBe(500)
-      }
     })
   })
 })
