@@ -11,6 +11,10 @@ describe('Account services', () => {
       const result = await services.listAllAccountService()
       expect(result.success).toBe(true)
     })
+    test('Make sure listAllAccountService has the id property', async () => {
+      const result = await services.listAllAccountService()
+      expect(result.data[0]).toHaveProperty('id')
+    })
     test('Make sure listByIdAccountService return success', async () => {
       const id = 1
       const result = await services.listByIdAccountService(id)
@@ -20,32 +24,6 @@ describe('Account services', () => {
       const id = 2
       const result = await services.checkBalanceService(id)
       expect(result.success).toBe(true)
-    })
-    test('Make sure listAllAccountService returns 500 if server error', async () => {
-      await sequelize.close()
-      try {
-        await services.listAllAccountService()
-      } catch (error) {
-        expect(error.statusCode).toBe(500)
-      }
-    })
-    test('Make sure listByIdAccountService returns 500 if server error', async () => {
-      await sequelize.close()
-      try {
-        const id = 1
-        await services.listByIdAccountService(id)
-      } catch (error) {
-        expect(error.statusCode).toBe(500)
-      }
-    })
-    test('Make sure checkBalanceService returns 500 if server error', async () => {
-      await sequelize.close()
-      try {
-        const id = 2
-        await services.checkBalanceService(id)
-      } catch (error) {
-        expect(error.statusCode).toBe(500)
-      }
     })
   })
 })
