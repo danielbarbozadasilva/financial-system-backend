@@ -11,7 +11,7 @@ describe('Bank services', () => {
       const result = await services.listAllBanksService()
       expect(result.success).toBe(true)
     })
-    test('Make sure listAllBanksService has the id property', async () => {
+    test('Make sure listAllBanksService has the cod_bank property', async () => {
       const result = await services.listAllBanksService()
       expect(result.data[0]).toHaveProperty('cod_bank')
     })
