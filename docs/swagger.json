@@ -1584,11 +1584,6 @@
       "Create_Deposit": {
         "type": "object",
         "properties": {
-          "branch": {
-            "type": "string",
-            "required": true,
-            "example": "0845"
-          },
           "origin_cpf": {
             "type": "string",
             "required": true,
@@ -1611,10 +1606,6 @@
         "properties": {
           "id": {
             "type": "integer",
-            "required": true
-          },
-          "branch": {
-            "type": "string",
             "required": true
           },
           "origin_cpf": {
