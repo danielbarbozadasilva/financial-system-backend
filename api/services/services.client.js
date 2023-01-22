@@ -1,6 +1,6 @@
 const { QueryTypes } = require('sequelize')
 const { user, address, sequelize } = require('../models/models.index')
-const ErrorGeneric = require('../utils/errors/erros.generic-error')
+const ErrorGeneric = require('../exceptions/erros.generic-error')
 const cryptography = require('../utils/utils.cryptography')
 const clientMapper = require('../mappers/mappers.client')
 

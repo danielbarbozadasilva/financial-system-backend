@@ -1,6 +1,6 @@
 const { account, user, branch, transaction } = require('../models/models.index')
 const accountMapper = require('../mappers/mappers.account')
-const ErrorGeneric = require('../utils/errors/erros.generic-error')
+const ErrorGeneric = require('../exceptions/erros.generic-error')
 
 const listAllAccountService = async () => {
   try {

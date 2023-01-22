@@ -1,7 +1,7 @@
 const joi = require('joi')
 const userController = require('../../controllers/controllers.user')
-const validateDTOMiddleware = require('../../utils/middlewares/middlewares.validate-dto')
-const verifyMiddleware = require('../../utils/middlewares/middlewares.verify-exists')
+const validateDTOMiddleware = require('../../middlewares/middlewares.validate-dto')
+const verifyMiddleware = require('../../middlewares/middlewares.verify-exists')
 
 module.exports = (router) => {
   router.route('/auth').post(
@@ -73,5 +73,15 @@ module.exports = (router) => {
     verifyMiddleware.verifyCpfExists,
     verifyMiddleware.verifyEmailExists,
     userController.registerController
+  )
+
+  router.route('/check-token').post(
+    validateDTOMiddleware('body', {
+      token: joi.string().required().messages({
+        'any.required': `"token" is a required field`,
+        'string.empty': `"token" can not be empty`
+      })
+    }),
+    userController.checkTokenController
   )
 }

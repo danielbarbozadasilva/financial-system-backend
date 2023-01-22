@@ -1,6 +1,6 @@
 const { Router } = require('express')
 const { name, version } = require('../../package.json')
-const { formatError } = require('../utils/errors/errors.handler')
+const { formatError } = require('../exceptions/errors.handler')
 
 const routersV1User = require('./v1/routers.user')
 const routersV1Financial = require('./v1/routers.financial_asset')

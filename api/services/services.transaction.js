@@ -10,8 +10,8 @@ const {
   sequelize
 } = require('../models/models.index')
 const transactionMapper = require('../mappers/mappers.transaction')
-const ErrorGeneric = require('../utils/errors/erros.generic-error')
-const ErrorBusinessRule = require('../utils/errors/errors.business-rule')
+const ErrorGeneric = require('../exceptions/erros.generic-error')
+const ErrorBusinessRule = require('../exceptions/errors.business-rule')
 
 const verifyQuantity = async (assetid, quantity) => {
   const result = await assets.findByPk(assetid)

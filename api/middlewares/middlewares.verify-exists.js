@@ -1,7 +1,7 @@
 const { Op } = require('sequelize')
-const { account, user, assets } = require('../../models/models.index')
-const ErrorUnprocessableEntity = require('../errors/errors.unprocessable-entity')
-const ErrorBusinessRule = require('../errors/errors.business-rule')
+const { account, user, assets } = require('../models/models.index')
+const ErrorUnprocessableEntity = require('../exceptions/errors.unprocessable-entity')
+const ErrorBusinessRule = require('../exceptions/errors.business-rule')
 
 const verifyIdAccountDbMiddleware = async (req, res, next) => {
   const accountDB = await account.findByPk(req.params.accountid)

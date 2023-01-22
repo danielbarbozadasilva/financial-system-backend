@@ -1,9 +1,9 @@
 const joi = require('joi')
 const transactionController = require('../../controllers/controllers.transaction')
-const validateDTOMiddleware = require('../../utils/middlewares/middlewares.validate-dto')
-const authenticationMiddleware = require('../../utils/middlewares/middlewares.authentication')
-const authorizationMiddleware = require('../../utils/middlewares/middlewares.authorization')
-const verifyIdDbMiddleware = require('../../utils/middlewares/middlewares.verify-exists')
+const validateDTOMiddleware = require('../../middlewares/middlewares.validate-dto')
+const authenticationMiddleware = require('../../middlewares/middlewares.authentication')
+const authorizationMiddleware = require('../../middlewares/middlewares.authorization')
+const verifyIdDbMiddleware = require('../../middlewares/middlewares.verify-exists')
 
 module.exports = (router) => {
   router.route('/transaction/client/:clientid/asset/:financialid').post(

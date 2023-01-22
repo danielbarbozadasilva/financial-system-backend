@@ -7,9 +7,9 @@ const {
 } = require('../models/models.index')
 const cryptography = require('../utils/utils.cryptography')
 const userMapper = require('../mappers/mappers.user')
-const ErrorGeneric = require('../utils/errors/erros.generic-error')
-const ErrorNotAuthorized = require('../utils/errors/errors.user-not-authorized')
-const ErrorNotAuthenticated = require('../utils/errors/errors.user-not-authenticated')
+const ErrorGeneric = require('../exceptions/erros.generic-error')
+const ErrorNotAuthorized = require('../exceptions/errors.user-not-authorized')
+const ErrorNotAuthenticated = require('../exceptions/errors.user-not-authenticated')
 
 const profile = [
   {
@@ -177,11 +177,26 @@ const registerService = async (body) => {
   }
 }
 
+const checkTokenService = async (token) => {
+  try {
+    const { id } = cryptography.decodeToken(token)
+    await user.findOne({ where: { cod_user: id } })
+
+    return {
+      success: true,
+      message: 'Token valid!'
+    }
+  } catch (err) {
+    throw new ErrorNotAuthenticated(`Token invalid!`)
+  }
+}
+
 module.exports = {
   userIsValidService,
   userIsActiveService,
   checkPermissionService,
   createCredentialService,
   authService,
-  registerService
+  registerService,
+  checkTokenService
 }

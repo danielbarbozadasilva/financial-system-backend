@@ -1,5 +1,5 @@
 const Joi = require('joi')
-const ErrorBusinessRule = require('../errors/errors.business-rule')
+const ErrorBusinessRule = require('../exceptions/errors.business-rule')
 
 const validateDTOMiddleware = (type, params, options = {}) => {
   return async (req, res, next) => {

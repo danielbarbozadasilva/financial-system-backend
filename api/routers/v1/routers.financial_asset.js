@@ -1,10 +1,10 @@
 const joi = require('joi')
 const financialController = require('../../controllers/controllers.financial_asset')
-const validateDTOMiddleware = require('../../utils/middlewares/middlewares.validate-dto')
-const middlewareFileUploadMiddleware = require('../../utils/middlewares/middlewares.file-upload')
-const authenticationMiddleware = require('../../utils/middlewares/middlewares.authentication')
-const authorizationMiddleware = require('../../utils/middlewares/middlewares.authorization')
-const verifyIdDbMiddleware = require('../../utils/middlewares/middlewares.verify-exists')
+const validateDTOMiddleware = require('../../middlewares/middlewares.validate-dto')
+const middlewareFileUploadMiddleware = require('../../middlewares/middlewares.file-upload')
+const authenticationMiddleware = require('../../middlewares/middlewares.authentication')
+const authorizationMiddleware = require('../../middlewares/middlewares.authorization')
+const verifyIdDbMiddleware = require('../../middlewares/middlewares.verify-exists')
 
 module.exports = (router) => {
   router

@@ -1,7 +1,7 @@
 const md5 = require('md5')
 const jwt = require('jsonwebtoken')
-const ErrorNotAuthenticated = require('./errors/errors.user-not-authenticated')
-const ErrorGeneric = require('./errors/erros.generic-error')
+const ErrorNotAuthenticated = require('../exceptions/errors.user-not-authenticated')
+const ErrorGeneric = require('../exceptions/erros.generic-error')
 
 const md5HashSecret = process.env.MD5_SECRET
 const jwtHashSecret = process.env.JWT_SECRET
