@@ -20,6 +20,11 @@ describe('Client services', () => {
       const result = await services.listByIdClientService(id)
       expect(result.success).toBe(true)
     })
+    test('Make sure listByIdClientService has the id property', async () => {
+      const id = 1
+      const result = await services.listByIdClientService(id)
+      expect(result.data).toHaveProperty('id')
+    })
     test('Make sure changeStatusService return success', async () => {
       const clientid = 3
       const status = false
