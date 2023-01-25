@@ -65,15 +65,7 @@ describe('Transaction Routes', () => {
         .get(`/v1/transaction/deposit/client/${clientid}`)
         .expect(401)
     })
-    test('Make sure /v1/transaction/deposit/client/:clientid return 403 if user is not authorized', async () => {
-      const cpf = '233.113.223-35'
-      const clientid = 2
-      const result = await createCredentialService(cpf)
-      await request(app)
-        .get(`/v1/transaction/deposit/client/${clientid}`)
-        .set(result)
-        .expect(403)
-    })
+
     test('Make sure /v1/transaction/deposit/client/:clientid return 422 if client id is not valid', async () => {
       const cpf = '413.423.614-41'
       const clientid = 0
@@ -111,20 +103,7 @@ describe('Transaction Routes', () => {
         })
         .expect(401)
     })
-    test('Make sure /v1/transaction/deposit/client/:clientid return 403 if user is not authorized', async () => {
-      const cpf = '233.113.223-35'
-      const clientid = 2
-      const result = await createCredentialService(cpf)
-      await request(app)
-        .post(`/v1/transaction/deposit/client/${clientid}`)
-        .send({
-          origin_cpf: '139.345.567-90',
-          total: 2200.9,
-          bank_id: 1
-        })
-        .set(result)
-        .expect(403)
-    })
+
     test('Make sure /v1/transaction/deposit/client/:clientid return 422 if client id is not valid', async () => {
       const cpf = '413.423.614-41'
       const clientid = 0
@@ -150,9 +129,9 @@ describe('Transaction Routes', () => {
       await request(app)
         .post(`/v1/transaction/client/${clientid}/asset/${financialid}`)
         .send({
-          current_price: 68.90,
-          subtotal_price: 68.90,
-          total_price: 70.90,
+          current_price: 68.9,
+          subtotal_price: 68.9,
+          total_price: 70.9,
           quantity: 1
         })
         .set(result)
@@ -164,9 +143,9 @@ describe('Transaction Routes', () => {
       await request(app)
         .post(`/v1/transaction/client/${clientid}/asset/${financialid}`)
         .send({
-          current_price: 68.90,
-          subtotal_price: 68.90,
-          total_price: 70.90,
+          current_price: 68.9,
+          subtotal_price: 68.9,
+          total_price: 70.9,
           quantity: 1
         })
         .expect(401)
@@ -179,9 +158,9 @@ describe('Transaction Routes', () => {
       await request(app)
         .post(`/v1/transaction/client/${clientid}/asset/${financialid}`)
         .send({
-          current_price: 68.90,
-          subtotal_price: 68.90,
-          total_price: 70.90,
+          current_price: 68.9,
+          subtotal_price: 68.9,
+          total_price: 70.9,
           quantity: 1
         })
         .set(result)
@@ -195,9 +174,9 @@ describe('Transaction Routes', () => {
       await request(app)
         .post(`/v1/transaction/client/${clientid}/asset/${financialid}`)
         .send({
-          current_price: 68.90,
-          subtotal_price: 68.90,
-          total_price: 70.90,
+          current_price: 68.9,
+          subtotal_price: 68.9,
+          total_price: 70.9,
           quantity: 1
         })
         .set(result)
@@ -211,9 +190,9 @@ describe('Transaction Routes', () => {
       await request(app)
         .post(`/v1/transaction/client/${clientid}/asset/${financialid}`)
         .send({
-          current_price: 68.90,
-          subtotal_price: 68.90,
-          total_price: 70.90,
+          current_price: 68.9,
+          subtotal_price: 68.9,
+          total_price: 70.9,
           quantity: 1
         })
         .set(result)

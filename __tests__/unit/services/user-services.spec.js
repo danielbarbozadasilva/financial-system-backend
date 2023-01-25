@@ -61,7 +61,7 @@ describe('User services', () => {
     })
 
     test('Make sure userIsActiveService return the result if user is activated', async () => {
-      const cpf = '233.113.223-35'
+      const cpf = '721.423.431-10'
       const result = await services.userIsActiveService(cpf)
       expect(result).toBe(true)
     })
