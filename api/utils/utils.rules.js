@@ -29,7 +29,8 @@ module.exports = [
       'LIST_CLIENT_BALANCE',
       'LIST_CLIENT_ID_TRANSACTION',
       'LIST_BANKS',
-      'LIST_CLIENT_ID_DEPOSIT'
+      'LIST_CLIENT_ID_DEPOSIT',
+      'UPDATE_CLIENT'
     ]
   }
 ]
