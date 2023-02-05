@@ -50,17 +50,7 @@
             "description": "Cpf ou senha inválidos!\n\nNão foi possivel criar a credencial!"
           },
           "200": {
-            "description": "Usuário autenticado com sucesso!",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "items": {
-                    "$ref": "#/components/schemas/List_Auth"
-                  }
-                }
-              }
-            }
+            "description": "Usuário autenticado com sucesso!"
           }
         }
       }
@@ -107,17 +97,7 @@
             "description": "Este e-mail já está em uso! \n\n Este cpf já está em uso!"
           },
           "200": {
-            "description": "Cadastro realizado com sucesso!",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "items": {
-                    "$ref": "#/components/schemas/Register"
-                  }
-                }
-              }
-            }
+            "description": "Cadastro realizado com sucesso!"
           }
         }
       }
@@ -187,9 +167,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "items": {
-                    "$ref": "#/components/schemas/Register_Assets"
-                  }
+                  "$ref": "#/components/schemas/List_Register_Assets"
                 }
               }
             }
@@ -296,7 +274,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "$ref": "#/components/schemas/Register_Assets"
+                  "$ref": "#/components/schemas/List_Register_Assets"
                 }
               }
             }
@@ -765,9 +743,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "items": {
-                    "$ref": "#/components/schemas/List_Create_Deposit"
-                  }
+                  "$ref": "#/components/schemas/List_Create_Deposit"
                 }
               }
             }
@@ -1030,7 +1006,7 @@
       "Auth": {
         "type": "object",
         "properties": {
-          "email": {
+          "cpf": {
             "type": "string",
             "required": true
           },
@@ -1191,6 +1167,35 @@
             "type": "string",
             "required": true,
             "format": "binary"
+          }
+        }
+      },
+      "List_Register_Assets": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "required": true
+          },
+          "description": {
+            "type": "string",
+            "required": true
+          },
+          "bvmf": {
+            "type": "string",
+            "required": true
+          },
+          "current_price": {
+            "type": "string",
+            "required": true
+          },
+          "quantity": {
+            "type": "integer",
+            "required": true
+          },
+          "image": {
+            "type": "string",
+            "required": true
           }
         }
       },
@@ -1579,11 +1584,6 @@
       "Create_Deposit": {
         "type": "object",
         "properties": {
-          "branch": {
-            "type": "string",
-            "required": true,
-            "example": "0845"
-          },
           "origin_cpf": {
             "type": "string",
             "required": true,
@@ -1608,16 +1608,12 @@
             "type": "integer",
             "required": true
           },
-          "branch": {
-            "type": "string",
-            "required": true
-          },
           "origin_cpf": {
             "type": "string",
             "required": true
           },
           "value": {
-            "type": "float",
+            "type": "number",
             "required": true
           },
           "bank_id": {

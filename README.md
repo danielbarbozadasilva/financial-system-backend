@@ -1,12 +1,19 @@
-# **API Sistema Awesome Invest**
+# **API RESTful Awesome Invest**
 ## **Introdução**
 O Projeto AWESOME INVEST é um sistema de gestão financeira criado para fins de estudo. O Sistema tem o objetivo de listar os ativos e efetuar o gerenciamento destes, possibilitando a consulta e compra por parte do cliente. Além de garantir que o Administrador realize depósitos em contas de clientes e a consulta das transações realizadas.
-A API foi desenvolvida utilizando o NodeJs, ExpressJs e o ORM Sequelize com Banco de dados MySql.
+A API foi desenvolvida utilizando o NodeJs, ExpressJs e o ORM Sequelize com Banco de dados MySql. A Documentação foi feita utilizando o Swagger. O Jest e Supertest nos Testes Unitários e de Integração.
 <br/>
 <br/>
 O Front-End foi desenvolvido utilizando o ReactJs. E está disponível para consulta no link abaixo:
+
 ```
-git clone https://github.com/danielbarbozadasilva/financial-system-frontend
+https://github.com/danielbarbozadasilva/financial-system-frontend
+```
+
+O Aplicativo foi desenvolvido utilizando o React Native utilizando o Typescript. E está disponível para consulta no link abaixo:
+
+```
+https://github.com/danielbarbozadasilva/app-financial-React-Native
 ```
 <br/>
 <br/>
@@ -68,6 +75,23 @@ npm run add-seeders
 Execute o comando para rodar o projeto:
 ```
 npm run dev
+```
+
+Para executar os teste de integração e unitário:
+```
+npm run test-create-db
+npm run test-add-migrations
+npm run test-add-seeders
+```
+
+Execute o comando para rodar os testes de integração:
+```
+npm run test:integration
+```
+
+Execute o comando para rodar os testes unitários:
+```
+npm run test:unit
 ```
 
 Com o projeto rodando, abra a documentação do Swagger:
@@ -149,40 +173,16 @@ RF010 – O sistema deve listar os dados bancários do cliente.
 ## **Regras de negócio**
 <br/>
 
-| Controle de acesso (RN001) |  |
-| --- | --- |
-|`Descrição:` Os acessos permitidos ao sistema serão: Administrador e Cliente. O usuário anonimo terá acesso apenas ao portal do site.    |
-|  |
-
-| Aplicar imposto (RN002) |  |
-| --- | --- |
-|`Descrição:` Em todas as vendas serão acrescidos 5% (cinco por cento) referente a impostos.    |
-|  |
-
-| Controle de veracidade (RN003) |  |
-| --- | --- |
-|`Descrição:` Apenas clientes autorizados pelo administrador poderão ter acesso ao sistema.    |
-|  |
-
-| Limite de ação (RN004) |  |
-| --- | --- |
-|`Descrição:` Apenas o Administrador poderá incluir, editar e excluir ativos no sistema.  |
-|  |
-
-| Limite de ação (RN005) |  |
-| --- | --- |
-|`Descrição:` Apenas o Administrador poderá editar os dados do cliente.  |
-|  |
-
-| Limite de ação (RN006) |  |
-| --- | --- |
-|`Descrição:` O Cliente poderá visualizar apenas os dados da sua conta. Tais como: patrimônio, histórico de transações e depósitos.  |
-|  |
-
-| Limite de ação (RN007) |  |
-| --- | --- |
-|`Descrição:` Apenas o Administrador poderá visualizar informações de todos os clientes, suas respectivas contas, patrimônio e transações efetuadas.  |
-|  |
+| Identificação | Classificação | Descrição |
+| --- | --- | --- |
+|RN001   |Controle de acesso     |Os acessos permitidos ao sistema serão: Administrador e Cliente. O usuário anônimo terá acesso apenas ao portal do site.    |
+|RN002   |Aplicar imposto     | Em todas as vendas de ativos serão acrescidos 5% (cinco por cento) referente a impostos.    |
+|RN003   |Controle de veracidade     |Apenas clientes autorizados pelo administrador poderão ter acesso ao sistema.     |
+|RN004   |Limite de ação     | Apenas o Administrador poderá incluir, editar e excluir ativos no sistema.    |
+|RN005   |Limite de ação     | Apenas o Administrador poderá editar os dados do cliente.     |
+|RN006   |Limite de ação     | O Cliente poderá visualizar apenas os dados da sua conta. Tais como: patrimônio, histórico de transações e depósitos.     |
+|RN007   |Limite de ação     | Apenas o Administrador poderá visualizar informações de todos os clientes, suas respectivas contas, patrimônio e transações efetuadas.    |
+|  |  |  |
 
 <br/>
 <br/>
@@ -233,8 +233,8 @@ RF010 – O sistema deve listar os dados bancários do cliente.
 <br/>
 
 > ## Metodologias e Padrões
+* RESTful
 * Conventional commits
-* MVC
 * GitFlow
 * Error handler
 
@@ -242,6 +242,8 @@ RF010 – O sistema deve listar os dados bancários do cliente.
 <br/>
 
 > ## Bibliotecas e Ferramentas
+* Jest
+* Swagger
 * Docker
 * Sequelize
 * MySql

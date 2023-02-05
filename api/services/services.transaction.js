@@ -10,39 +10,50 @@ const {
   sequelize
 } = require('../models/models.index')
 const transactionMapper = require('../mappers/mappers.transaction')
-const ErrorGeneric = require('../utils/errors/erros.generic-error')
-const ErrorBusinessRule = require('../utils/errors/errors.business-rule')
+const ErrorGeneric = require('../exceptions/erros.generic-error')
+const ErrorBusinessRule = require('../exceptions/errors.business-rule')
 
 const verifyQuantity = async (assetid, quantity) => {
   const result = await assets.findByPk(assetid)
-  const checkQuantity = result.quantity >= quantity
+  const checkQuantity = result?.quantity >= quantity
   if (!checkQuantity) {
     throw new ErrorBusinessRule('Quantidade indisponível no momento!')
   }
+  return true
 }
 
 const verifyBalance = async (id, totalPrice) => {
   const result = await account.findOne({
     where: { user_id: id }
   })
-  const checkBalance = result.balance >= totalPrice
+
+  const checkBalance = Number(result.balance) >= totalPrice
   if (!checkBalance) {
     throw new ErrorBusinessRule('Saldo insuficiente para realizar a transação!')
   }
+  return true
 }
 
 const updateQuantity = async (assetid, quantity) => {
-  const result = await assets.findByPk(assetid)
-  result.quantity -= quantity
-  await result.save()
+  try {
+    const result = await assets.findByPk(assetid)
+    result.quantity -= quantity
+    await result.save()
+  } catch (error) {
+    throw new ErrorGeneric('Erro ao realizar a transação!')
+  }
 }
 
 const updateBalance = async (id, totalPrice) => {
-  const result = await account.findOne({
-    where: { user_id: id }
-  })
-  result.balance -= totalPrice
-  await result.save()
+  try {
+    const result = await account.findOne({
+      where: { user_id: id }
+    })
+    result.balance -= totalPrice
+    await result.save()
+  } catch (error) {
+    throw new ErrorGeneric('Erro ao realizar a transação!')
+  }
 }
 
 const createTransactionService = async (params, body) => {
@@ -232,6 +243,10 @@ const listByIdUserDepositService = async (id) => {
 }
 
 module.exports = {
+  verifyQuantity,
+  verifyBalance,
+  updateQuantity,
+  updateBalance,
   createTransactionService,
   createDepositService,
   listByIdUserDepositService,

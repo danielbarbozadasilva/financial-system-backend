@@ -1,7 +1,7 @@
 const { Op } = require('sequelize')
-const { account, user, assets } = require('../../models/models.index')
-const ErrorUnprocessableEntity = require('../errors/errors.unprocessable-entity')
-const ErrorBusinessRule = require('../errors/errors.business-rule')
+const { account, user, assets } = require('../models/models.index')
+const ErrorUnprocessableEntity = require('../exceptions/errors.unprocessable-entity')
+const ErrorBusinessRule = require('../exceptions/errors.business-rule')
 
 const verifyIdAccountDbMiddleware = async (req, res, next) => {
   const accountDB = await account.findByPk(req.params.accountid)
@@ -15,7 +15,7 @@ const verifyIdClientDbMiddleware = async (req, res, next) => {
   const clientDB = await user.findByPk(req.params.clientid)
   if (!clientDB) {
     throw new ErrorUnprocessableEntity(`Não existe um cliente com esse id!`)
-  }
+  }  
   next()
 }
 
@@ -30,7 +30,8 @@ const verifyIdFinancialDbMiddleware = async (req, res, next) => {
 const verifyEmailExists = async (req, res, next) => {
   const resultEmail = await user.findOne({
     where: {
-      email: req.body.email
+      email: req.body.email,
+      cod_user: { [Op.ne]: [req.params.clientid] }
     }
   })
   if (resultEmail !== null) {
@@ -40,35 +41,10 @@ const verifyEmailExists = async (req, res, next) => {
 }
 
 const verifyCpfExists = async (req, res, next) => {
-  const resulCpf = await user.findOne({
-    where: {
-      cpf: req.body.cpf
-    }
-  })
-  if (resulCpf !== null) {
-    throw new ErrorBusinessRule('Este cpf já está em uso!')
-  }
-  next()
-}
-
-const verifyEmailBodyExist = async (req, res, next) => {
-  const resultEmail = await user.findOne({
-    where: {
-      email: req.body.email,
-      cod_user: { [Op.notIn]: [req.params.id] }
-    }
-  })
-  if (resultEmail !== null) {
-    throw new ErrorBusinessRule('Este e-mail já está em uso!')
-  }
-  next()
-}
-
-const verifyCpfBodyExist = async (req, res, next) => {
   const resultCpf = await user.findOne({
     where: {
       cpf: req.body.cpf,
-      cod_user: { [Op.notIn]: [req.params.id] }
+      cod_user: { [Op.ne]: [req.params.clientid] }
     }
   })
   if (resultCpf !== null) {
@@ -82,7 +58,5 @@ module.exports = {
   verifyIdClientDbMiddleware,
   verifyIdFinancialDbMiddleware,
   verifyEmailExists,
-  verifyCpfExists,
-  verifyEmailBodyExist,
-  verifyCpfBodyExist
+  verifyCpfExists
 }
