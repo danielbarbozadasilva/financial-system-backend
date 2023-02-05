@@ -40,6 +40,12 @@ module.exports = {
           sub_total: 34.93,
           total_price: 37.67,
           user_id: 6
+        },
+        {
+          total_quantity: 1,
+          sub_total: 2200.90,
+          total_price: 2200.90,
+          user_id: 3
         }
       ],
       {

@@ -1,5 +1,8 @@
 .env
+.env.test
+coverage
 node_modules
 .vscode
 data
+instruções.txt
 ./api/utils/file/*

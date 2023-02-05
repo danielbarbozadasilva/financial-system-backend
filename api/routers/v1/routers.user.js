@@ -1,15 +1,19 @@
 const joi = require('joi')
 const userController = require('../../controllers/controllers.user')
-const validateDTOMiddleware = require('../../utils/middlewares/middlewares.validate-dto')
-const verifyMiddleware = require('../../utils/middlewares/middlewares.verify-exists')
+const validateDTOMiddleware = require('../../middlewares/middlewares.validate-dto')
+const verifyMiddleware = require('../../middlewares/middlewares.verify-exists')
 
 module.exports = (router) => {
   router.route('/auth').post(
     validateDTOMiddleware('body', {
-      cpf: joi.string().required().messages({
-        'any.required': `"cpf" is a required field`,
-        'string.empty': `"cpf" can not be empty`
-      }),
+      cpf: joi
+        .string()
+        .regex(/^\d{3}\.\d{3}\.\d{3}\-\d{2}$/)
+        .required()
+        .messages({
+          'any.required': '"cpf" is a required field',
+          'string.empty': '"cpf" can not be empty'
+        }),
       password: joi.string().required().messages({
         'any.required': `"password" is a required field`,
         'string.empty': `"password" can not be empty`
@@ -29,8 +33,8 @@ module.exports = (router) => {
         'string.empty': `"email" can not be empty`
       }),
       cpf: joi.string().required().messages({
-        'any.required': `"cpf" is a required field`,
-        'string.empty': `"cpf" can not be empty`
+        'any.required': '"cpf" is a required field',
+        'string.empty': '"cpf" can not be empty'
       }),
       gender: joi.string().required().messages({
         'any.required': `"gender" is a required field`,
@@ -64,11 +68,20 @@ module.exports = (router) => {
         'any.required': `"zip_code" is a required field`,
         'string.empty': `"zip_code" can not be empty`
       }),
-      complement: joi.string().allow(''),
-      auth: joi.boolean().optional()
+      complement: joi.string().allow('')
     }),
     verifyMiddleware.verifyCpfExists,
     verifyMiddleware.verifyEmailExists,
     userController.registerController
+  )
+
+  router.route('/check-token').post(
+    validateDTOMiddleware('body', {
+      token: joi.string().required().messages({
+        'any.required': `"token" is a required field`,
+        'string.empty': `"token" can not be empty`
+      })
+    }),
+    userController.checkTokenController
   )
 }

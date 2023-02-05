@@ -57,6 +57,7 @@ const toDTOList = (clientDB) => ({
   password: clientDB?.password,
   phone: clientDB?.phone,
   status: clientDB?.status,
+  cod_address: clientDB?.address?.cod_address,
   address: clientDB?.address?.address,
   uf: clientDB?.address?.uf,
   city: clientDB?.address?.city,

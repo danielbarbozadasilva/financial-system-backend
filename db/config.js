@@ -1,8 +1,6 @@
-const node_enviroment = process.env.NODE_ENV || 'development'
-
-if (node_enviroment === 'development') {
-  require('dotenv').config()
-}
+require('dotenv').config({
+  path: process.env.NODE_ENV === 'test' ? '.env.test' : '.env'
+})
 
 module.exports = {
   database: process.env.DB_NAME,

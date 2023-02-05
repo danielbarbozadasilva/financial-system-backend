@@ -22,7 +22,19 @@ const registerController = async (req, res) => {
   return res.status(code).send({ message, data })
 }
 
+const checkTokenController = async (req, res) => {
+  const { token } = req.body
+  const resultService = await userService.checkTokenService(token)
+  const code = resultService.success ? 200 : 400
+  const message = resultService.success
+    ? { message: resultService.message }
+    : { details: resultService.details }
+  const data = resultService.data ? resultService.data : ''
+  return res.status(code).send({ message, data })
+}
+
 module.exports = {
   authController,
-  registerController
+  registerController,
+  checkTokenController
 }

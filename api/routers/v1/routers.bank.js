@@ -1,6 +1,6 @@
 const bankController = require('../../controllers/controllers.bank')
-const authenticationMiddleware = require('../../utils/middlewares/middlewares.authentication')
-const authorizationMiddleware = require('../../utils/middlewares/middlewares.authorization')
+const authenticationMiddleware = require('../../middlewares/middlewares.authentication')
+const authorizationMiddleware = require('../../middlewares/middlewares.authorization')
 
 module.exports = (router) => {
   router
